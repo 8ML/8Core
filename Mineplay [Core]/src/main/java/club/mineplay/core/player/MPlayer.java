@@ -65,6 +65,7 @@ public class MPlayer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return Ranks.DEFAULT;
     }
 
 }

@@ -22,13 +22,15 @@ public abstract class CMD extends BukkitCommand {
     private Ranks rank;
     private String noPerm = MessageColor.COLOR_ERROR + "You are not allowed to do this!";
     private JavaPlugin plugin;
+    private String usage;
 
-    public CMD(String label, String[] aliases, String description, Ranks rank) {
+    public CMD(String label, String[] aliases, String description, String usage, Ranks rank) {
         super(label);
         this.aliases = aliases;
         this.rank = rank;
         this.label = label;
         this.description = description;
+        this.usage = usage;
         setAliases(Arrays.asList(aliases));
     }
 
@@ -52,6 +54,10 @@ public abstract class CMD extends BukkitCommand {
         return this.aliasUsed;
     }
 
+    public String getUsage() {
+        return MessageColor.COLOR_HIGHLIGHT + this.usage;
+    }
+
     public void setAliasUsed(String alias) {
         this.aliasUsed = alias;
     }
@@ -72,6 +78,8 @@ public abstract class CMD extends BukkitCommand {
             Player p = (Player) sender;
             if (MPlayer.getMPlayer(p).getRank().getRank().hasPermissionLevel(this.rank.getRank())) {
                 execute(p, args);
+            } else {
+                p.sendMessage(noPerm);
             }
         }
         return false;

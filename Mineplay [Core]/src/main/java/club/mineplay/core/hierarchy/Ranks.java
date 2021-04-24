@@ -1,12 +1,14 @@
 package club.mineplay.core.hierarchy;
 
+import club.mineplay.core.hierarchy.ranks.Admin;
 import club.mineplay.core.hierarchy.ranks.Default;
 import club.mineplay.core.hierarchy.ranks.VIP;
 
 public enum Ranks {
 
     DEFAULT(new Default()),
-    VIP(new VIP());
+    VIP(new VIP()),
+    ADMINISTRATOR(new Admin());
 
     private final Rank rank;
 

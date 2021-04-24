@@ -118,6 +118,24 @@ public class MPlayer {
         return 0;
     }
 
+    public void setRank(Ranks ranks) {
+        try {
+
+            PreparedStatement st = sql.preparedStatement("UPDATE users SET rank=? WHERE uuid=?");
+            st.setString(1, ranks.toString());
+            st.setString(2, this.UUID);
+
+            try {
+                st.executeUpdate();
+            } finally {
+                sql.getConnection().close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Player getPlayer() {
         return this.player;
     }

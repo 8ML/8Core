@@ -16,6 +16,7 @@ public abstract class Rank {
     private final List<Rank> inherits;
 
     private Color rankColor;
+    private boolean defaultRank;
 
     public Rank(String label, String prefix, double permissionLevel) {
         this.label = label;
@@ -30,6 +31,10 @@ public abstract class Rank {
         this.rankColor = color;
     }
 
+    public void setDefault() {
+        this.defaultRank = true;
+    }
+
     public void addInherits(Rank rank) {
         this.inherits.add(rank);
     }
@@ -42,6 +47,11 @@ public abstract class Rank {
 
     public String getLabel() {
         return label;
+    }
+
+    public String getFullPrefix() {
+        if (isDefaultRank()) return "";
+        return Color.GRAY + "[" + this.rankColor + prefix + Color.GRAY + "]";
     }
 
     public Color getRankColor() {
@@ -62,5 +72,9 @@ public abstract class Rank {
 
     public boolean hasPermissionLevel(Rank rank) {
         return this.getPermissionLevel() >= rank.getPermissionLevel();
+    }
+
+    public boolean isDefaultRank() {
+        return this.defaultRank;
     }
 }

@@ -10,4 +10,9 @@ public class CommandCenter {
 
     public static List<CMD> commandList = new ArrayList<>();
 
+    public static void registerCommand(CMD cmd) {
+        commandList.add(cmd);
+        cmd.registerMe();
+    }
+
 }

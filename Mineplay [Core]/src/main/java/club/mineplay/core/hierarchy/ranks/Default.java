@@ -9,6 +9,8 @@ public class Default extends Rank {
 
     public Default() {
         super("", "", 0.0D);
+
+        setDefault();
     }
 
     @Override

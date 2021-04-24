@@ -50,7 +50,11 @@ public class Level {
         Coin.addCoins(player, 20);
 
         player.getPlayer().sendMessage(MessageColor.COLOR_SUCCESS
-                + "\nLEVEL UP!\n\n" + MessageColor.COLOR_HIGHLIGHT + "+20 Coins\n");
+                + "\nLEVEL UP!\n" + MessageColor.COLOR_MAIN +"You are now level "
+                + MessageColor.COLOR_HIGHLIGHT
+                + getLevelFrom(player.getXP())
+                +"\n\n" + MessageColor.COLOR_HIGHLIGHT
+                + "+20 Coins\n");
     }
 
 }

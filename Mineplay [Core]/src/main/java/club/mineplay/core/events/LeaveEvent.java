@@ -16,6 +16,7 @@ public class LeaveEvent implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
+        e.setQuitMessage("");
 
     }
 

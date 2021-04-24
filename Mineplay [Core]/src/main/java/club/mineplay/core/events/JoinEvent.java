@@ -19,6 +19,7 @@ public class JoinEvent implements Listener {
     public void onJoin(PlayerJoinEvent e) {
 
         MPlayer.registerMPlayer(e.getPlayer());
+        e.setJoinMessage("");
 
     }
 

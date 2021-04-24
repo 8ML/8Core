@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class HelpCMD extends CMD {
     public HelpCMD() {
-        super("help", new String[]{"h"}, "Display help page", "", Ranks.DEFAULT);
+        super("help", new String[]{"h"}, "", "", Ranks.DEFAULT);
     }
 
     @Override

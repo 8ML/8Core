@@ -23,9 +23,8 @@ public class ChatEvent implements Listener {
     public void onChat(AsyncPlayerChatEvent e) {
         MPlayer player = MPlayer.getMPlayer(e.getPlayer());
         e.setMessage(Color.WHITE + e.getMessage());
-        e.setFormat(Color.GRAY + "(" + Level.getLevelFrom(player.getXP()) + ")"
+        e.setFormat(Color.GRAY + "[" + Level.getLevelFrom(player.getXP()) + "]"
                 + ChatColor.RESET + player.getRank().getRank().getFullPrefix() + " "
                 + Color.WHITE + player.getPlayer().getName() + ":");
     }
-
 }

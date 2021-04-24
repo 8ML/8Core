@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class UpdateRankCMD extends CMD {
 
     public UpdateRankCMD() {
-        super("updaterank", new String[0], "Update a player's rank", "/updaterank <player> <rank>", Ranks.ADMINISTRATOR);
+        super("rank", new String[0], "", "/rank <player> <rank>", Ranks.ADMINISTRATOR);
     }
 
     @Override
@@ -25,10 +25,10 @@ public class UpdateRankCMD extends CMD {
 
                 player.setRank(rank);
 
-                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Success.");
+                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Success!");
 
             } catch (Exception e) {
-                paramPlayer.sendMessage(MessageColor.COLOR_ERROR + "Failed.");
+                paramPlayer.sendMessage(MessageColor.COLOR_ERROR + "Failed!");
             }
         } else {
             paramPlayer.sendMessage(getUsage());

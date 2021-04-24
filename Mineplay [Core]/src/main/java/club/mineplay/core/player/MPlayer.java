@@ -11,8 +11,12 @@ import club.mineplay.core.storage.SQL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MPlayer {
+
+    private static final Map<Player, MPlayer> playerMap = new HashMap<>();
 
     private Player player;
     private String UUID;
@@ -66,6 +70,70 @@ public class MPlayer {
             e.printStackTrace();
         }
         return Ranks.DEFAULT;
+    }
+
+    public int getXP() {
+        try {
+
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
+            st.setString(1, this.UUID);
+            ResultSet rs = st.executeQuery();
+            if (rs.next())  {
+
+                int xp = rs.getInt("xp");
+                sql.getConnection().close();
+                return xp;
+
+            }
+
+            sql.getConnection().close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int getCoins() {
+        try {
+
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
+            st.setString(1, this.UUID);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+
+                int coins = rs.getInt("coins");
+                sql.getConnection().close();
+                return coins;
+
+            }
+
+            sql.getConnection().close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public String getUUID() {
+        return this.UUID;
+    }
+
+    public static void registerMPlayer(Player player) {
+        playerMap.put(player, new MPlayer(player));
+    }
+
+    public static MPlayer getMPlayer(Player player) {
+        if (playerMap.containsKey(player)) return playerMap.get(player);
+        playerMap.put(player, new MPlayer(player));
+        return playerMap.get(player);
     }
 
 }

@@ -3,6 +3,8 @@ package club.mineplay.core.cmd;
 Created by Sander on 4/23/2021
 */
 
+import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.MPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -18,11 +20,11 @@ public abstract class CMD extends BukkitCommand {
     private String[] aliases;
     private String label;
     private String aliasUsed;
-    private Rank rank;
+    private Ranks rank;
     private String noPerm = Color.RED + "You do not have permission to execute this command!";
     private JavaPlugin plugin;
 
-    public CMD(String label, String[] aliases, String description, Rank rank) {
+    public CMD(String label, String[] aliases, String description, Ranks rank) {
         super(label);
         this.aliases = aliases;
         this.rank = rank;
@@ -43,7 +45,7 @@ public abstract class CMD extends BukkitCommand {
         return this.plugin;
     }
 
-    public Rank getRank() {
+    public Ranks getRank() {
         return this.rank;
     }
 
@@ -69,7 +71,7 @@ public abstract class CMD extends BukkitCommand {
     public boolean execute(CommandSender sender, String alias, String[] args) {
         if ((sender instanceof Player)) {
             Player p = (Player) sender;
-            if (true) {
+            if (MPlayer.getMPlayer(p).getRank().getRank().hasPermissionLevel(this.rank.getRank())) {
                 execute(p, args);
             }
         }

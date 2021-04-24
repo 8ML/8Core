@@ -11,9 +11,7 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import club.mineplay.core.hierarchy.Rank;
 
-import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 

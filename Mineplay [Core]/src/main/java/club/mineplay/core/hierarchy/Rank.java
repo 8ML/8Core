@@ -23,6 +23,7 @@ public abstract class Rank {
         this.permissionLevel = permissionLevel;
         this.rankColor = Color.GRAY;
         this.inherits = new ArrayList<>();
+        this.register();
     }
 
     public void setColor(Color color) {

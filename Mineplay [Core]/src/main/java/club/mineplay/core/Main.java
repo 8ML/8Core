@@ -15,6 +15,7 @@ public class Main extends JavaPlugin {
 
     public PluginFile sqlYML;
     public PluginFile configYML;
+    public PluginFile messagesYML;
 
     public Main() {
 
@@ -22,6 +23,8 @@ public class Main extends JavaPlugin {
 
         initFiles();
         initSql();
+        registerEvents();
+        registerCommands();
     }
 
     public void initSql() {
@@ -37,6 +40,17 @@ public class Main extends JavaPlugin {
         this.configYML = new PluginFile(this, "config.yml", "config.yml");
         this.configYML.options().copyDefaults(true);
         this.configYML.save();
+        this.messagesYML = new PluginFile(this, "messages.yml", "messages.yml");
+        this.messagesYML.options().copyDefaults(true);
+        this.messagesYML.save();
+    }
+
+    public void registerEvents() {
+
+    }
+
+    public void registerCommands() {
+
     }
 
     @Override

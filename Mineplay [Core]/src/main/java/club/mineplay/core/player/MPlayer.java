@@ -127,6 +127,7 @@ public class MPlayer {
     }
 
     public static void registerMPlayer(Player player) {
+        if (playerMap.containsKey(player)) return;
         playerMap.put(player, new MPlayer(player));
     }
 

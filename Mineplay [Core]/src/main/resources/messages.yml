@@ -1,0 +1,5 @@
+#COLORS
+main: "128,128,128"
+highlight: "255,255,0"
+error: "255,0,0"
+success: "0,255,0"

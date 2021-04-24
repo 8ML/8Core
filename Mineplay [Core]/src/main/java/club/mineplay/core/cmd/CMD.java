@@ -3,6 +3,7 @@ package club.mineplay.core.cmd;
 Created by Sander on 4/23/2021
 */
 
+import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public abstract class CMD extends BukkitCommand {
     private String label;
     private String aliasUsed;
     private Ranks rank;
-    private String noPerm = Color.RED + "You are not allowed to do this!";
+    private String noPerm = MessageColor.COLOR_ERROR + "You are not allowed to do this!";
     private JavaPlugin plugin;
 
     public CMD(String label, String[] aliases, String description, Ranks rank) {

@@ -4,6 +4,7 @@ Created by Sander on 4/23/2021
 */
 
 import club.mineplay.core.cmd.CommandCenter;
+import club.mineplay.core.cmd.commands.HelpCMD;
 import club.mineplay.core.cmd.commands.admin.UpdateRankCMD;
 import club.mineplay.core.events.ChatEvent;
 import club.mineplay.core.events.JoinEvent;
@@ -58,6 +59,7 @@ public class Main extends JavaPlugin {
 
     public void registerCommands() {
         CommandCenter.registerCommand(new UpdateRankCMD());
+        CommandCenter.registerCommand(new HelpCMD());
     }
 
     @Override

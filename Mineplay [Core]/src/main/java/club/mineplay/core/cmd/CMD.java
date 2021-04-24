@@ -21,7 +21,7 @@ public abstract class CMD extends BukkitCommand {
     private String label;
     private String aliasUsed;
     private Ranks rank;
-    private String noPerm = Color.RED + "You do not have permission to execute this command!";
+    private String noPerm = Color.RED + "You are not allowed to do this!";
     private JavaPlugin plugin;
 
     public CMD(String label, String[] aliases, String description, Ranks rank) {
@@ -98,4 +98,3 @@ public abstract class CMD extends BukkitCommand {
         CommandCenter.commandList.add(this);
     }
 }
-

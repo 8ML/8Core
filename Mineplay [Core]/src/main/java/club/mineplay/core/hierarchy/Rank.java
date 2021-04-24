@@ -51,7 +51,7 @@ public abstract class Rank {
 
     public String getFullPrefix() {
         if (isDefaultRank()) return "";
-        return Color.GRAY + "[" + this.rankColor + prefix + Color.GRAY + "]";
+        return Color.WHITE + "[" + this.rankColor + prefix + Color.WHITE + "]";
     }
 
     public Color getRankColor() {

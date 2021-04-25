@@ -4,13 +4,14 @@ Created by Sander on 4/24/2021
 */
 
 import club.mineplay.core.hierarchy.Rank;
-import org.bukkit.Color;
+
+import java.awt.*;
 
 public class Admin extends Rank {
 
     public Admin() {
         super("Administrator", "Admin", 90.0D);
-        setColor(Color.fromRGB(180, 0, 0));
+        setColor(new Color(255, 0, 60));
     }
 
     @Override

@@ -34,7 +34,7 @@ public class MPlayer {
             checkStmt.setString(1, club.mineplay.core.player.UUID.getRawUUID(player));
             ResultSet rs = checkStmt.executeQuery();
             if (!rs.next()) {
-                PreparedStatement createUser = sql.preparedStatement("INSERT INTO users (uuid, playerName, rank, xp, coins) VALUES (?,?,?,?,?)");
+                PreparedStatement createUser = sql.preparedStatement("INSERT INTO users (`uuid`, `playerName`, `rank`, `xp`, `coins`) VALUES (?,?,?,?,?)");
                 createUser.setString(1, club.mineplay.core.player.UUID.getRawUUID(player));
                 createUser.setString(2, player.getName());
                 createUser.setString(3, Ranks.DEFAULT.toString());
@@ -121,7 +121,7 @@ public class MPlayer {
     public void setRank(Ranks ranks) {
         try {
 
-            PreparedStatement st = sql.preparedStatement("UPDATE users SET rank=? WHERE uuid=?");
+            PreparedStatement st = sql.preparedStatement("UPDATE users SET `rank`=? WHERE `uuid`=?");
             st.setString(1, ranks.toString());
             st.setString(2, this.UUID);
 

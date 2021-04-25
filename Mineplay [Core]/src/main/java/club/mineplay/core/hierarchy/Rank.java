@@ -3,8 +3,9 @@ package club.mineplay.core.hierarchy;
 Created by Sander on 4/23/2021
 */
 
-import org.bukkit.Color;
+import net.md_5.bungee.api.ChatColor;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public abstract class Rank {
         this.label = label;
         this.prefix = prefix;
         this.permissionLevel = permissionLevel;
-        this.rankColor = Color.GRAY;
+        this.rankColor = Color.gray;
         this.inherits = new ArrayList<>();
         this.register();
     }
@@ -49,9 +50,23 @@ public abstract class Rank {
         return label;
     }
 
+    public String getFullPrefixWithSpace() {
+        if (isDefaultRank()) return "";
+        return ChatColor.WHITE + "[" + ChatColor.of(this.rankColor) + prefix + ChatColor.WHITE + "] ";
+    }
     public String getFullPrefix() {
         if (isDefaultRank()) return "";
-        return Color.WHITE + "[" + this.rankColor + prefix + Color.WHITE + "]";
+        return ChatColor.WHITE + "[" + ChatColor.of(this.rankColor) + prefix + ChatColor.WHITE + "]";
+    }
+
+    public ChatColor getChatColor() {
+        if (isDefaultRank()) return ChatColor.GRAY;
+        else return ChatColor.WHITE;
+    }
+
+    public ChatColor getNameColor() {
+        if (isDefaultRank()) return ChatColor.GRAY;
+        else return ChatColor.WHITE;
     }
 
     public Color getRankColor() {

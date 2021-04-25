@@ -6,7 +6,9 @@ Created by Sander on 4/23/2021
 import club.mineplay.core.cmd.CommandCenter;
 import club.mineplay.core.cmd.commands.HelpCMD;
 import club.mineplay.core.cmd.commands.admin.UpdateRankCMD;
+import club.mineplay.core.cmd.commands.admin.UpdateRankCMDTEST;
 import club.mineplay.core.events.ChatEvent;
+import club.mineplay.core.events.CommandEvent;
 import club.mineplay.core.events.JoinEvent;
 import club.mineplay.core.events.LeaveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,19 +25,10 @@ public class Main extends JavaPlugin {
     public PluginFile configYML;
     public PluginFile messagesYML;
 
-    public Main() {
-
-        instance = this;
-
-        initFiles();
-        initSql();
-        registerEvents();
-        registerCommands();
-    }
 
     public void initSql() {
-        this.sql = new SQL("monkee", "root", "localhost", "yes", 3306);
-        if (this.sql.testConnection()) this.getLogger().info("[SQL] Connection Established!");
+        this.sql = new SQL("monke", "monke", "localhost", "monke.4994", 3306);
+        if (this.sql.testConnection()) { this.getLogger().info("[SQL] Connection Established!"); this.sql.init(); }
         else this.getLogger().severe("[SQL] Connection could not be established!");
     }
 
@@ -55,15 +48,28 @@ public class Main extends JavaPlugin {
         new JoinEvent(this);
         new LeaveEvent(this);
         new ChatEvent(this);
+        new CommandEvent(this);
     }
 
     public void registerCommands() {
-        CommandCenter.registerCommand(new UpdateRankCMD());
-        CommandCenter.registerCommand(new HelpCMD());
+        CommandCenter.registerCommand(new UpdateRankCMD(), this);
+        CommandCenter.registerCommand(new HelpCMD(), this);
+
+
+        CommandCenter.registerCommand(new UpdateRankCMDTEST(), this); //REMEMBER TO DISABLE THIS WHEN DEVELOPMENT IS DONE.
     }
 
     @Override
-    public void onEnable() { new Main(); }
+    public void onEnable() {
+
+        instance = this;
+
+        initFiles();
+        initSql();
+        registerEvents();
+        registerCommands();
+
+    }
 
     @Override
     public void onDisable() { }

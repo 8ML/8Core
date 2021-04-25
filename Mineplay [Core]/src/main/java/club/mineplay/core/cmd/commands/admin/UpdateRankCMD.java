@@ -17,11 +17,11 @@ public class UpdateRankCMD extends CMD {
 
     @Override
     public void execute(Player paramPlayer, String[] paramArrayOfString) {
-        if (paramArrayOfString.length == 1) {
+        if (paramArrayOfString.length == 2) {
             try {
 
                 MPlayer player = MPlayer.getMPlayer(paramPlayer);
-                Ranks rank = Ranks.valueOf(paramArrayOfString[0]);
+                Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
 
                 player.setRank(rank);
 

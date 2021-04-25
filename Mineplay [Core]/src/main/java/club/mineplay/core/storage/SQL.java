@@ -26,9 +26,9 @@ public class SQL {
 
     public void init() {
         try {
-            createTable("CREATE TABLE IF NOT EXISTS users (id int auto_increment primary key not null" +
-                    ", uuid varchar(30) not null, playerName varchar(30) not null, rank varchar(30) not null" +
-                    ", xp int not null, coins int not null)");
+            createTable("CREATE TABLE IF NOT EXISTS users (`id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL" +
+                    ", `uuid` VARCHAR(255) NOT NULL, `playerName` VARCHAR(30) NOT NULL, `rank` VARCHAR(30) NOT NULL" +
+                    ", `xp` INT NOT NULL, `coins` INT NOT NULL)");
         } catch (SQLException e) {
             e.printStackTrace();
         }

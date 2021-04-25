@@ -5,13 +5,12 @@ Created by Sander on 4/24/2021
 
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.level.Level;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.awt.*;
 
 public class ChatEvent implements Listener {
 
@@ -22,9 +21,9 @@ public class ChatEvent implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         MPlayer player = MPlayer.getMPlayer(e.getPlayer());
-        e.setMessage(Color.WHITE + e.getMessage());
-        e.setFormat(Color.GRAY + "[" + Level.getLevelFrom(player.getXP()) + "]"
-                + ChatColor.RESET + player.getRank().getRank().getFullPrefix() + " "
-                + Color.WHITE + player.getPlayer().getName() + ":");
+        e.setFormat(ChatColor.GRAY + "[" + Level.getLevelFrom(player.getXP()) + "] "
+                + player.getRank().getRank().getFullPrefixWithSpace()
+                + player.getRank().getRank().getNameColor() + player.getPlayer().getName()
+                + ": " + player.getRank().getRank().getChatColor() + e.getMessage());
     }
 }

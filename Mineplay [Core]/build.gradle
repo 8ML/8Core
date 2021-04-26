@@ -14,15 +14,24 @@ repositories {
 
 }
 
+build {}
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
+
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-    compile files('Jars/spigot.jar')
+    shadow 'commons-io:commons-io:2.6'
+    shadow 'com.googlecode.json-simple:json-simple:1.1.1'
+    provided files('Jars/spigot.jar')
 }
 
 
 shadowJar {
-    configurations = [project.configurations.compile]
+    configurations = [project.configurations.shadow]
+
 
 }

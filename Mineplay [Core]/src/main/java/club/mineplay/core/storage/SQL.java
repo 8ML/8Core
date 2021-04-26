@@ -29,7 +29,7 @@ public class SQL {
             createTable("CREATE TABLE IF NOT EXISTS users (`id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL" +
                     ", `uuid` VARCHAR(255) NOT NULL, `playerName` VARCHAR(30) NOT NULL, `rank` VARCHAR(30) NOT NULL" +
                     ", `xp` INT NOT NULL, `coins` INT NOT NULL)");
-            createTable("CREATE TABLE IF NOT EXISTS proxy (`playerName` VARCHAR(100) PRIMARY_KEY NOT NULL)");
+            createTable("CREATE TABLE IF NOT EXISTS proxy (`proxyPlayer` VARCHAR(100) PRIMARY KEY NOT NULL)");
         } catch (SQLException e) {
             e.printStackTrace();
         }

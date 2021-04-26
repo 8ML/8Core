@@ -7,7 +7,10 @@ import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class UpdateRankCMDTEST extends CMD {
 
@@ -29,9 +32,9 @@ public class UpdateRankCMDTEST extends CMD {
         if (paramArrayOfString.length == 2) {
             try {
 
-                MPlayer player = MPlayer.getMPlayer(paramPlayer);
-                Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
+                MPlayer player = new MPlayer(paramArrayOfString[0]);
 
+                Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
                 player.setRank(rank);
 
                 paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Success!");

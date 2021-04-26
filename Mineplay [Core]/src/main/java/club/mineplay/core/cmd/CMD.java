@@ -6,6 +6,7 @@ Created by Sander on 4/23/2021
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -55,7 +56,7 @@ public abstract class CMD extends BukkitCommand {
     }
 
     public String getUsage() {
-        return MessageColor.COLOR_HIGHLIGHT + this.usage;
+        return ChatColor.RED + this.usage;
     }
 
     public void setAliasUsed(String alias) {

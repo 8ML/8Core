@@ -4,8 +4,10 @@ Created by Sander on 4/24/2021
 */
 
 import club.mineplay.core.Main;
+import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.storage.SQL;
+import org.bukkit.Sound;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -14,7 +16,7 @@ public class Coin {
 
     private final static SQL sql = Main.instance.sql;
 
-    public static void addCoins(MPlayer player, int coins) {
+    public static void addCoins(MPlayer player, int coins, boolean msg) {
 
         try {
 
@@ -29,6 +31,12 @@ public class Coin {
                 st.executeUpdate();
             } finally {
                 sql.getConnection().close();
+
+                if (player.getPlayer() != null) {
+                    player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 3f);
+                    if (msg) player.getPlayer().sendMessage(MessageColor.COLOR_HIGHLIGHT + "+" + coins + " Coins");
+                }
+
             }
 
         } catch (SQLException e) {

@@ -47,7 +47,7 @@ public class Level {
     }
 
     private static void levelUP(MPlayer player) {
-        Coin.addCoins(player, 20);
+        Coin.addCoins(player, 20, false);
 
         player.getPlayer().sendMessage(MessageColor.COLOR_SUCCESS
                 + "\nLEVEL UP!\n" + MessageColor.COLOR_MAIN +"You are now level "

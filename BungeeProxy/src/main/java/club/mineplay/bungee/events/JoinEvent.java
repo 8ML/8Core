@@ -23,6 +23,9 @@ public class JoinEvent implements Listener {
 
     @EventHandler
     public void onConnect(ServerConnectEvent e) {
+
+        System.out.println(e.getPlayer().getName() + " Connected!");
+
         try {
 
             PreparedStatement st = sql.preparedStatement("INSERT INTO proxy (proxyPlayer) VALUES(?)");

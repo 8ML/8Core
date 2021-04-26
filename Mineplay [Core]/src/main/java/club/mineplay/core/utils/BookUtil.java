@@ -3,80 +3,55 @@ package club.mineplay.core.utils;
 Created by Sander on 4/25/2021
 */
 
-import java.lang.reflect.Method;
-import java.util.List;
-import org.bukkit.Bukkit;
+import net.minecraft.server.v1_16_R3.EnumHand;
+import net.minecraft.server.v1_16_R3.PacketPlayOutOpenBook;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class BookUtil {
-    private static boolean initialised = false;
-    private static Method getHandle;
-    private static Method openBook;
 
-    static {
-        try {
-            getHandle = ReflectionUtils.getMethod("CraftPlayer", ReflectionUtils.PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
-            openBook = ReflectionUtils.getMethod("EntityPlayer", ReflectionUtils.PackageType.MINECRAFT_SERVER, "a",
-                    ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("ItemStack"), ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("EnumHand"));
-            initialised = true;
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
-            Bukkit.getServer().getLogger().warning("Cannot force open book!");
-            initialised = false;
-        }
-    }
-    public static boolean isInitialised(){
-        return initialised;
+    public static void openBook(Player player, ItemStack book) {
+        final int slot = player.getInventory().getHeldItemSlot();
+        final ItemStack old = player.getInventory().getItem(slot);
+        player.getInventory().setItem(slot, book);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutOpenBook(EnumHand.MAIN_HAND));
+        player.getInventory().setItem(slot, old);
     }
 
-    public static boolean openBook(ItemStack i, Player p) {
-        if (!initialised) return false;
-        ItemStack held = p.getInventory().getItemInMainHand();
-        try {
-            p.getInventory().setItemInMainHand(i);
-            sendPacket(i, p);
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
-            initialised = false;
-        }
-        p.getInventory().setItemInMainHand(held);
-        return initialised;
+    public static void displayHelpBook(Player player) {
+        ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta bookMeta = (BookMeta) book.getItemMeta();
+
+        assert bookMeta != null;
+
+        List<String> pages = Arrays.asList(ChatColor.translateAlternateColorCodes('&', "\n" +
+                "&0Welcome to the\n" +
+                "&6Mineplay Network&0!\n" +
+                "\n" +
+                "&0To start playing\n" +
+                "&0games, click on an NPC\n" +
+                "&0in the lobby.\n" +
+                "\n" +
+                "&0Join our discord for\n" +
+                "&0news, updates, and\n" +
+                "&0announcements!\n" +
+                "\n" +
+                "&r       &r&d&l&nCLICK HERE&r"));
+
+        bookMeta.setPages(pages);
+
+        bookMeta.setTitle("Help");
+        bookMeta.setAuthor("Mineplay");
+        book.setItemMeta(bookMeta);
+
+        openBook(player, book);
     }
 
-    private static void sendPacket(ItemStack i, Player p) throws ReflectiveOperationException {
-        Object entityplayer = getHandle.invoke(p);
-        Class<?> enumHand = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("EnumHand");
-        Object[] enumArray = enumHand.getEnumConstants();
-        openBook.invoke(entityplayer, getItemStack(i), enumArray[0]);
-    }
-
-    public static Object getItemStack(ItemStack item) {
-        try {
-            Method asNMSCopy = ReflectionUtils.getMethod(ReflectionUtils.PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack"), "asNMSCopy", ItemStack.class);
-            return asNMSCopy.invoke(ReflectionUtils.PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftItemStack"), item);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    @SuppressWarnings("unchecked")
-    public static void setPages(BookMeta metadata, List<String> pages) {
-        List<Object> p;
-        Object page;
-        try {
-            p = (List<Object>) ReflectionUtils.getField(ReflectionUtils.PackageType.CRAFTBUKKIT_INVENTORY.getClass("CraftMetaBook"), true, "pages")
-                    .get(metadata);
-            for (String text : pages) {
-                page = ReflectionUtils.invokeMethod(ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("IChatBaseComponent$ChatSerializer")
-                        .newInstance(), "a", text);
-                p.add(page);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -11,7 +11,7 @@ public class Creator extends Rank {
 
     public Creator() {
         super("Creator", "Creator", 10.0D);
-        setColor(new Color(255, 0, 60));
+        setColor(new Color(252, 42, 93));
     }
 
     @Override

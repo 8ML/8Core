@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class UpdateRankCMD extends CMD {
 
     public UpdateRankCMD() {
-        super("rank", new String[0], "", "/rank <player> <rank>", Ranks.ADMINISTRATOR);
+        super("rank", new String[0], "", "/rank <player> <rank>", Ranks.ADMIN);
     }
 
     @Override

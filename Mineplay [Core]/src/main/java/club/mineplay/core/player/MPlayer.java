@@ -4,6 +4,7 @@ Created by Sander on 4/23/2021
 */
 
 import club.mineplay.core.Main;
+import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.hierarchy.Ranks;
 import org.bukkit.entity.Player;
 import club.mineplay.core.storage.SQL;
@@ -52,7 +53,7 @@ public class MPlayer {
         }
     }
 
-    public Ranks getRank() {
+    public Ranks getRankEnum() {
         try {
 
             PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
@@ -142,6 +143,11 @@ public class MPlayer {
 
     public String getUUID() {
         return this.UUID;
+    }
+
+    public boolean isPermissible(Ranks rankEnum) {
+        if (this.getRankEnum().getRank().hasPermissionLevel(rankEnum.getRank())) return true;
+        else { player.sendMessage(MessageColor.COLOR_ERROR + "You are not allowed to do this!"); return false;}
     }
 
     public static void registerMPlayer(Player player) {

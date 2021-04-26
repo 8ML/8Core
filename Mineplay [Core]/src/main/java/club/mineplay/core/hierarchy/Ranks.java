@@ -8,7 +8,7 @@ public enum Ranks {
 
     DEFAULT(new Default()),
     VIP(new VIP()),
-    ADMINISTRATOR(new Admin());
+    ADMIN(new Admin());
 
     private final Rank rank;
 

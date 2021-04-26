@@ -6,7 +6,6 @@ Created by Sander on 4/24/2021
 import club.mineplay.core.Main;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.player.MPlayer;
-import club.mineplay.core.player.currency.Coin;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.utils.BookUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -35,14 +34,11 @@ public class JoinEvent implements Listener {
             BookUtil.displayHelpBook(e.getPlayer());
 
             e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&r\n" +
-                    "                &fWelcome to the &6Mineplay Network&f!" +
-                    "\n" +
-                    "       &fJoin our &aDiscord &ffor news, updates, announcements," +
-                    "\n" +
-                    "                            and much more!" +
+                    "&fWelcome to the &6Mineplay Network&f!" +
                     "\n\n" +
-                    "                      &d&ndiscord.io/mineplayclub" +
+                    "&fJoin our &adiscord &ffor news and announcements!" +
                     "\n" +
+                    "&d&ndiscord.io/mineplayclub" +
                     "\n\n" +
                     "&7You received &e+50 Coins &7for joining the first time!"));
         }

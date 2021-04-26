@@ -32,7 +32,7 @@ public class JoinEvent implements Listener {
 
         if (!proxyCheck(e.getPlayer())) {
             e.getPlayer().kickPlayer(MessageColor.COLOR_ERROR + "Could not establish connection!\n\n" +
-                    "You have to connect using " + ChatColor.YELLOW + " mineplay.club");
+                    "You have to connect using" + ChatColor.YELLOW + " mineplay.club");
         }
 
         MPlayer.registerMPlayer(e.getPlayer());

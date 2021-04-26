@@ -21,7 +21,6 @@ public class CommandEvent implements Listener {
                 || e.getMessage().toLowerCase().startsWith("/me")
                 || e.getMessage().toLowerCase().startsWith("/minecraft:say")
                 || e.getMessage().toLowerCase().startsWith("/minecraft:me")) {
-            e.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "no");
             e.setCancelled(true);
         }
     }

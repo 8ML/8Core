@@ -5,10 +5,7 @@ Created by Sander on 4/23/2021
 
 import club.mineplay.core.cmd.CommandCenter;
 import club.mineplay.core.cmd.commands.HelpCMD;
-import club.mineplay.core.cmd.commands.admin.GameModeCMD;
-import club.mineplay.core.cmd.commands.admin.LevelCMD;
-import club.mineplay.core.cmd.commands.admin.UpdateRankCMD;
-import club.mineplay.core.cmd.commands.admin.UpdateRankCMDTEST;
+import club.mineplay.core.cmd.commands.admin.*;
 import club.mineplay.core.events.ChatEvent;
 import club.mineplay.core.events.CommandEvent;
 import club.mineplay.core.events.JoinEvent;
@@ -58,6 +55,7 @@ public class Main extends JavaPlugin {
         CommandCenter.registerCommand(new HelpCMD(), this);
         CommandCenter.registerCommand(new GameModeCMD(), this);
         CommandCenter.registerCommand(new LevelCMD(), this);
+        CommandCenter.registerCommand(new CoinCMD(), this);
 
 
         CommandCenter.registerCommand(new UpdateRankCMDTEST(), this); //REMEMBER TO DISABLE THIS WHEN DEVELOPMENT IS DONE.

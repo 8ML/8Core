@@ -8,11 +8,11 @@ import org.bukkit.entity.Player;
 public class Messages {
 
     public static void sendFailedMessage(Player player) {
-        player.sendMessage(MessageColor.COLOR_ERROR + "Failed.");
+        player.sendMessage(MessageColor.COLOR_ERROR + "Failed!");
     }
 
     public static void sendSuccessMessage(Player player) {
-        player.sendMessage(MessageColor.COLOR_SUCCESS + "Success.");
+        player.sendMessage(MessageColor.COLOR_SUCCESS + "Success!");
     }
 
 }

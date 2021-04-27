@@ -40,7 +40,7 @@ public class JoinEvent implements Listener {
                     "\n" +
                     "&d&ndiscord.io/mineplayclub" +
                     "\n\n" +
-                    "&7You received &e+50 Coins &7for joining the first time!"));
+                    "&7You received &e+50 coins &7for joining the first time!"));
         }
 
         if (!proxyCheck(e.getPlayer())) {
@@ -79,5 +79,4 @@ public class JoinEvent implements Listener {
         return false;
 
     }
-
 }

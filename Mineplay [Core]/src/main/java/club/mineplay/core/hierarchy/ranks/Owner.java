@@ -11,7 +11,7 @@ public class Owner extends Rank {
 
     public Owner() {
         super("Owner", "Owner", 100.0D);
-        setColor(new Color(255, 0, 60));
+        setColor(new Color(238, 77, 77));
     }
 
     @Override

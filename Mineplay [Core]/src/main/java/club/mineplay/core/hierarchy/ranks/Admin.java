@@ -11,7 +11,7 @@ public class Admin extends Rank {
 
     public Admin() {
         super("Administrator", "Admin", 90.0D);
-        setColor(new Color(255, 0, 60));
+        setColor(new Color(238, 77, 77));
     }
 
     @Override

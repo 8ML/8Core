@@ -66,6 +66,24 @@ public class Coin {
         }
     }
 
+    public static void setCoins(MPlayer player, int coins) {
+        try {
+
+            PreparedStatement st = sql.preparedStatement("UPDATE users SET coins=? WHERE uuid=?");
+            st.setInt(1, coins);
+            st.setString(2, player.getUUID());
+
+            try {
+                st.executeUpdate();
+            } finally {
+                sql.getConnection().close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void resetCoins(MPlayer player) {
         try {
 

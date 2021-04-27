@@ -20,10 +20,11 @@ import java.util.Map;
 
 public class MPlayer {
 
-    private static final Map<Player, MPlayer> playerMap = new HashMap<>();
+    private static final Map<String, MPlayer> playerMap = new HashMap<>();
 
     private String player;
     private String UUID;
+    private boolean isOffline;
 
     private final SQL sql = Main.instance.sql;
 
@@ -31,6 +32,7 @@ public class MPlayer {
 
         this.player = player.getName();
         this.UUID = player.getUniqueId().toString();
+        this.isOffline = false;
 
         try {
 
@@ -60,6 +62,7 @@ public class MPlayer {
     public MPlayer(String player) {
 
         this.player = player;
+        this.isOffline = true;
 
         try {
 
@@ -74,6 +77,12 @@ public class MPlayer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public MPlayer(MPlayer player) {
+        this.UUID = player.getUUID();
+        this.player = player.player;
+        this.isOffline = player.isOffline;
     }
 
     public Ranks getRankEnum() {
@@ -169,6 +178,14 @@ public class MPlayer {
         return null;
     }
 
+    public String getPlayerStr() {
+        return this.player;
+    }
+
+    public boolean isOffline() {
+        return this.isOffline;
+    }
+
     public String getUUID() {
         return this.UUID;
     }
@@ -180,13 +197,12 @@ public class MPlayer {
 
     public static void registerMPlayer(Player player) {
         if (playerMap.containsKey(player)) return;
-        playerMap.put(player, new MPlayer(player));
+        playerMap.put(player.getName(), new MPlayer(player));
     }
 
-    public static MPlayer getMPlayer(Player player) {
-        if (playerMap.containsKey(player)) return playerMap.get(player);
-        playerMap.put(player, new MPlayer(player));
-        return playerMap.get(player);
+    public static MPlayer getMPlayer(String player) {
+        if (!playerMap.containsKey(player)) return new MPlayer(player);
+        else return new MPlayer(playerMap.get(player));
     }
 
     public static boolean exists(String player) {

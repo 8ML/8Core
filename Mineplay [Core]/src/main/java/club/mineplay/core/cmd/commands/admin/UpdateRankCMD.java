@@ -23,7 +23,7 @@ public class UpdateRankCMD extends CMD {
         if (paramArrayOfString.length == 2) {
             try {
 
-                MPlayer player = new MPlayer(paramArrayOfString[0]);
+                MPlayer player = MPlayer.getMPlayer(paramArrayOfString[0]);
 
                 Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
                 player.setRank(rank);

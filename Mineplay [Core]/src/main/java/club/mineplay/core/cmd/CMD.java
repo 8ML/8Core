@@ -77,7 +77,7 @@ public abstract class CMD extends BukkitCommand {
     public boolean execute(CommandSender sender, String alias, String[] args) {
         if ((sender instanceof Player)) {
             Player p = (Player) sender;
-            if (MPlayer.getMPlayer(p).getRankEnum().getRank().hasPermissionLevel(this.rank.getRank())) {
+            if (MPlayer.getMPlayer(p.getName()).getRankEnum().getRank().hasPermissionLevel(this.rank.getRank())) {
                 execute(p, args);
             } else {
                 p.sendMessage(noPerm);

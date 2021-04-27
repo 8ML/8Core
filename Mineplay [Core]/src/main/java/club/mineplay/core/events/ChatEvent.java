@@ -20,8 +20,8 @@ public class ChatEvent implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
-        MPlayer player = MPlayer.getMPlayer(e.getPlayer());
-        e.setFormat(ChatColor.GRAY + "[" + Level.getLevelFrom(player.getXP()) + "] "
+        MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
+        e.setFormat(ChatColor.GRAY + "[" + ((int) Level.getLevelFromXP(player.getXP(), false)) + "] "
                 + player.getRankEnum().getRank().getFullPrefixWithSpace()
                 + player.getRankEnum().getRank().getNameColor() + player.getPlayer().getName()
                 + ": " + player.getRankEnum().getRank().getChatColor() + e.getMessage());

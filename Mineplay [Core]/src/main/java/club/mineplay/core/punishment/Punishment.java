@@ -35,7 +35,7 @@ public abstract class Punishment {
             this.hours = hours;
             this.days = days;
             this.permanent = false;
-            this.duration = (seconds * 20) + ((minutes * 60) * 20) + (((hours * 60) * 60) * 20) + ((((days * 24) * 60) * 60) * 20);
+            this.duration = (seconds * 1000) + ((minutes * 60) * 1000) + (((hours * 60) * 60) * 1000) + ((((days * 24) * 60) * 60) * 1000);
         }
 
         public PunishTime(long duration) {
@@ -44,21 +44,21 @@ public abstract class Punishment {
 
             double dur = Long.valueOf(duration).doubleValue();
 
-            double days = (dur / (20 * 60 * 60 * 24));
-            double dE = days - Math.floor(days);
+            double days = (dur / (1000 * 60 * 60 * 24));
+            double dE = dur * (days - Math.floor(days));
 
-            double hours = (dE / (20 * 60 * 60));
-            double hE = hours - Math.floor(hours);
+            double hours = (dE / (1000 * 60 * 60));
+            double hE = dur * (hours - Math.floor(hours));
 
-            double minutes = (hE / (20 * 60));
-            double mE = minutes - Math.floor(minutes);
+            double minutes = (hE / (1000 * 60));
+            double mE = dur * (minutes - Math.floor(minutes));
 
-            double seconds = (mE / 20);
+            double seconds = (mE / 1000);
 
-            this.days = (int) days;
-            this.hours = (int) hours;
-            this.minutes = (int) minutes;
-            this.seconds = (int) seconds;
+            this.days = (int) Math.floor(days);
+            this.hours = (int) Math.floor(hours);
+            this.minutes = (int) Math.floor(minutes);
+            this.seconds = (int) Math.floor(seconds);
         }
 
         public PunishTime() {

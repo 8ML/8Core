@@ -8,14 +8,14 @@ public class Test {
 
     public static void main(String[] args) {
 
-        convert(22333333333453L);
+        convert(223343234443423L);
 
     }
 
     public static void convert(long duration) {
 
         double dur = Long.valueOf(duration).doubleValue();
-        double days = (dur / (20 * 60 * 60 * 24));
+        double days = (dur / (1000 * 60 * 60 * 24));
 
         System.out.println(days);
 

@@ -48,10 +48,10 @@ public abstract class Punishment {
             double dE = dur * (days - Math.floor(days));
 
             double hours = (dE / (1000 * 60 * 60));
-            double hE = dur * (hours - Math.floor(hours));
+            double hE = dE * (hours - Math.floor(hours));
 
             double minutes = (hE / (1000 * 60));
-            double mE = dur * (minutes - Math.floor(minutes));
+            double mE = hE * (minutes - Math.floor(minutes));
 
             double seconds = (mE / 1000);
 

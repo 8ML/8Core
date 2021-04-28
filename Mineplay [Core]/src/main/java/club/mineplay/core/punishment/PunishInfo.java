@@ -77,7 +77,7 @@ public class PunishInfo {
 
     public boolean isActive() {
         if (!this.active) return false;
-        if (System.currentTimeMillis() < this.end) {
+        if (System.currentTimeMillis() >= this.end) {
 
             try {
 

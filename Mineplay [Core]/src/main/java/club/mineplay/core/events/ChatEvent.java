@@ -9,7 +9,6 @@ import club.mineplay.core.punishment.PunishInfo;
 import club.mineplay.core.punishment.Punishment;
 import club.mineplay.core.punishment.type.Mute;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;

@@ -37,6 +37,7 @@ public class SQL {
                     ", `when` BIGINT NOT NULL" +
                     ", `end` BIGINT NOT NULL" +
                     ", `duration` BIGINT NOT NULL" +
+                    ", `reason` VARCHAR(255) NOT NULL" +
                     ", `type` VARCHAR(100) NOT NULL" +
                     ", `active` BIT NOT NULL)");
         } catch (SQLException e) {

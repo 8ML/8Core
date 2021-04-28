@@ -55,6 +55,7 @@ public class BookUtil {
         book.setItemMeta(bookMeta);
 
         openBook(player, book);
+
     }
 
 }

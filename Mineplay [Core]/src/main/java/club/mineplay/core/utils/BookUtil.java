@@ -3,6 +3,10 @@ package club.mineplay.core.utils;
 Created by Sander on 4/25/2021
 */
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.minecraft.server.v1_16_R3.EnumHand;
 import net.minecraft.server.v1_16_R3.PacketPlayOutOpenBook;
 import org.bukkit.ChatColor;
@@ -11,9 +15,6 @@ import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class BookUtil {
 
@@ -31,8 +32,7 @@ public class BookUtil {
 
         assert bookMeta != null;
 
-        List<String> pages = Arrays.asList(ChatColor.translateAlternateColorCodes('&', "\n" +
-                "&0Welcome to the\n" +
+        BaseComponent[] cb = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&0Welcome to the\n" +
                 "&6Mineplay Network&0!\n" +
                 "\n" +
                 "&0To start playing\n" +
@@ -41,11 +41,14 @@ public class BookUtil {
                 "\n" +
                 "&0Join our discord for\n" +
                 "&0news, updates, and\n" +
-                "&0announcements!\n" +
-                "\n" +
-                "&r       &r&d&l&nCLICK HERE&r"));
+                "&0announcements!\n\n")).create();
+        BaseComponent[] cl = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&r       &r&d&l&nCLICK HERE&r"))
+                .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.io/mineplayclub"))
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Join our discord").create())).create();
 
-        bookMeta.setPages(pages);
+        BaseComponent[] comp = new ComponentBuilder().append(cb).append(cl).create();
+
+        bookMeta.spigot().addPage(comp);
 
         bookMeta.setTitle("Help");
         bookMeta.setAuthor("Mineplay");

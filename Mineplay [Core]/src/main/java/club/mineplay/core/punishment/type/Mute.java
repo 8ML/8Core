@@ -4,6 +4,7 @@ Created by Sander on 4/28/2021
 */
 
 import club.mineplay.core.player.MPlayer;
+import club.mineplay.core.punishment.PunishInfo;
 import club.mineplay.core.punishment.Punishment;
 import net.md_5.bungee.api.ChatColor;
 
@@ -46,5 +47,9 @@ public class Mute extends Punishment {
 
         return msg;
 
+    }
+
+    public static Mute getMute(PunishInfo info) {
+        return new Mute(info.getPlayer(), info.getExecutor(), info.getPunishTime(), info.getReason());
     }
 }

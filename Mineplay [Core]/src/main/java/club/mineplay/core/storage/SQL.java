@@ -30,6 +30,15 @@ public class SQL {
                     ", `uuid` VARCHAR(255) NOT NULL, `playerName` VARCHAR(30) NOT NULL, `rank` VARCHAR(30) NOT NULL" +
                     ", `xp` INT NOT NULL, `coins` INT NOT NULL)");
             createTable("CREATE TABLE IF NOT EXISTS proxy (`proxyPlayer` VARCHAR(100) PRIMARY KEY NOT NULL)");
+            createTable("CREATE TABLE IF NOT EXISTS punishments (`id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL" +
+                    ", `uuid` VARCHAR(255) NOT NULL" +
+                    ", `playerName` VARCHAR(100) NOT NULL" +
+                    ", `executor` VARCHAR(100) NOT NULL" +
+                    ", `when` BIGINT NOT NULL" +
+                    ", `end` BIGINT NOT NULL" +
+                    ", `duration` BIGINT NOT NULL" +
+                    ", `type` VARCHAR(100) NOT NULL" +
+                    ", `active` BIT NOT NULL)");
         } catch (SQLException e) {
             e.printStackTrace();
         }

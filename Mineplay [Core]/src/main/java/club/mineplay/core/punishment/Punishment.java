@@ -133,8 +133,8 @@ public abstract class Punishment {
             long now = System.currentTimeMillis();
             long end = now + time.getDuration();
 
-            PreparedStatement st = sql.preparedStatement("INSERT INTO punishments (uuid, playerName, executor, when, end, duration, active) " +
-                    "VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement st = sql.preparedStatement("INSERT INTO punishments (`uuid`, `playerName`, `executor`, `when`, `end`, `duration`, `type`, `active`) " +
+                    "VALUES (?,?,?,?,?,?,?,?)");
 
             st.setString(1, target.getUUID());
             st.setString(2, target.getPlayerStr());
@@ -142,7 +142,8 @@ public abstract class Punishment {
             st.setLong(4, now);
             st.setLong(5, end);
             st.setLong(6, time.getDuration());
-            st.setBoolean(7, true);
+            st.setString(7, this.type.toString());
+            st.setBoolean(8, true);
 
             try {
                 st.execute();
@@ -167,9 +168,10 @@ public abstract class Punishment {
 
         try {
 
-            PreparedStatement st = sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND active=`true`");
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND active=?");
             st.setString(1, player.getUUID());
             st.setString(2, type.name());
+            st.setBoolean(3, true);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
 

@@ -7,88 +7,110 @@ import club.mineplay.core.Main;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.storage.SQL;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public abstract class Punishment {
 
-    enum PunishType {
+    public enum PunishType {
 
         BAN, MUTE, WARN, KICK;
 
     }
 
-    static class PunishTime {
+    public enum TimeUnit {
+        SECONDS(1000),
+        MINUTES(1000 * 60),
+        HOURS(1000 * 60 * 60),
+        DAYS(1000 * 60 * 60 * 24),
+        PERMANENT(-1);
+
+        public int multiplier;
+
+        TimeUnit(int multiplier) {
+            this.multiplier = multiplier;
+        }
+
+        public String getFormatted() {
+
+            StringBuilder b = new StringBuilder();
+
+            char f = name().charAt(0);
+
+            b.append(Character.valueOf(f).toString().toUpperCase());
+
+            for (int i = 1; i < name().toCharArray().length; i++) {
+                b.append(Character.valueOf(name().toCharArray()[i]).toString().toLowerCase());
+            }
+
+            return b.toString();
+
+        }
+    }
+
+    public static class PunishTime {
 
         private final long duration;
 
-        private final int seconds;
-        private final int minutes;
-        private final int hours;
-        private final int days;
+        private final TimeUnit unit;
 
         private final boolean permanent;
 
-        public PunishTime(int seconds, int minutes, int hours, int days) {
-            this.seconds = seconds;
-            this.minutes = minutes;
-            this.hours = hours;
-            this.days = days;
+        public PunishTime(TimeUnit unit, long duration) {
             this.permanent = false;
-            this.duration = (seconds * 1000) + ((minutes * 60) * 1000) + (((hours * 60) * 60) * 1000) + ((((days * 24) * 60) * 60) * 1000);
+            this.unit = unit;
+            this.duration = duration * unit.multiplier;
         }
 
         public PunishTime(long duration) {
+
             this.duration = duration;
             this.permanent = duration == 0;
 
-            double dur = Long.valueOf(duration).doubleValue();
+            final long maxSecondsMillis = (1000 * 60);
+            final long maxMinutesMillis = (maxSecondsMillis * 60);
+            final long maxHoursMillis = (maxMinutesMillis * 24);
 
-            double days = (dur / (1000 * 60 * 60 * 24));
-            double dE = dur * (days - Math.floor(days));
+            if (duration > maxSecondsMillis) {
+                if (duration > maxMinutesMillis) {
+                    if (duration > maxHoursMillis) {
+                        this.unit = TimeUnit.DAYS;
+                    } else {
+                        this.unit = TimeUnit.HOURS;
+                    }
+                } else {
+                    this.unit = TimeUnit.MINUTES;
+                }
+            } else {
+                this.unit = TimeUnit.SECONDS;
+            }
 
-            double hours = (dE / (1000 * 60 * 60));
-            double hE = dE * (hours - Math.floor(hours));
-
-            double minutes = (hE / (1000 * 60));
-            double mE = hE * (minutes - Math.floor(minutes));
-
-            double seconds = (mE / 1000);
-
-            this.days = (int) Math.floor(days);
-            this.hours = (int) Math.floor(hours);
-            this.minutes = (int) Math.floor(minutes);
-            this.seconds = (int) Math.floor(seconds);
         }
 
         public PunishTime() {
-            this.seconds = 0;
-            this.minutes = 0;
-            this.hours = 0;
-            this.days = 0;
             this.duration = 0L;
             this.permanent = true;
+            this.unit = TimeUnit.PERMANENT;
         }
 
         public long getDuration() {
             return this.duration;
         }
 
-        public int getSeconds() {
-            return this.seconds;
+        public TimeUnit getUnit() {
+            return this.unit;
         }
 
-        public int getMinutes() {
-            return this.minutes;
+        public double getTimeLeft() {
+
+            double duration = Long.valueOf(this.duration).doubleValue();
+            double d = duration / this.unit.multiplier;
+            return BigDecimal.valueOf(d).setScale(1, RoundingMode.HALF_UP).doubleValue();
         }
 
-        public int getHours() {
-            return this.hours;
-        }
-
-        public int getDays() {
-            return this.days;
-        }
     }
 
     private final PunishType type;
@@ -99,9 +121,12 @@ public abstract class Punishment {
         this.type = type;
     }
 
+    public abstract void onExecute();
     public abstract String getPunishMessage();
 
     public void execute(MPlayer executor, MPlayer target, String reason, PunishTime time) {
+
+        this.onExecute();
 
         try {
 
@@ -134,4 +159,38 @@ public abstract class Punishment {
     public PunishType getType() {
         return type;
     }
+
+
+    public static PunishInfo getActivePunishment(MPlayer player, PunishType type) {
+
+        SQL sql = Main.instance.sql;
+
+        try {
+
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND active=`true`");
+            st.setString(1, player.getUUID());
+            st.setString(2, type.name());
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+
+                if (rs.getLong("end") < System.currentTimeMillis()) return new PunishInfo();
+                long timeLeft = rs.getLong("end") - System.currentTimeMillis();
+
+                PunishInfo pInfo = new PunishInfo(player, MPlayer.getMPlayer(rs.getString("executor")),
+                        new PunishTime(timeLeft), PunishType.valueOf(rs.getString("type")), rs.getString("reason"));
+
+                sql.getConnection().close();
+
+                return pInfo;
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new PunishInfo();
+
+    }
+
 }

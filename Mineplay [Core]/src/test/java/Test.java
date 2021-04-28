@@ -8,16 +8,9 @@ public class Test {
 
     public static void main(String[] args) {
 
-        convert(223343234443423L);
-
-    }
-
-    public static void convert(long duration) {
-
-        double dur = Long.valueOf(duration).doubleValue();
-        double days = (dur / (1000 * 60 * 60 * 24));
-
-        System.out.println(days);
+        PunishTime one = new PunishTime(PunishTime.TimeUnit.DAYS, 100000L);
+        PunishTime two = new PunishTime(one.getDuration());
+        System.out.println(two.getTimeLeft() + " " + two.getUnit());
 
     }
 

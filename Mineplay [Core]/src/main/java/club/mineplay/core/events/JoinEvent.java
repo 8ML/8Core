@@ -6,6 +6,9 @@ Created by Sander on 4/24/2021
 import club.mineplay.core.Main;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.player.MPlayer;
+import club.mineplay.core.punishment.PunishInfo;
+import club.mineplay.core.punishment.Punishment;
+import club.mineplay.core.punishment.type.Ban;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.utils.BookUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -13,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.PreparedStatement;
@@ -43,14 +48,27 @@ public class JoinEvent implements Listener {
                     "&7You received &e+50 coins &7for joining the first time!"));
         }
 
-        if (!proxyCheck(e.getPlayer())) {
-            e.getPlayer().kickPlayer(MessageColor.COLOR_ERROR + "Could not establish connection!\n\n" +
-                    "You have to connect using" + ChatColor.YELLOW + " mineplay.club");
-        }
-
         MPlayer.registerMPlayer(e.getPlayer());
         e.setJoinMessage("");
 
+
+    }
+
+    @EventHandler
+    public void onConnect(PlayerLoginEvent e) {
+
+        if (!proxyCheck(e.getPlayer())) {
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, MessageColor.COLOR_ERROR + "Could not establish connection!\n\n" +
+                    "You have to connect using" + ChatColor.YELLOW + " mineplay.club");
+        }
+
+        MPlayer p = MPlayer.getMPlayer(e.getPlayer().getName());
+        PunishInfo info = Punishment.getActivePunishment(p, Punishment.PunishType.BAN);
+        if (info.isActive()) {
+
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Ban.getBan(info).getPunishMessage());
+
+        }
 
     }
 

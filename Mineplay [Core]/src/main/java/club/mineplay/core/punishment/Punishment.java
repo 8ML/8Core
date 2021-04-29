@@ -12,6 +12,8 @@ import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Punishment {
 
@@ -209,6 +211,34 @@ public abstract class Punishment {
         }
 
         return new PunishInfo();
+
+    }
+
+    public static List<PunishInfo> getPunishments(MPlayer player, PunishType type) {
+
+        SQL sql = Main.instance.sql;
+
+        List<PunishInfo> punishments = new ArrayList<>();
+
+        try {
+
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=?");
+            st.setString(1, player.getUUID());
+            st.setString(2, type.toString());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                punishments.add(new PunishInfo(player, MPlayer.getMPlayer(rs.getString("executor")),
+                        new PunishTime(rs.getLong("end") - System.currentTimeMillis()), type,
+                        rs.getString("reason")));
+            }
+
+            sql.getConnection().close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return punishments;
 
     }
 

@@ -26,10 +26,10 @@ public class GameModeCMD extends CMD {
         if (paramArrayOfString.length == 0) {
 
             if (paramPlayer.getGameMode().equals(GameMode.SURVIVAL)) {
-                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to creative.");
+                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to Creative.");
                 paramPlayer.setGameMode(GameMode.CREATIVE);
             } else {
-                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to survival.");
+                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to Survival.");
                 paramPlayer.setGameMode(GameMode.SURVIVAL);
             }
 
@@ -40,18 +40,29 @@ public class GameModeCMD extends CMD {
                     if (modeMap.containsKey(paramPlayer)) {
 
                         paramPlayer.setGameMode(modeMap.get(paramPlayer));
-                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to " + paramPlayer.getGameMode().toString().toLowerCase() + ".");
+
+                        StringBuilder b = new StringBuilder();
+                        char first = paramPlayer.getGameMode().toString().charAt(0);
+
+                        b.append(first);
+
+                        for (int i = 1; i < paramPlayer.getGameMode().toString().length(); i++) {
+                            b.append(String.valueOf(paramPlayer.getGameMode().toString().charAt(i)).toLowerCase());
+                        }
+
+
+                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to " + b.toString() + ".");
 
                     } else {
                         paramPlayer.setGameMode(GameMode.SURVIVAL);
-                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to survival.");
+                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to Survival.");
                     }
                 } else {
 
                     modeMap.put(paramPlayer, paramPlayer.getGameMode());
 
                     paramPlayer.setGameMode(GameMode.SPECTATOR);
-                    paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to spectator.");
+                    paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to Spectator.");
                 }
 
             }

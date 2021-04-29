@@ -5,6 +5,7 @@ Created by Sander on 4/24/2021
 
 import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.MessageColor;
+import club.mineplay.core.config.Messages;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import org.bukkit.Bukkit;
@@ -28,10 +29,10 @@ public class UpdateRankCMD extends CMD {
                 Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
                 player.setRank(rank);
 
-                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Success!");
+                Messages.sendSuccessMessage(paramPlayer);
 
             } catch (Exception e) {
-                paramPlayer.sendMessage(MessageColor.COLOR_ERROR + "Failed!");
+                Messages.sendFailedMessage(paramPlayer);
             }
         } else {
             paramPlayer.sendMessage(getUsage());

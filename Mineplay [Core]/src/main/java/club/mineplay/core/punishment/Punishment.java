@@ -133,6 +133,22 @@ public abstract class Punishment {
             long now = System.currentTimeMillis();
             long end = now + time.getDuration();
 
+            PreparedStatement check = sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND active=?");
+            check.setString(1, target.getUUID());
+            check.setString(2, this.type.toString());
+            check.setBoolean(3, true);
+            ResultSet rs = check.executeQuery();
+            while (rs.next()) {
+
+                PreparedStatement update = sql.preparedStatement("UPDATE punishments SET active=? WHERE uuid=? AND type=?");
+                update.setBoolean(1, false);
+                update.setString(2, target.getUUID());
+                update.setString(3, this.type.toString());
+
+                update.executeUpdate();
+
+            }
+
             PreparedStatement st = sql.preparedStatement("INSERT INTO punishments (`uuid`, `playerName`, `executor`, `when`, `end`, `duration`, `reason`, `type`, `active`) " +
                     "VALUES (?,?,?,?,?,?,?,?,?)");
 

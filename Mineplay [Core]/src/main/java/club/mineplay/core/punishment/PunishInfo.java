@@ -31,14 +31,15 @@ public class PunishInfo {
 
         try {
 
-            PreparedStatement st = Main.instance.sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=?");
+            PreparedStatement st = Main.instance.sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND active=?");
             st.setString(1, player.getUUID());
             st.setString(2, this.punishType.name());
+            st.setBoolean(3, true);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
-                if (rs.getBoolean("active")) { when = rs.getLong("when"); end = rs.getLong("end");}
-                else this.active = false;
+                this.when = rs.getLong("when");
+                this.end = rs.getLong("end");
 
             }
 
@@ -81,7 +82,7 @@ public class PunishInfo {
 
             try {
 
-                PreparedStatement st = Main.instance.sql.preparedStatement("UPDATE punishments SET active=? WHERE uuid=?");
+                PreparedStatement st = Main.instance.sql.preparedStatement("UPDATE punishments SET active=? WHERE uuid=? AND type=?");
                 st.setBoolean(1, false);
                 st.setString(2, this.player.getUUID());
 

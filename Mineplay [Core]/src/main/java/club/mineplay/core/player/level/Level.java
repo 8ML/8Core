@@ -25,10 +25,6 @@ public class Level {
             int currentXP = player.getXP();
             int newXP = currentXP + xp;
 
-            if (getLevelFromXP(currentXP, false) < getLevelFromXP(newXP, false)) {
-                levelUP(player);
-            }
-
             PreparedStatement st = sql.preparedStatement("UPDATE users SET xp=? WHERE uuid=?");
             st.setInt(1, newXP);
             st.setString(2, player.getUUID());
@@ -36,6 +32,10 @@ public class Level {
                 st.executeUpdate();
             } finally {
                 sql.getConnection().close();
+            }
+
+            if (getLevelFromXP(currentXP, false) < getLevelFromXP(newXP, false)) {
+                levelUP(player);
             }
 
         } catch (SQLException e) {

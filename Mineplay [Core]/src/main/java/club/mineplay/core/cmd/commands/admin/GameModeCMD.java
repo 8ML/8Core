@@ -26,10 +26,10 @@ public class GameModeCMD extends CMD {
         if (paramArrayOfString.length == 0) {
 
             if (paramPlayer.getGameMode().equals(GameMode.SURVIVAL)) {
-                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to CREATIVE.");
+                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to creative.");
                 paramPlayer.setGameMode(GameMode.CREATIVE);
             } else {
-                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to SURVIVAL.");
+                paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to survival.");
                 paramPlayer.setGameMode(GameMode.SURVIVAL);
             }
 
@@ -40,18 +40,18 @@ public class GameModeCMD extends CMD {
                     if (modeMap.containsKey(paramPlayer)) {
 
                         paramPlayer.setGameMode(modeMap.get(paramPlayer));
-                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to " + paramPlayer.getGameMode() + ".");
+                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to " + paramPlayer.getGameMode().toString().toLowerCase() + ".");
 
                     } else {
                         paramPlayer.setGameMode(GameMode.SURVIVAL);
-                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to SURVIVAL.");
+                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to survival.");
                     }
                 } else {
 
                     modeMap.put(paramPlayer, paramPlayer.getGameMode());
 
                     paramPlayer.setGameMode(GameMode.SPECTATOR);
-                    paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to SPECTATOR.");
+                    paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to spectator.");
                 }
 
             }

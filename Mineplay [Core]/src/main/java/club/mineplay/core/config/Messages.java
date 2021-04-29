@@ -12,7 +12,7 @@ public class Messages {
     }
 
     public static void sendSuccessMessage(Player player) {
-        player.sendMessage(MessageColor.COLOR_SUCCESS + "Success!");
+        player.sendMessage(MessageColor.COLOR_SUCCESS + "Done!");
     }
 
 }

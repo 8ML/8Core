@@ -33,8 +33,8 @@ public class BookUtil {
 
         assert bookMeta != null;
 
-        BaseComponent[] cb = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&0Welcome to the\n" +
-                "\n&6Mineplay Network&0!\n" +
+        BaseComponent[] cb = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "\n&0Welcome to the\n" +
+                "&6Mineplay Network&0!\n" +
                 "\n" +
                 "&0To start playing\n" +
                 "&0games, click on an NPC\n" +
@@ -43,7 +43,7 @@ public class BookUtil {
                 "&0Join our discord for\n" +
                 "&0news, updates, and\n" +
                 "&0announcements!\n\n")).create();
-        BaseComponent[] cl = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&r    &r&d&l&nCLICK HERE&r"))
+        BaseComponent[] cl = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&r     &r&d&l&nCLICK HERE&r"))
                 .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.io/mineplayclub"))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.YELLOW + "Click to join!").create())).create();
 

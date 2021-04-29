@@ -118,8 +118,8 @@ public class Level {
 
         player.getPlayer().sendMessage(MessageColor.COLOR_SUCCESS.toString() + ChatColor.BOLD
                 + "\nLEVEL UP!\n" + MessageColor.COLOR_MAIN +"You are now level "
-                + MessageColor.COLOR_HIGHLIGHT
-                + ((int) getLevelFromXP(player.getXP(), false))
+                + ChatColor.AQUA
+                + ((int) getLevelFromXP(player.getXP(), false)) + MessageColor.COLOR_MAIN + "!"
                 +"\n\n" + ChatColor.GOLD
                 + "+20 coins\n");
 

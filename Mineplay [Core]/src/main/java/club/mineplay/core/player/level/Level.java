@@ -8,6 +8,7 @@ import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.currency.Coin;
 import club.mineplay.core.storage.SQL;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 
 import java.sql.PreparedStatement;
@@ -115,12 +116,12 @@ public class Level {
     private static void levelUP(MPlayer player) {
         Coin.addCoins(player, 20, false);
 
-        player.getPlayer().sendMessage(MessageColor.COLOR_SUCCESS
+        player.getPlayer().sendMessage(MessageColor.COLOR_SUCCESS.toString() + ChatColor.BOLD
                 + "\nLEVEL UP!\n" + MessageColor.COLOR_MAIN +"You are now level "
                 + MessageColor.COLOR_HIGHLIGHT
                 + ((int) getLevelFromXP(player.getXP(), false))
-                +"\n\n" + MessageColor.COLOR_HIGHLIGHT
-                + "+20 Coins\n");
+                +"\n\n" + ChatColor.GOLD
+                + "+20 coins\n");
 
         if (!player.isOffline()) {
             player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);

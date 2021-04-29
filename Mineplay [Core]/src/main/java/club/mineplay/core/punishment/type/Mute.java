@@ -40,9 +40,9 @@ public class Mute extends Punishment {
     public String getPunishMessage() {
 
         String msg;
-        if (this.time.getUnit().equals(TimeUnit.PERMANENT)) msg = ChatColor.RED + "Shh! you are permanently muted for "
+        if (this.time.getUnit().equals(TimeUnit.PERMANENT)) msg = ChatColor.RED + "You are permanently muted for "
                 + ChatColor.GRAY + this.reason;
-        else msg = msg = ChatColor.RED + "Shh! you are muted for " + time.getTimeLeft() + " " + time.getUnit().getFormatted() + " for "
+        else msg = msg = ChatColor.RED + "You are muted for " + time.getTimeLeft() + " " + time.getUnit().getFormatted() + " for "
                 + ChatColor.GRAY + this.reason;
 
         return msg;

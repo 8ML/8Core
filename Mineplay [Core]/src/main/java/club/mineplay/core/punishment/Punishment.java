@@ -222,15 +222,39 @@ public abstract class Punishment {
 
         try {
 
-            PreparedStatement st = sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=?");
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND active=?");
             st.setString(1, player.getUUID());
             st.setString(2, type.toString());
+            st.setBoolean(3, true);
             ResultSet rs = st.executeQuery();
+
             while (rs.next()) {
                 punishments.add(new PunishInfo(player, MPlayer.getMPlayer(rs.getString("executor")),
                         new PunishTime(rs.getLong("end") - System.currentTimeMillis()), type,
                         rs.getString("reason")));
             }
+
+            st.close();
+            rs.close();
+
+            sql.getConnection().close();
+
+            PreparedStatement stF = sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND active=?");
+            stF.setString(1, player.getUUID());
+            stF.setString(2, type.toString());
+            stF.setBoolean(3, false);
+            ResultSet rsF = stF.executeQuery();
+
+            while (rsF.next()) {
+
+                punishments.add(new PunishInfo(player, MPlayer.getMPlayer(rsF.getString("executor")),
+                        new PunishTime(rsF.getLong("end") - System.currentTimeMillis()), type,
+                        rsF.getString("reason")));
+
+            }
+
+            stF.close();
+            rsF.close();
 
             sql.getConnection().close();
 
@@ -239,6 +263,30 @@ public abstract class Punishment {
         }
 
         return punishments;
+
+    }
+
+    public static void removePunishment(int id) {
+
+        SQL sql = Main.instance.sql;
+
+        try {
+
+            PreparedStatement st = sql.preparedStatement("UPDATE punishments SET active=? WHERE id=?");
+            st.setBoolean(1, false);
+            st.setInt(2, id);
+
+            try {
+
+                st.executeUpdate();
+
+            } finally {
+                sql.getConnection().close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

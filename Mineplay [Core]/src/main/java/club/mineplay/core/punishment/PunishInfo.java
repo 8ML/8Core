@@ -18,6 +18,7 @@ public class PunishInfo {
     private final Punishment.PunishType punishType;
     private final String reason;
 
+    private int id;
     private long when;
     private long end;
     private boolean active = true;
@@ -38,6 +39,7 @@ public class PunishInfo {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
+                this.id = rs.getInt("id");
                 this.when = rs.getLong("when");
                 this.end = rs.getLong("end");
 
@@ -76,6 +78,16 @@ public class PunishInfo {
         return reason;
     }
 
+    public Punishment.PunishTime getOriginalTime() {
+
+        return new Punishment.PunishTime(this.end - this.when);
+
+    }
+
+    public int getID() {
+        return this.id;
+    }
+
     public boolean isActive() {
         if (!this.active) return false;
         if (System.currentTimeMillis() >= this.end) {
@@ -85,6 +97,7 @@ public class PunishInfo {
                 PreparedStatement st = Main.instance.sql.preparedStatement("UPDATE punishments SET active=? WHERE uuid=? AND type=?");
                 st.setBoolean(1, false);
                 st.setString(2, this.player.getUUID());
+                st.setString(3, this.punishType.toString());
 
                 try {
                     st.executeUpdate();

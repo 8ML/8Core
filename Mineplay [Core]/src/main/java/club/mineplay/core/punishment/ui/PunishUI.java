@@ -5,28 +5,41 @@ Created by Sander on 4/29/2021
 
 import club.mineplay.core.Main;
 import club.mineplay.core.config.MessageColor;
+import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
+import club.mineplay.core.punishment.PunishInfo;
+import club.mineplay.core.punishment.Punishment;
+import club.mineplay.core.punishment.type.Ban;
+import club.mineplay.core.punishment.type.Kick;
+import club.mineplay.core.punishment.type.Mute;
+import club.mineplay.core.punishment.type.Warn;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class PunishUI implements Listener {
 
     private final MPlayer target;
     private final MPlayer executor;
     private final String reason;
+    private final List<Integer> graySlots = new ArrayList<>();
+
+    private Punishment.PunishType type;
+    private Punishment.PunishTime time;
+
+    private String session;
 
     public PunishUI(MPlayer target, MPlayer executor, String reason) {
 
@@ -36,6 +49,8 @@ public class PunishUI implements Listener {
 
         Main.instance.getServer().getPluginManager().registerEvents(this, Main.instance);
 
+        this.session = UUID.randomUUID().toString();
+
     }
 
     public void openUI() {
@@ -43,21 +58,26 @@ public class PunishUI implements Listener {
         Inventory inv = Bukkit.createInventory(null, 54, "Punish " + this.target.getPlayerStr());
 
         //Frame
-        ItemStack frame = new ItemStack(Material.GRAY_STAINED_GLASS);
+
+        ItemStack frame = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta frameMeta = frame.getItemMeta();
         assert frameMeta != null;
-        frameMeta.setDisplayName("Reason: " + this.reason);
+        frameMeta.setDisplayName(ChatColor.WHITE + "Reason: " + this.reason);
+        List<String> frameLore = Arrays.asList("", ChatColor.GREEN + "Click to view history", "", ChatColor.DARK_GRAY + this.session);
+        frameMeta.setLore(frameLore);
         frame.setItemMeta(frameMeta);
 
         for (int i = 0; i < 9; i++) {
 
             inv.setItem(i, frame);
+            graySlots.add(i);
 
         }
 
         for (int i = 45; i < 54; i++) {
 
             inv.setItem(i, frame);
+            graySlots.add(i);
 
         }
 
@@ -69,6 +89,7 @@ public class PunishUI implements Listener {
         inv.setItem(26, frame);
         inv.setItem(35, frame);
         inv.setItem(44, frame);
+        graySlots.addAll(Arrays.asList(9, 18, 27, 36, 17, 26, 35, 44));
 
         //MUTE
 
@@ -228,8 +249,616 @@ public class PunishUI implements Listener {
 
         if (e.getView().getTitle().toUpperCase().startsWith("PUNISH")) {
 
-            e.setCancelled(true);
 
+            ItemStack i = Objects.requireNonNull(e.getClickedInventory()).getItem(0);
+
+            if (ChatColor.stripColor(Objects.requireNonNull(Objects.requireNonNull(Objects
+                    .requireNonNull(i).getItemMeta())
+                    .getLore()).get(3)).equals(this.session)) {
+
+                e.setCancelled(true);
+
+                if (graySlots.contains(e.getSlot())) {
+
+
+                    e.getWhoClicked().closeInventory();
+                    openHistoryMenu();
+
+
+
+                }
+
+                switch (e.getSlot()) {
+                    case 11:
+                        this.type = Punishment.PunishType.BAN;
+                        this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 7);
+                        new Ban(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 12:
+                        this.type = Punishment.PunishType.BAN;
+                        this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 30);
+                        new Ban(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 13:
+                        this.type = Punishment.PunishType.BAN;
+                        this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 60);
+                        new Ban(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 14:
+                        this.type = Punishment.PunishType.BAN;
+                        this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 90);
+                        new Ban(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 16:
+                        this.type = Punishment.PunishType.BAN;
+                        this.time = new Punishment.PunishTime();
+                        new Ban(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 38:
+                        this.type = Punishment.PunishType.MUTE;
+                        this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 1);
+                        new Mute(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 39:
+                        this.type = Punishment.PunishType.MUTE;
+                        this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 7);
+                        new Mute(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 40:
+                        this.type = Punishment.PunishType.MUTE;
+                        this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 30);
+                        new Mute(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 41:
+                        this.type = Punishment.PunishType.MUTE;
+                        this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 60);
+                        new Mute(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 43:
+                        this.type = Punishment.PunishType.MUTE;
+                        this.time = new Punishment.PunishTime();
+                        new Mute(this.target, this.executor, this.time,
+                                this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 22:
+                        this.type = Punishment.PunishType.WARN;
+                        new Warn(this.target, this.executor, this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+                    case 31:
+                        this.type = Punishment.PunishType.KICK;
+                        new Kick(this.target, this.executor, this.reason).execute();
+                        sendStaffMessage();
+                        e.getWhoClicked().closeInventory();
+                        HandlerList.unregisterAll(this);
+                        break;
+
+                }
+
+            }
+
+
+        } else if (e.getView().getTitle().equalsIgnoreCase("History")) {
+
+            ItemStack i = Objects.requireNonNull(e.getClickedInventory()).getItem(0);
+
+            if (ChatColor.stripColor(Objects.requireNonNull(Objects.requireNonNull(Objects
+                    .requireNonNull(i).getItemMeta())
+                    .getLore()).get(1)).equals(this.session)) {
+
+                e.setCancelled(true);
+
+                switch (e.getSlot()) {
+                    case 19:
+                        e.getWhoClicked().closeInventory();
+                        openHistory("BANS");
+                        break;
+                    case 21:
+                        e.getWhoClicked().closeInventory();
+                        openHistory("MUTES");
+                        break;
+                    case 23:
+                        e.getWhoClicked().closeInventory();
+                        openHistory("WARNS");
+                        break;
+                    case 25:
+                        e.getWhoClicked().closeInventory();
+                        openHistory("KICKS");
+                        break;
+                    case 40:
+                        e.getWhoClicked().closeInventory();
+                        openUI();
+                        break;
+                }
+            }
+
+        } else if(e.getView().getTitle().startsWith("History |")) {
+
+            ItemStack i = Objects.requireNonNull(e.getClickedInventory()).getItem(0);
+
+            if (ChatColor.stripColor(Objects.requireNonNull(Objects.requireNonNull(Objects
+                    .requireNonNull(i).getItemMeta())
+                    .getLore()).get(1)).equals(this.session)) {
+
+                e.setCancelled(true);
+
+                if (e.getCurrentItem() != null) {
+                    if (!e.getCurrentItem().getEnchantments().isEmpty()) {
+
+                        int id = Integer.parseInt(ChatColor.stripColor(e.getView().getTitle()));
+
+                        Punishment.removePunishment(id);
+
+                        String view = e.getView().getTitle().split(" ")[2].toLowerCase();
+
+                        e.getWhoClicked().closeInventory();
+                        openHistory(view);
+
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            MPlayer pl = MPlayer.getMPlayer(p.getName());
+                            if (pl.isPermissible(Ranks.STAFF)) {
+                                p.sendMessage(ChatColor.RED + this.executor.getPlayerStr()
+                                        + " removed a punishment from " + this.target.getPlayerStr());
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+
+    public void openHistoryMenu() {
+
+        Inventory inv = Bukkit.createInventory(null, 54, "History");
+
+        ItemStack frame = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+        ItemMeta frameMeta = frame.getItemMeta();
+        assert frameMeta != null;
+        frameMeta.setDisplayName(ChatColor.WHITE + "History");
+
+        List<String> lore = Arrays.asList("", ChatColor.DARK_GRAY + this.session);
+        frameMeta.setLore(lore);
+        frame.setItemMeta(frameMeta);
+
+        for (int i = 0; i < 9; i++) {
+
+            inv.setItem(i, frame);
+            graySlots.add(i);
+
+        }
+
+        for (int i = 45; i < 54; i++) {
+
+            inv.setItem(i, frame);
+            graySlots.add(i);
+
+        }
+
+        inv.setItem(9, frame);
+        inv.setItem(18, frame);
+        inv.setItem(27, frame);
+        inv.setItem(36, frame);
+        inv.setItem(17, frame);
+        inv.setItem(26, frame);
+        inv.setItem(35, frame);
+        inv.setItem(44, frame);
+
+        ItemStack bans = new ItemStack(Material.IRON_DOOR);
+        ItemMeta bansMeta = bans.getItemMeta();
+        assert bansMeta != null;
+        bansMeta.setDisplayName(MessageColor.COLOR_MAIN + "Bans");
+        List<String> bansLore = Arrays.asList("",
+                MessageColor.COLOR_MAIN + "Click to view all bans of " + ChatColor.YELLOW + this.target.getPlayerStr(),
+                "");
+        bansMeta.setLore(bansLore);
+        bans.setItemMeta(bansMeta);
+        
+        ItemStack mutes = new ItemStack(Material.WRITABLE_BOOK);
+        ItemMeta mutesMeta = mutes.getItemMeta();
+        assert mutesMeta != null;
+        mutesMeta.setDisplayName(MessageColor.COLOR_MAIN + "Mutes");
+        List<String> mutesLore = Arrays.asList("",
+                MessageColor.COLOR_MAIN + "Click to view all mutes of " + ChatColor.YELLOW + this.target.getPlayerStr(),
+                "");
+        mutesMeta.setLore(mutesLore);
+        mutes.setItemMeta(mutesMeta);
+
+        ItemStack warns = new ItemStack(Material.PAPER);
+        ItemMeta warnsMeta = warns.getItemMeta();
+        assert warnsMeta != null;
+        warnsMeta.setDisplayName(MessageColor.COLOR_MAIN + "Warns");
+        List<String> warnsLore = Arrays.asList("",
+                MessageColor.COLOR_MAIN + "Click to view all warns of " + ChatColor.YELLOW + this.target.getPlayerStr(),
+                "");
+        warnsMeta.setLore(warnsLore);
+        warns.setItemMeta(warnsMeta);
+
+        ItemStack kicks = new ItemStack(Material.STICK);
+        ItemMeta kicksMeta = kicks.getItemMeta();
+        assert kicksMeta != null;
+        kicksMeta.setDisplayName(MessageColor.COLOR_MAIN + "Kicks");
+        List<String> kicksLore = Arrays.asList("",
+                MessageColor.COLOR_MAIN + "Click to view all kicks of " + ChatColor.YELLOW + this.target.getPlayerStr(),
+                "");
+        kicksMeta.setLore(kicksLore);
+        kicks.setItemMeta(kicksMeta);
+
+        ItemStack exit = new ItemStack(Material.RED_WOOL);
+        ItemMeta exitMeta = exit.getItemMeta();
+        assert exitMeta != null;
+        exitMeta.setDisplayName(ChatColor.RED + "Return");
+        List<String> exitLore = Arrays.asList("",
+                MessageColor.COLOR_MAIN + "Return to the punish menu",
+                "");
+        exitMeta.setLore(exitLore);
+        exit.setItemMeta(exitMeta);
+        
+        inv.setItem(19, bans);
+        inv.setItem(21, mutes);
+        inv.setItem(23, warns);
+        inv.setItem(25, kicks);
+        inv.setItem(40, exit);
+
+        this.executor.getPlayer().openInventory(inv);
+
+    }
+
+    public void openHistory(String menu) {
+
+        Inventory inv = null;
+        
+
+        switch (menu) {
+            case "BANS":
+                inv = Bukkit.createInventory(null, 54, "History | Bans");
+
+                ItemStack frame = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                ItemMeta frameMeta = frame.getItemMeta();
+                assert frameMeta != null;
+                frameMeta.setDisplayName(ChatColor.WHITE + "Reason: " + this.reason);
+                List<String> frameMetaLore = Arrays.asList("", "", ChatColor.DARK_GRAY + this.session);
+
+                frameMeta.setLore(frameMetaLore);
+                frame.setItemMeta(frameMeta);
+
+
+                for (int i = 0; i < 9; i++) {
+
+                    inv.setItem(i, frame);
+                    graySlots.add(i);
+
+                }
+
+                for (int i = 45; i < 54; i++) {
+
+                    inv.setItem(i, frame);
+                    graySlots.add(i);
+
+                }
+
+                inv.setItem(9, frame);
+                inv.setItem(18, frame);
+                inv.setItem(27, frame);
+                inv.setItem(36, frame);
+                inv.setItem(17, frame);
+                inv.setItem(26, frame);
+                inv.setItem(35, frame);
+                inv.setItem(44, frame);
+
+                List<PunishInfo> punishInfoList = Punishment.getPunishments(this.target, Punishment.PunishType.BAN);
+                
+                int slot = 10;
+                int activeSlot = 10;
+
+                for (PunishInfo i : punishInfoList) {
+
+                    ItemStack h = new ItemStack(Material.PAPER);
+                    ItemMeta hM = h.getItemMeta();
+                    assert hM != null;
+                    List<String> hL = Arrays.asList("", 
+                            ChatColor.WHITE + "Staff: " + ChatColor.YELLOW + i.getExecutor().getPlayerStr(), 
+                            ChatColor.WHITE + "Duration: " + ChatColor.YELLOW 
+                                    + i.getOriginalTime().getTimeLeft() 
+                                    + " " + i.getOriginalTime().getUnit().getFormatted(),
+                            ChatColor.WHITE + "Reason: " + ChatColor.YELLOW + i.getReason(),
+                            ChatColor.WHITE + "Active: " + ChatColor.YELLOW + i.isActive());
+                    
+                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot++; }
+
+                    hM.setDisplayName(ChatColor.YELLOW + String.valueOf(i.getID()));
+                    hM.setLore(hL);
+                    
+                    h.setItemMeta(hM);
+                    inv.setItem(slot, h);
+                    
+                    slot++;
+                    if (slot > 43) slot = activeSlot;
+                }
+                break;
+            case "MUTES":
+                inv = Bukkit.createInventory(null, 54, "History | Mutes");
+
+                ItemStack frame2 = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                ItemMeta frameMeta2 = frame2.getItemMeta();
+                assert frameMeta2 != null;
+                frameMeta2.setDisplayName(ChatColor.WHITE + "Reason: " + this.reason);
+                List<String> frameMetaLore2 = Arrays.asList("", "", ChatColor.DARK_GRAY + this.session);
+
+                frameMeta2.setLore(frameMetaLore2);
+
+                frame2.setItemMeta(frameMeta2);
+
+
+                for (int i = 0; i < 9; i++) {
+
+                    inv.setItem(i, frame2);
+                    graySlots.add(i);
+
+                }
+
+                for (int i = 45; i < 54; i++) {
+
+                    inv.setItem(i, frame2);
+                    graySlots.add(i);
+
+                }
+
+                inv.setItem(9, frame2);
+                inv.setItem(18, frame2);
+                inv.setItem(27, frame2);
+                inv.setItem(36, frame2);
+                inv.setItem(17, frame2);
+                inv.setItem(26, frame2);
+                inv.setItem(35, frame2);
+                inv.setItem(44, frame2);
+
+                List<PunishInfo> punishInfoList2 = Punishment.getPunishments(this.target, Punishment.PunishType.MUTE);
+
+                int slot2 = 10;
+                int activeSlot2 = 10;
+
+                for (PunishInfo i : punishInfoList2) {
+
+                    ItemStack h = new ItemStack(Material.PAPER);
+                    ItemMeta hM = h.getItemMeta();
+                    assert hM != null;
+                    List<String> hL = Arrays.asList("",
+                            ChatColor.WHITE + "Staff: " + ChatColor.YELLOW + i.getExecutor().getPlayerStr(),
+                            ChatColor.WHITE + "Duration: " + ChatColor.YELLOW
+                                    + i.getOriginalTime().getTimeLeft()
+                                    + " " + i.getOriginalTime().getUnit().getFormatted(),
+                            ChatColor.WHITE + "Reason: " + ChatColor.YELLOW + i.getReason(),
+                            ChatColor.WHITE + "Active: " + ChatColor.YELLOW + i.isActive());
+
+                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot2++; }
+
+                    hM.setDisplayName(ChatColor.YELLOW + String.valueOf(i.getID()));
+                    hM.setLore(hL);
+
+                    h.setItemMeta(hM);
+                    inv.setItem(slot2, h);
+
+                    slot2++;
+                    if (slot2 > 43) slot2 = activeSlot2;
+                }
+                break;
+            case "WARNS":
+                inv = Bukkit.createInventory(null, 54, "History | Warns");
+
+                ItemStack frame3 = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                ItemMeta frameMeta3 = frame3.getItemMeta();
+                assert frameMeta3 != null;
+                frameMeta3.setDisplayName(ChatColor.WHITE + "Reason: " + this.reason);
+
+                List<String> frameMetaLore3 = Arrays.asList("", "", ChatColor.DARK_GRAY + this.session);
+
+                frameMeta3.setLore(frameMetaLore3);
+
+                frame3.setItemMeta(frameMeta3);
+
+                for (int i = 0; i < 9; i++) {
+
+                    inv.setItem(i, frame3);
+                    graySlots.add(i);
+
+                }
+
+                for (int i = 45; i < 54; i++) {
+
+                    inv.setItem(i, frame3);
+                    graySlots.add(i);
+
+                }
+                
+
+                inv.setItem(9, frame3);
+                inv.setItem(18, frame3);
+                inv.setItem(27, frame3);
+                inv.setItem(36, frame3);
+                inv.setItem(17, frame3);
+                inv.setItem(26, frame3);
+                inv.setItem(35, frame3);
+                inv.setItem(44, frame3);
+
+                List<PunishInfo> punishInfoList3 = Punishment.getPunishments(this.target, Punishment.PunishType.BAN);
+
+                int slot3 = 10;
+                int activeSlot3 = 10;
+
+                for (PunishInfo i : punishInfoList3) {
+
+                    ItemStack h = new ItemStack(Material.PAPER);
+                    ItemMeta hM = h.getItemMeta();
+                    assert hM != null;
+                    List<String> hL = Arrays.asList("",
+                            ChatColor.WHITE + "Staff: " + ChatColor.YELLOW + i.getExecutor().getPlayerStr(),
+                            ChatColor.WHITE + "Duration: " + ChatColor.YELLOW
+                                    + i.getOriginalTime().getTimeLeft()
+                                    + " " + i.getOriginalTime().getUnit().getFormatted(),
+                            ChatColor.WHITE + "Reason: " + ChatColor.YELLOW + i.getReason(),
+                            ChatColor.WHITE + "Active: " + ChatColor.YELLOW + i.isActive());
+
+                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot3++; }
+
+                    hM.setDisplayName(ChatColor.YELLOW + String.valueOf(i.getID()));
+                    hM.setLore(hL);
+
+                    h.setItemMeta(hM);
+                    inv.setItem(slot3, h);
+
+                    slot3++;
+                    if (slot3 > 43) slot3 = activeSlot3;
+                }
+                break;
+            case "KICKS":
+                inv = Bukkit.createInventory(null, 54, "History | Kicks");
+                
+                ItemStack frame4 = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                ItemMeta frameMeta4 = frame4.getItemMeta();
+                assert frameMeta4 != null;
+                frameMeta4.setDisplayName(ChatColor.WHITE + "Reason: " + this.reason);
+
+                List<String> frameMetaLore4 = Arrays.asList("", "", ChatColor.DARK_GRAY + this.session);
+
+                frameMeta4.setLore(frameMetaLore4);
+
+                frame4.setItemMeta(frameMeta4);
+
+                for (int i = 0; i < 9; i++) {
+
+                    inv.setItem(i, frame4);
+                    graySlots.add(i);
+
+                }
+
+                for (int i = 45; i < 54; i++) {
+
+                    inv.setItem(i, frame4);
+                    graySlots.add(i);
+
+                }
+
+                inv.setItem(9, frame4);
+                inv.setItem(18, frame4);
+                inv.setItem(27, frame4);
+                inv.setItem(36, frame4);
+                inv.setItem(17, frame4);
+                inv.setItem(26, frame4);
+                inv.setItem(35, frame4);
+                inv.setItem(44, frame4);
+
+                List<PunishInfo> punishInfoList4 = Punishment.getPunishments(this.target, Punishment.PunishType.BAN);
+
+                int slot4 = 10;
+                int activeSlot4 = 10;
+
+                for (PunishInfo i : punishInfoList4) {
+
+                    ItemStack h = new ItemStack(Material.PAPER);
+                    ItemMeta hM = h.getItemMeta();
+                    assert hM != null;
+                    List<String> hL = Arrays.asList("",
+                            ChatColor.WHITE + "Staff: " + ChatColor.YELLOW + i.getExecutor().getPlayerStr(),
+                            ChatColor.WHITE + "Duration: " + ChatColor.YELLOW
+                                    + i.getOriginalTime().getTimeLeft()
+                                    + " " + i.getOriginalTime().getUnit().getFormatted(),
+                            ChatColor.WHITE + "Reason: " + ChatColor.YELLOW + i.getReason(),
+                            ChatColor.WHITE + "Active: " + ChatColor.YELLOW + i.isActive());
+
+                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot4++; }
+
+                    hM.setDisplayName(ChatColor.YELLOW + String.valueOf(i.getID()));
+                    hM.setLore(hL);
+
+                    h.setItemMeta(hM);
+                    inv.setItem(slot4, h);
+
+                    slot4++;
+                    if (slot4 > 43) slot4 = activeSlot4;
+                }
+                break;
+        }
+
+        if (inv != null) this.executor.getPlayer().openInventory(inv);
+
+    }
+
+    public void sendStaffMessage() {
+
+        String t = "";
+        boolean ti = false;
+        switch (this.type) {
+            case BAN:
+                t = "banned";
+                ti = true;
+                break;
+            case MUTE:
+                t = "muted";
+                ti = true;
+                break;
+            case WARN:
+                t = "warned";
+                break;
+            case KICK:
+                t = "kicked";
+                break;
+        }
+
+        StringBuilder msg = new StringBuilder(ChatColor.RED + this.executor.getPlayerStr() + " " + t + " " + this.target.getPlayerStr());
+        if (ti) msg.append(" for ").append(this.time.getTimeLeft()).append(" ").append(this.time.getUnit().getFormatted());
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+
+            MPlayer pl = MPlayer.getMPlayer(p.getName());
+            if (pl.isPermissible(Ranks.STAFF)) {
+                p.sendMessage(msg.toString());
+            }
 
         }
 

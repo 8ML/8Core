@@ -1,0 +1,4 @@
+name: Core
+version: 1.0.0
+main: club.mineplay.core.Main
+api-version: 1.16

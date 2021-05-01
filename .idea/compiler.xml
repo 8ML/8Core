@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="Mineplay_[Core]" target="14" />
+      <module name="Mineplay_[Core].main" target="14" />
+      <module name="Mineplay_[Core].test" target="14" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

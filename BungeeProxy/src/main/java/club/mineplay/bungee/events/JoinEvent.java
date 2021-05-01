@@ -33,7 +33,7 @@ public class JoinEvent implements Listener {
             try {
                 st.execute();
             } finally {
-                sql.getConnection().close();
+                sql.closeConnection(st);
             }
 
         } catch (SQLException ex) {

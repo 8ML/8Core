@@ -15,11 +15,11 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/Mineplay [Core]" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Core" />
         <option name="gradleJvm" value="14" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/Mineplay [Core]" />
+            <option value="$PROJECT_DIR$/Core" />
           </set>
         </option>
       </GradleProjectSettings>

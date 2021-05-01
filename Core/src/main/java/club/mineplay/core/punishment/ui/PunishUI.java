@@ -496,7 +496,7 @@ public class PunishUI implements Listener {
         assert bansMeta != null;
         bansMeta.setDisplayName(MessageColor.COLOR_MAIN + "Bans");
         List<String> bansLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all bans of " + ChatColor.YELLOW + this.target.getPlayerStr(),
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " bans",
                 "");
         bansMeta.setLore(bansLore);
         bans.setItemMeta(bansMeta);
@@ -506,7 +506,7 @@ public class PunishUI implements Listener {
         assert mutesMeta != null;
         mutesMeta.setDisplayName(MessageColor.COLOR_MAIN + "Mutes");
         List<String> mutesLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all mutes of " + ChatColor.YELLOW + this.target.getPlayerStr(),
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " mutes",
                 "");
         mutesMeta.setLore(mutesLore);
         mutes.setItemMeta(mutesMeta);
@@ -516,7 +516,7 @@ public class PunishUI implements Listener {
         assert warnsMeta != null;
         warnsMeta.setDisplayName(MessageColor.COLOR_MAIN + "Warns");
         List<String> warnsLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all warns of " + ChatColor.YELLOW + this.target.getPlayerStr(),
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " warns",
                 "");
         warnsMeta.setLore(warnsLore);
         warns.setItemMeta(warnsMeta);
@@ -526,7 +526,7 @@ public class PunishUI implements Listener {
         assert kicksMeta != null;
         kicksMeta.setDisplayName(MessageColor.COLOR_MAIN + "Kicks");
         List<String> kicksLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all kicks of " + ChatColor.YELLOW + this.target.getPlayerStr(),
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + ChatColor.GRAY + " kicks",
                 "");
         kicksMeta.setLore(kicksLore);
         kicks.setItemMeta(kicksMeta);
@@ -855,11 +855,13 @@ public class PunishUI implements Listener {
                 break;
         }
 
+        boolean np = (this.type.equals(Punishment.PunishType.KICK) || this.type.equals(Punishment.PunishType.WARN));
+
         StringBuilder msg = new StringBuilder(ChatColor.RED + this.executor.getPlayerStr() + " " + t + " " + this.target.getPlayerStr());
         if (ti && !this.time.getUnit()
                 .equals(Punishment.TimeUnit.PERMANENT)) msg.append(" for ").append(this.time.getTimeLeft()).append(" ")
                 .append(this.time.getUnit().getFormatted());
-        if (this.time.getUnit().equals(Punishment.TimeUnit.PERMANENT)) msg.append(" permanently");
+        if (this.time.getUnit().equals(Punishment.TimeUnit.PERMANENT) && !np) msg.append(" permanently");
 
         for (Player p : Bukkit.getOnlinePlayers()) {
 

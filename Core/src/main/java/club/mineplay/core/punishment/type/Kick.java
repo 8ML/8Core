@@ -27,7 +27,7 @@ public class Kick extends Punishment {
     @Override
     public void onExecute() {
         if (!player.isOffline()) {
-            player.getPlayer().sendMessage(getPunishMessage());
+            player.getPlayer().kickPlayer(getPunishMessage());
         }
     }
 

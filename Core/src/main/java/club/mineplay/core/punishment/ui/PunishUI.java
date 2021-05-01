@@ -361,6 +361,7 @@ public class PunishUI implements Listener {
                         break;
                     case 22:
                         this.type = Punishment.PunishType.WARN;
+                        this.time = new Punishment.PunishTime(0);
                         new Warn(this.target, this.executor, this.reason).execute();
                         sendStaffMessage();
                         e.getWhoClicked().closeInventory();
@@ -368,6 +369,7 @@ public class PunishUI implements Listener {
                         break;
                     case 31:
                         this.type = Punishment.PunishType.KICK;
+                        this.time = new Punishment.PunishTime(0);
                         new Kick(this.target, this.executor, this.reason).execute();
                         sendStaffMessage();
                         e.getWhoClicked().closeInventory();

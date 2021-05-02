@@ -138,7 +138,7 @@ public abstract class Punishment {
 
             long now = System.currentTimeMillis();
             long end = now + time.getDuration();
-            boolean active = (this.type.equals(PunishType.WARN) || this.type.equals(PunishType.KICK));
+            boolean active = (!this.type.equals(PunishType.WARN) && !this.type.equals(PunishType.KICK));
 
             if (time.permanent) {
                 now = 0;

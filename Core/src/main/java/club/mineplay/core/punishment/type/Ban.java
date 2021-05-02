@@ -45,10 +45,10 @@ public class Ban extends Punishment {
         String msg = "";
         if (this.punishTime.getUnit().equals(TimeUnit.PERMANENT)) msg = ChatColor.RED + "You are permanently banned! \n"
                 + ChatColor.WHITE + "Reason: " + ChatColor.GRAY + this.reason
-                + "\n\nAppeal at " + ChatColor.YELLOW.toString() + ChatColor.UNDERLINE + "mineplay.club/appeal";
+                + "\n\nAppeal at " + ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "mineplay.club/appeal";
         else msg = ChatColor.RED + "You are banned for " + this.punishTime.getTimeLeft() + " " + this.punishTime.getUnit().getFormatted() + "! \n"
                 + ChatColor.WHITE + "Reason: " + ChatColor.GRAY + this.reason
-                + "\n\nAppeal at " + ChatColor.YELLOW.toString() + ChatColor.UNDERLINE + "mineplay.club/appeal";
+                + "\n\nAppeal at " + ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "mineplay.club/appeal";
 
         return msg;
     }

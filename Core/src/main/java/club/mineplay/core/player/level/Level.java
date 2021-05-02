@@ -125,7 +125,7 @@ public class Level {
                 + ChatColor.AQUA
                 + ((int) getLevelFromXP(player.getXP(), false)) + MessageColor.COLOR_MAIN + "!"
                 +"\n\n" + ChatColor.GOLD
-                + "+20 coins\n" +
+                + "+20 coins" +
                 "\n" +
                 " ");
 

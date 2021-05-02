@@ -64,6 +64,7 @@ public class MPlayer {
             e.printStackTrace();
         }
 
+        update();
 
     }
 
@@ -74,6 +75,7 @@ public class MPlayer {
         this.rank = player.rank;
         this.xp = player.xp;
         this.coins = player.coins;
+        update();
     }
 
     public void update() {
@@ -166,7 +168,7 @@ public class MPlayer {
     }
 
     public static void registerMPlayer(Player player) {
-        if (playerMap.containsKey(player)) return;
+        if (playerMap.containsKey(player.getName())) return;
         playerMap.put(player.getName(), new MPlayer(player));
     }
 

@@ -33,6 +33,7 @@ public class Level {
                 st.executeUpdate();
             } finally {
                 sql.closeConnection(st);
+                player.update();
             }
 
             if (getLevelFromXP(currentXP, false) < getLevelFromXP(newXP, false)) {
@@ -42,7 +43,6 @@ public class Level {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        player.update();
     }
 
     public static void resetXP(MPlayer player) {
@@ -55,12 +55,12 @@ public class Level {
                 st.executeUpdate();
             } finally {
                 sql.closeConnection(st);
+                player.update();
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        player.update();
     }
 
     public static void removeXP(MPlayer player, int xp) {
@@ -77,13 +77,13 @@ public class Level {
                 st.executeUpdate();
             } finally {
                 sql.closeConnection(st);
+                player.update();
             }
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        player.update();
     }
 
     public static void setXP(MPlayer player, int xp) {
@@ -98,12 +98,12 @@ public class Level {
                 st.executeUpdate();
             } finally {
                 sql.closeConnection(st);
+                player.update();
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        player.update();
 
     }
 
@@ -125,7 +125,9 @@ public class Level {
                 + ChatColor.AQUA
                 + ((int) getLevelFromXP(player.getXP(), false)) + MessageColor.COLOR_MAIN + "!"
                 +"\n\n" + ChatColor.GOLD
-                + "+20 coins\n\n");
+                + "+20 coins\n" +
+                "\n" +
+                " ");
 
         if (!player.isOffline()) {
             player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);

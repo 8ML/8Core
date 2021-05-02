@@ -244,7 +244,7 @@ public class PunishUI implements Listener {
 
             if (ChatColor.stripColor(Objects.requireNonNull(Objects.requireNonNull(Objects
                     .requireNonNull(i).getItemMeta())
-                    .getLore()).get(3)).equals(this.session)) {
+                    .getLore()).get(2)).equals(this.session)) {
 
                 e.setCancelled(true);
 
@@ -418,7 +418,7 @@ public class PunishUI implements Listener {
                 if (e.getCurrentItem() != null) {
                     if (!e.getCurrentItem().getEnchantments().isEmpty()) {
 
-                        int id = Integer.parseInt(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()));
+                        int id = Integer.parseInt(ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()));
 
                         Punishment.removePunishment(id);
 

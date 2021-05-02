@@ -34,6 +34,8 @@ public class ChatEvent implements Listener {
 
         }
 
+        e.setMessage(e.getMessage().replaceAll("%", "%%"));
+
         e.setFormat(ChatColor.GRAY + "[" + ((int) Level.getLevelFromXP(player.getXP(), false)) + "] "
                 + player.getRankEnum().getRank().getFullPrefixWithSpace()
                 + player.getRankEnum().getRank().getNameColor() + player.getPlayer().getName()

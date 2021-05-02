@@ -20,13 +20,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("deprecation")
 public class MPlayer {
 
     private static final Map<String, MPlayer> playerMap = new HashMap<>();
 
-    private String player;
+    private final String player;
+    private final boolean isOffline;
+
+    private Ranks rank;
+    private int coins;
+    private int xp;
+
     private String UUID;
-    private boolean isOffline;
 
     private final SQL sql = Main.instance.sql;
 
@@ -36,31 +42,7 @@ public class MPlayer {
         this.UUID = player.getUniqueId().toString();
         this.isOffline = false;
 
-        try {
-
-            PreparedStatement checkStmt = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
-            checkStmt.setString(1, this.getUUID());
-            ResultSet rs = checkStmt.executeQuery();
-            if (!rs.next()) {
-                PreparedStatement createUser = sql.preparedStatement("INSERT INTO users (`uuid`, `playerName`, `rank`, `xp`, `coins`) VALUES (?,?,?,?,?)");
-                createUser.setString(1, this.getUUID());
-                createUser.setString(2, player.getName());
-                createUser.setString(3, Ranks.DEFAULT.toString());
-                createUser.setInt(4, 0);
-                createUser.setInt(5, 0);
-                try {
-                    createUser.execute();
-                } finally {
-                    sql.closeConnection(createUser);
-                    Coin.addCoins(this, 50, false);
-                }
-            }
-
-            sql.closeConnection(checkStmt);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        update();
     }
 
     public MPlayer(String player) {
@@ -81,78 +63,61 @@ public class MPlayer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
     }
 
     public MPlayer(MPlayer player) {
         this.UUID = player.getUUID();
         this.player = player.player;
         this.isOffline = player.isOffline;
+        this.rank = player.rank;
+        this.xp = player.xp;
+        this.coins = player.coins;
+    }
+
+    public void update() {
+        try {
+
+            PreparedStatement checkStmt = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
+            checkStmt.setString(1, this.getUUID());
+            ResultSet rs = checkStmt.executeQuery();
+            if (!rs.next()) {
+                PreparedStatement createUser = sql.preparedStatement("INSERT INTO users (`uuid`, `playerName`, `rank`, `xp`, `coins`) VALUES (?,?,?,?,?)");
+                createUser.setString(1, this.getUUID());
+                createUser.setString(2, player);
+                createUser.setString(3, Ranks.DEFAULT.toString());
+                createUser.setInt(4, 0);
+                createUser.setInt(5, 0);
+                try {
+                    createUser.execute();
+                } finally {
+                    sql.closeConnection(createUser);
+                    Coin.addCoins(this, 50, false);
+                }
+            } else {
+                this.rank = Ranks.valueOf(rs.getString("rank"));
+                this.xp = rs.getInt("xp");
+                this.coins = rs.getInt("coins");
+            }
+
+            sql.closeConnection(checkStmt);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Ranks getRankEnum() {
-        try {
-
-            PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
-            st.setString(1, this.UUID);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                Ranks rank = Ranks.valueOf(rs.getString("rank"));
-                sql.closeConnection(st);
-                return rank;
-            }
-
-            sql.closeConnection(st);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return Ranks.DEFAULT;
+        return this.rank;
     }
 
     public int getXP() {
-        try {
-
-            PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
-            st.setString(1, this.UUID);
-            ResultSet rs = st.executeQuery();
-            if (rs.next())  {
-
-                int xp = rs.getInt("xp");
-                sql.closeConnection(st);
-                return xp;
-
-            }
-
-            sql.closeConnection(st);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
+        return this.xp;
     }
 
     public int getCoins() {
-        try {
-
-            PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
-            st.setString(1, this.UUID);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-
-                int coins = rs.getInt("coins");
-                sql.closeConnection(st);
-                return coins;
-
-            }
-
-            sql.closeConnection(st);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
+        return this.coins;
     }
 
     public void setRank(Ranks ranks) {
@@ -171,6 +136,7 @@ public class MPlayer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        update();
     }
 
     public Player getPlayer() {

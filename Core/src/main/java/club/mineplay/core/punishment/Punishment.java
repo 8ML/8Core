@@ -138,6 +138,7 @@ public abstract class Punishment {
 
             long now = System.currentTimeMillis();
             long end = now + time.getDuration();
+            boolean active = (this.type.equals(PunishType.WARN) || this.type.equals(PunishType.KICK));
 
             if (time.permanent) {
                 now = 0;
@@ -171,7 +172,7 @@ public abstract class Punishment {
             st.setLong(6, time.getDuration());
             st.setString(7, reason);
             st.setString(8, this.type.toString());
-            st.setBoolean(9, true);
+            st.setBoolean(9, active);
             st.setString(10, UUID.randomUUID().toString());
 
             try {

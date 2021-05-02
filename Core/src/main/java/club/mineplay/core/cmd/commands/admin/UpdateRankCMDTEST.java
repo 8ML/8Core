@@ -4,14 +4,10 @@ Created by Sander on 4/25/2021
 */
 
 import club.mineplay.core.cmd.CMD;
-import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.config.Messages;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 public class UpdateRankCMDTEST extends CMD {
 
@@ -25,7 +21,7 @@ public class UpdateRankCMDTEST extends CMD {
      */
 
     public UpdateRankCMDTEST() {
-        super("ranktest", new String[0], "", "/rank <player> <rank>", Ranks.DEFAULT);
+        super("ranktest", new String[0], "", "/ranktest <player> <rank>", Ranks.DEFAULT);
     }
 
     @Override
@@ -37,6 +33,7 @@ public class UpdateRankCMDTEST extends CMD {
 
                 Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
                 player.setRank(rank);
+                player.update();
 
                 Messages.sendSuccessMessage(paramPlayer);
 

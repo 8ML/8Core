@@ -22,7 +22,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,7 +38,7 @@ public class PunishUI implements Listener {
     private Punishment.PunishType type;
     private Punishment.PunishTime time;
 
-    private String session;
+    private final String session;
 
     public PunishUI(MPlayer target, MPlayer executor, String reason) {
 
@@ -486,7 +485,7 @@ public class PunishUI implements Listener {
         assert bansMeta != null;
         bansMeta.setDisplayName(MessageColor.COLOR_MAIN + "Bans");
         List<String> bansLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + ChatColor.GRAY + " bans");
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " bans");
         bansMeta.setLore(bansLore);
         bans.setItemMeta(bansMeta);
         
@@ -495,7 +494,7 @@ public class PunishUI implements Listener {
         assert mutesMeta != null;
         mutesMeta.setDisplayName(MessageColor.COLOR_MAIN + "Mutes");
         List<String> mutesLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + ChatColor.GRAY + " mutes");
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " mutes");
         mutesMeta.setLore(mutesLore);
         mutes.setItemMeta(mutesMeta);
 
@@ -504,7 +503,7 @@ public class PunishUI implements Listener {
         assert warnsMeta != null;
         warnsMeta.setDisplayName(MessageColor.COLOR_MAIN + "Warns");
         List<String> warnsLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr()  + "'s" + ChatColor.GRAY + " warns");
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr()  + "'s" + MessageColor.COLOR_MAIN + " warns");
         warnsMeta.setLore(warnsLore);
         warns.setItemMeta(warnsMeta);
 
@@ -513,7 +512,7 @@ public class PunishUI implements Listener {
         assert kicksMeta != null;
         kicksMeta.setDisplayName(MessageColor.COLOR_MAIN + "Kicks");
         List<String> kicksLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + ChatColor.GRAY + " kicks");
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " kicks");
         kicksMeta.setLore(kicksLore);
         kicks.setItemMeta(kicksMeta);
 
@@ -536,10 +535,12 @@ public class PunishUI implements Listener {
 
     }
 
-    public void openHistory(String menu) {
+    private void openHistory(String menu) {
 
         Inventory inv = null;
-        
+
+        int slot = 10;
+        int activeSlot = 10;
 
         switch (menu) {
             case "BANS":
@@ -579,9 +580,6 @@ public class PunishUI implements Listener {
                 inv.setItem(44, frame);
 
                 List<PunishInfo> punishInfoList = Punishment.getPunishments(this.target, Punishment.PunishType.BAN);
-                
-                int slot = 10;
-                int activeSlot = 10;
 
                 for (PunishInfo i : punishInfoList) {
 
@@ -589,7 +587,7 @@ public class PunishUI implements Listener {
                     ItemMeta hM = h.getItemMeta();
                     assert hM != null;
 
-                    String time = "";
+                    String time;
                     if (i.getOriginalTime().getUnit().equals(Punishment.TimeUnit.PERMANENT)) time = "Permanent";
                     else time = i.getOriginalTime().getTimeLeft()
                             + " " + i.getOriginalTime().getUnit().getFormatted();
@@ -652,16 +650,13 @@ public class PunishUI implements Listener {
 
                 List<PunishInfo> punishInfoList2 = Punishment.getPunishments(this.target, Punishment.PunishType.MUTE);
 
-                int slot2 = 10;
-                int activeSlot2 = 10;
-
                 for (PunishInfo i : punishInfoList2) {
 
                     ItemStack h = new ItemStack(Material.PAPER);
                     ItemMeta hM = h.getItemMeta();
                     assert hM != null;
 
-                    String time = "";
+                    String time;
                     if (i.getOriginalTime().getUnit().equals(Punishment.TimeUnit.PERMANENT)) time = "Permanent";
                     else time = i.getOriginalTime().getTimeLeft()
                             + " " + i.getOriginalTime().getUnit().getFormatted();
@@ -673,16 +668,16 @@ public class PunishUI implements Listener {
                             ChatColor.WHITE + "Reason: " + ChatColor.YELLOW + i.getReason(),
                             ChatColor.WHITE + "Active: " + ChatColor.YELLOW + i.isActive());
 
-                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot2++; }
+                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot++; }
 
                     hM.setDisplayName(ChatColor.YELLOW + String.valueOf(i.getID()));
                     hM.setLore(hL);
 
                     h.setItemMeta(hM);
-                    inv.setItem(slot2, h);
+                    inv.setItem(slot, h);
 
-                    slot2++;
-                    if (slot2 > 16) slot2 = activeSlot2;
+                    slot++;
+                    if (slot > 16) slot = activeSlot;
                 }
                 break;
             case "WARNS":
@@ -725,9 +720,6 @@ public class PunishUI implements Listener {
 
                 List<PunishInfo> punishInfoList3 = Punishment.getPunishments(this.target, Punishment.PunishType.WARN);
 
-                int slot3 = 10;
-                int activeSlot3 = 10;
-
                 for (PunishInfo i : punishInfoList3) {
 
                     ItemStack h = new ItemStack(Material.PAPER);
@@ -738,16 +730,16 @@ public class PunishUI implements Listener {
                             ChatColor.WHITE + "Staff: " + ChatColor.YELLOW + i.getExecutor().getPlayerStr(),
                             ChatColor.WHITE + "Reason: " + ChatColor.YELLOW + i.getReason());
 
-                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot3++; }
+                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot++; }
 
                     hM.setDisplayName(ChatColor.YELLOW + String.valueOf(i.getID()));
                     hM.setLore(hL);
 
                     h.setItemMeta(hM);
-                    inv.setItem(slot3, h);
+                    inv.setItem(slot, h);
 
-                    slot3++;
-                    if (slot3 > 16) slot3 = activeSlot3;
+                    slot++;
+                    if (slot > 16) slot = activeSlot;
                 }
                 break;
             case "KICKS":
@@ -789,9 +781,6 @@ public class PunishUI implements Listener {
 
                 List<PunishInfo> punishInfoList4 = Punishment.getPunishments(this.target, Punishment.PunishType.KICK);
 
-                int slot4 = 10;
-                int activeSlot4 = 10;
-
                 for (PunishInfo i : punishInfoList4) {
 
                     ItemStack h = new ItemStack(Material.PAPER);
@@ -801,16 +790,16 @@ public class PunishUI implements Listener {
                             ChatColor.WHITE + "Staff: " + ChatColor.YELLOW + i.getExecutor().getPlayerStr(),
                             ChatColor.WHITE + "Reason: " + ChatColor.YELLOW + i.getReason());
 
-                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot4++; }
+                    if (i.isActive()) { hM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot++; }
 
                     hM.setDisplayName(ChatColor.YELLOW + String.valueOf(i.getID()));
                     hM.setLore(hL);
 
                     h.setItemMeta(hM);
-                    inv.setItem(slot4, h);
+                    inv.setItem(slot, h);
 
-                    slot4++;
-                    if (slot4 > 16) slot4 = activeSlot4;
+                    slot++;
+                    if (slot > 16) slot = activeSlot;
                 }
                 break;
         }
@@ -819,7 +808,7 @@ public class PunishUI implements Listener {
 
     }
 
-    public void sendStaffMessage() {
+    private void sendStaffMessage() {
 
         String t = "";
         boolean ti = false;

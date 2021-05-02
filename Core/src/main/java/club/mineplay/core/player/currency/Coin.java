@@ -43,6 +43,7 @@ public class Coin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        player.update();
 
     }
 
@@ -65,6 +66,7 @@ public class Coin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        player.update();
     }
 
     public static void setCoins(MPlayer player, int coins) {
@@ -83,6 +85,7 @@ public class Coin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        player.update();
     }
 
     public static void resetCoins(MPlayer player) {
@@ -101,6 +104,7 @@ public class Coin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        player.update();
     }
 
 }

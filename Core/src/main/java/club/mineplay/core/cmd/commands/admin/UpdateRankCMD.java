@@ -28,6 +28,7 @@ public class UpdateRankCMD extends CMD {
 
                 Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
                 player.setRank(rank);
+                player.update();
 
                 Messages.sendSuccessMessage(paramPlayer);
 

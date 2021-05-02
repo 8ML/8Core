@@ -97,8 +97,7 @@ public class PunishUI implements Listener {
         ItemMeta muteOneMeta = muteOne.getItemMeta();
         assert muteOneMeta != null;
         muteOneMeta.setDisplayName(MessageColor.COLOR_MAIN + "1 Day");
-        List<String> muteOneLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "1.0 Days",
-                "");
+        List<String> muteOneLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "1.0 Days");
         muteOneMeta.setLore(muteOneLore);
         muteOne.setItemMeta(muteOneMeta);
 
@@ -106,8 +105,7 @@ public class PunishUI implements Listener {
         ItemMeta muteTwoMeta = muteTwo.getItemMeta();
         assert muteTwoMeta != null;
         muteTwoMeta.setDisplayName(MessageColor.COLOR_MAIN + "7 Days");
-        List<String> muteTwoLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "7.0 Days",
-                "");
+        List<String> muteTwoLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "7.0 Days");
         muteTwoMeta.setLore(muteTwoLore);
         muteTwo.setItemMeta(muteTwoMeta);
 
@@ -115,8 +113,7 @@ public class PunishUI implements Listener {
         ItemMeta muteThreeMeta = muteThree.getItemMeta();
         assert muteThreeMeta != null;
         muteThreeMeta.setDisplayName(MessageColor.COLOR_MAIN + "30 Days");
-        List<String> muteThreeLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "30.0 Days",
-                "");
+        List<String> muteThreeLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "30.0 Days");
         muteThreeMeta.setLore(muteThreeLore);
         muteThree.setItemMeta(muteThreeMeta);
 
@@ -124,8 +121,7 @@ public class PunishUI implements Listener {
         ItemMeta muteFourMeta = muteFour.getItemMeta();
         assert muteFourMeta != null;
         muteFourMeta.setDisplayName(MessageColor.COLOR_MAIN + "60 Days");
-        List<String> muteFourLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "60.0 Days",
-                "");
+        List<String> muteFourLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "60.0 Days");
         muteFourMeta.setLore(muteFourLore);
         muteFour.setItemMeta(muteFourMeta);
 
@@ -133,8 +129,7 @@ public class PunishUI implements Listener {
         ItemMeta mutePermMeta = mutePerm.getItemMeta();
         assert mutePermMeta != null;
         mutePermMeta.setDisplayName(ChatColor.RED + "Permanent");
-        List<String> mutePermLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to mute " + ChatColor.YELLOW + "Permanently",
-                "");
+        List<String> mutePermLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to mute " + ChatColor.YELLOW + "Permanently");
         mutePermMeta.setLore(mutePermLore);
         mutePerm.setItemMeta(mutePermMeta);
         
@@ -144,8 +139,7 @@ public class PunishUI implements Listener {
         ItemMeta banOneMeta = banOne.getItemMeta();
         assert banOneMeta != null;
         banOneMeta.setDisplayName(MessageColor.COLOR_MAIN + "7 Days");
-        List<String> banOneLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "7.0 Days",
-                "");
+        List<String> banOneLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "7.0 Days");
         banOneMeta.setLore(banOneLore);
         banOne.setItemMeta(banOneMeta);
 
@@ -153,8 +147,7 @@ public class PunishUI implements Listener {
         ItemMeta banTwoMeta = banTwo.getItemMeta();
         assert banTwoMeta != null;
         banTwoMeta.setDisplayName(MessageColor.COLOR_MAIN + "30 Days");
-        List<String> banTwoLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "30.0 Days",
-                "");
+        List<String> banTwoLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "30.0 Days");
         banTwoMeta.setLore(banTwoLore);
         banTwo.setItemMeta(banTwoMeta);
 
@@ -162,8 +155,7 @@ public class PunishUI implements Listener {
         ItemMeta banThreeMeta = banThree.getItemMeta();
         assert banThreeMeta != null;
         banThreeMeta.setDisplayName(MessageColor.COLOR_MAIN + "60 Days");
-        List<String> banThreeLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "60.0 Days",
-                "");
+        List<String> banThreeLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "60.0 Days");
         banThreeMeta.setLore(banThreeLore);
         banThree.setItemMeta(banThreeMeta);
 
@@ -171,8 +163,7 @@ public class PunishUI implements Listener {
         ItemMeta banFourMeta = banFour.getItemMeta();
         assert banFourMeta != null;
         banFourMeta.setDisplayName(MessageColor.COLOR_MAIN + "90 Days");
-        List<String> banFourLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "90.0 Days",
-                "");
+        List<String> banFourLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "90.0 Days");
         banFourMeta.setLore(banFourLore);
         banFour.setItemMeta(banFourMeta);
 
@@ -180,8 +171,7 @@ public class PunishUI implements Listener {
         ItemMeta banPermMeta = banPerm.getItemMeta();
         assert banPermMeta != null;
         banPermMeta.setDisplayName(ChatColor.RED + "Permanent");
-        List<String> banPermLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to ban " + ChatColor.YELLOW + "Permanently",
-                "");
+        List<String> banPermLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to ban " + ChatColor.YELLOW + "Permanently");
         banPermMeta.setLore(banPermLore);
         banPerm.setItemMeta(banPermMeta);
         
@@ -191,7 +181,7 @@ public class PunishUI implements Listener {
         ItemMeta warnMeta = warn.getItemMeta();
         assert warnMeta != null;
         warnMeta.setDisplayName(MessageColor.COLOR_MAIN + "Warn");
-        List<String> warnLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to warn", "");
+        List<String> warnLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to warn");
         warnMeta.setLore(warnLore);
         warn.setItemMeta(warnMeta);
 
@@ -199,7 +189,7 @@ public class PunishUI implements Listener {
         ItemMeta kickMeta = kick.getItemMeta();
         assert kickMeta != null;
         kickMeta.setDisplayName(MessageColor.COLOR_MAIN + "Kick");
-        List<String> kickLore = Arrays.asList(MessageColor.COLOR_MAIN + "Click to kick", "");
+        List<String> kickLore = Arrays.asList("", MessageColor.COLOR_MAIN + "Click to kick");
         kickMeta.setLore(kickLore);
         kick.setItemMeta(kickMeta);
 
@@ -209,7 +199,7 @@ public class PunishUI implements Listener {
         ItemMeta muteCatMeta = muteCat.getItemMeta();
         assert muteCatMeta != null;
         muteCatMeta.setDisplayName(ChatColor.GREEN + "Mute");
-        List<String> muteCatLore = Arrays.asList(MessageColor.COLOR_MAIN + "List of all the mutes", "");
+        List<String> muteCatLore = Arrays.asList("", MessageColor.COLOR_MAIN + "List of all the mutes");
         muteCatMeta.setLore(muteCatLore);
         muteCat.setItemMeta(muteCatMeta);
 
@@ -217,7 +207,7 @@ public class PunishUI implements Listener {
         ItemMeta banCatMeta = banCat.getItemMeta();
         assert banCatMeta != null;
         banCatMeta.setDisplayName(ChatColor.GREEN + "Ban");
-        List<String> banCatLore = Arrays.asList(MessageColor.COLOR_MAIN + "List of all the bans", "");
+        List<String> banCatLore = Arrays.asList("", MessageColor.COLOR_MAIN + "List of all the bans");
         banCatMeta.setLore(banCatLore);
         banCat.setItemMeta(banCatMeta);
 
@@ -496,8 +486,7 @@ public class PunishUI implements Listener {
         assert bansMeta != null;
         bansMeta.setDisplayName(MessageColor.COLOR_MAIN + "Bans");
         List<String> bansLore = Arrays.asList("",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " bans",
-                "");
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " bans");
         bansMeta.setLore(bansLore);
         bans.setItemMeta(bansMeta);
         
@@ -506,8 +495,7 @@ public class PunishUI implements Listener {
         assert mutesMeta != null;
         mutesMeta.setDisplayName(MessageColor.COLOR_MAIN + "Mutes");
         List<String> mutesLore = Arrays.asList(
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " mutes",
-                "");
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " mutes");
         mutesMeta.setLore(mutesLore);
         mutes.setItemMeta(mutesMeta);
 
@@ -516,8 +504,7 @@ public class PunishUI implements Listener {
         assert warnsMeta != null;
         warnsMeta.setDisplayName(MessageColor.COLOR_MAIN + "Warns");
         List<String> warnsLore = Arrays.asList(
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " warns",
-                "");
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + ChatColor.GRAY + "'s" + ChatColor.GRAY + " warns");
         warnsMeta.setLore(warnsLore);
         warns.setItemMeta(warnsMeta);
 
@@ -526,8 +513,7 @@ public class PunishUI implements Listener {
         assert kicksMeta != null;
         kicksMeta.setDisplayName(MessageColor.COLOR_MAIN + "Kicks");
         List<String> kicksLore = Arrays.asList(
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + ChatColor.GRAY + " kicks",
-                "");
+                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + ChatColor.GRAY + " kicks");
         kicksMeta.setLore(kicksLore);
         kicks.setItemMeta(kicksMeta);
 
@@ -535,9 +521,8 @@ public class PunishUI implements Listener {
         ItemMeta exitMeta = exit.getItemMeta();
         assert exitMeta != null;
         exitMeta.setDisplayName(ChatColor.RED + "Go Back");
-        List<String> exitLore = Arrays.asList(
-                MessageColor.COLOR_MAIN + "Return to main menu",
-                "");
+        List<String> exitLore = Arrays.asList("",
+                MessageColor.COLOR_MAIN + "Return to main menu");
         exitMeta.setLore(exitLore);
         exit.setItemMeta(exitMeta);
         

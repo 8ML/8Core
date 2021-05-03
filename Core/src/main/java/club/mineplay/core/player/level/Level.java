@@ -107,6 +107,30 @@ public class Level {
 
     }
 
+    public static void addLevel(MPlayer player, double level) {
+
+        double tLevel = getLevelFromXP(player.getXP(), true) + level;
+        int tXP = getXPFromLevel(tLevel);
+        resetXP(player);
+        addXP(player, tXP);
+
+    }
+
+    public static void removeLevel(MPlayer player, double level) {
+
+        double tLevel = getLevelFromXP(player.getXP(), true) - level;
+        int tXP = getXPFromLevel(tLevel);
+        resetXP(player);
+        setXP(player, tXP);
+
+    }
+
+    public static void setLevel(MPlayer player, double level) {
+
+        setXP(player, getXPFromLevel(level));
+
+    }
+
     public static double getLevelFromXP(int xp, boolean w) {
         if (!w) return (int) Math.floor(Math.sqrt(xp) / multiplier);
         else return Math.sqrt(xp) / multiplier;

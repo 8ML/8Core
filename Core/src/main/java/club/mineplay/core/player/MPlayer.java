@@ -15,10 +15,9 @@ import club.mineplay.core.storage.SQL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class MPlayer {
@@ -31,6 +30,7 @@ public class MPlayer {
     private Ranks rank;
     private int coins;
     private int xp;
+    private long firstJoin;
 
     private String UUID;
 
@@ -85,22 +85,24 @@ public class MPlayer {
             checkStmt.setString(1, this.getUUID());
             ResultSet rs = checkStmt.executeQuery();
             if (!rs.next()) {
-                PreparedStatement createUser = sql.preparedStatement("INSERT INTO users (`uuid`, `playerName`, `rank`, `xp`, `coins`) VALUES (?,?,?,?,?)");
+                PreparedStatement createUser = sql.preparedStatement("INSERT INTO users" +
+                        " (`uuid`, `playerName`, `rank`, `xp`, `coins`, `firstJoin`) VALUES (?,?,?,?,?,?)");
                 createUser.setString(1, this.getUUID());
                 createUser.setString(2, player);
                 createUser.setString(3, Ranks.DEFAULT.toString());
                 createUser.setInt(4, 0);
                 createUser.setInt(5, 0);
+                createUser.setLong(6, System.currentTimeMillis());
                 try {
                     createUser.execute();
                 } finally {
                     sql.closeConnection(createUser);
-                    Coin.addCoins(this, 50, false);
                 }
             } else {
                 this.rank = Ranks.valueOf(rs.getString("rank"));
                 this.xp = rs.getInt("xp");
                 this.coins = rs.getInt("coins");
+                this.firstJoin = rs.getLong("firstJoin");
             }
 
             sql.closeConnection(checkStmt);
@@ -160,6 +162,12 @@ public class MPlayer {
 
     public String getUUID() {
         return this.UUID;
+    }
+
+    public String firstJoin() {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date(this.firstJoin);
+        return format.format(date);
     }
 
     public boolean isPermissible(Ranks rankEnum) {

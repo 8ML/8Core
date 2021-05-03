@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class LevelCMD extends CMD {
 
     public LevelCMD() {
-        super("level", new String[]{"xp"}, "", "/level <player> (add,remove,set,reset) [amount]", Ranks.ADMIN);
+        super("level", new String[0], "", "/level <player> (add,remove,set,reset) [amount]", Ranks.ADMIN);
     }
 
     @Override
@@ -27,15 +27,15 @@ public class LevelCMD extends CMD {
 
                 switch (paramArrayOfString[1].toUpperCase()) {
                     case "ADD":
-                        Level.addXP(player, Integer.parseInt(paramArrayOfString[2]));
+                        Level.addLevel(player, Double.parseDouble(paramArrayOfString[2]));
                         Messages.sendSuccessMessage(paramPlayer);
                         break;
                     case "REMOVE":
-                        Level.removeXP(player, Integer.parseInt(paramArrayOfString[2]));
+                        Level.removeLevel(player, Double.parseDouble(paramArrayOfString[2]));
                         Messages.sendSuccessMessage(paramPlayer);
                         break;
                     case "SET":
-                        Level.setXP(player, Integer.parseInt(paramArrayOfString[2]));
+                        Level.setLevel(player, Double.parseDouble(paramArrayOfString[2]));
                         Messages.sendSuccessMessage(paramPlayer);
                         break;
                 }

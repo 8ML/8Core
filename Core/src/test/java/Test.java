@@ -3,14 +3,16 @@ Created by Sander on 4/27/2021
 */
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Test {
 
     public static void main(String[] args) {
 
-        PunishTime one = new PunishTime(PunishTime.TimeUnit.DAYS, 100000L);
-        PunishTime two = new PunishTime(one.getDuration());
-        System.out.println(two.getTimeLeft() + " " + two.getUnit());
+        double d = Math.sqrt(323) / 14;
+        double dd = Math.floor(d);
+        int i = (int) dd;
+        System.out.println(i + 1);
 
     }
 

@@ -6,6 +6,7 @@ Created by Sander on 4/24/2021
 import club.mineplay.core.Main;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.player.MPlayer;
+import club.mineplay.core.player.currency.Coin;
 import club.mineplay.core.punishment.PunishInfo;
 import club.mineplay.core.punishment.Punishment;
 import club.mineplay.core.punishment.type.Ban;
@@ -35,6 +36,8 @@ public class JoinEvent implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
 
+        boolean addCoins = false;
+
         if (!MPlayer.exists(e.getPlayer().getName())) {
             BookUtil.displayHelpBook(e.getPlayer());
 
@@ -46,9 +49,14 @@ public class JoinEvent implements Listener {
                     "&d&ndiscord.io/mineplayclub" +
                     "\n\n" +
                     "&7You received &e+50 coins &7for joining the first time!"));
+
+            addCoins = true;
         }
 
         MPlayer.registerMPlayer(e.getPlayer());
+
+        if (addCoins) Coin.addCoins(MPlayer.getMPlayer(e.getPlayer().getName()), 50, false);
+
         e.setJoinMessage("");
 
 

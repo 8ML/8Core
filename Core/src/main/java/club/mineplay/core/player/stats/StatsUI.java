@@ -115,9 +115,9 @@ public class StatsUI implements Listener {
                         + ChatColor.GRAY + " [" + builder.toString() + ChatColor.GRAY + "] "
                         + ChatColor.DARK_AQUA + (iLevel + 1),
                 "",
-                ChatColor.WHITE + "XP required: " + ChatColor.LIGHT_PURPLE + this.player.getXP()
+                ChatColor.WHITE + "XP required: " + ChatColor.DARK_AQUA + this.player.getXP()
                         + ChatColor.GRAY + "/"
-                        + ChatColor.DARK_PURPLE + Level.getXPFromLevel(iLevel + 1));
+                        + ChatColor.DARK_AQUA + Level.getXPFromLevel(iLevel + 1));
 
         levelingMeta.setLore(levelingLore);
         leveling.setItemMeta(levelingMeta);

@@ -61,11 +61,11 @@ public class StatsUI implements Listener {
         assert profileMeta != null;
 
         profileMeta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(this.player.getUUID())));
-        profileMeta.setDisplayName(ChatColor.GREEN + "Profile");
+        profileMeta.setDisplayName(ChatColor.YELLOW + "Profile");
 
         String status;
         if (this.player.isOffline()) status = ChatColor.WHITE + "Status: " + ChatColor.RED + "Offline";
-        else status = ChatColor.WHITE + "Status: " + ChatColor.GREEN + " Online";
+        else status = ChatColor.WHITE + "Status: " + ChatColor.GREEN + "Online";
 
         String rank;
         if (this.player.getRankEnum().equals(Ranks.DEFAULT)) rank = ChatColor.GRAY + "Default";
@@ -87,7 +87,7 @@ public class StatsUI implements Listener {
         ItemMeta levelingMeta = leveling.getItemMeta();
         assert levelingMeta != null;
 
-        levelingMeta.setDisplayName(ChatColor.GREEN + "Leveling");
+        levelingMeta.setDisplayName(ChatColor.YELLOW + "Mineplay Leveling");
 
         //Level calculations
 

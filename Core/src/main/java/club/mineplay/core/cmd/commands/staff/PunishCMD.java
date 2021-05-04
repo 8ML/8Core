@@ -6,6 +6,7 @@ Created by Sander on 4/29/2021
 import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
+import club.mineplay.core.punishment.ui.OldPunishUI;
 import club.mineplay.core.punishment.ui.PunishUI;
 import org.bukkit.entity.Player;
 
@@ -29,7 +30,7 @@ public class PunishCMD extends CMD {
                 }
             }
 
-            new PunishUI(MPlayer.getMPlayer(paramArrayOfString[0]), MPlayer.getMPlayer(paramPlayer.getName()), reason.toString()).openUI();
+            new PunishUI(MPlayer.getMPlayer(paramArrayOfString[0]), MPlayer.getMPlayer(paramPlayer.getName()), reason.toString());
 
 
         } else {

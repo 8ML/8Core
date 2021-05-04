@@ -22,9 +22,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.awt.*;
-import java.math.BigDecimal;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class StatsUI implements Listener {
 

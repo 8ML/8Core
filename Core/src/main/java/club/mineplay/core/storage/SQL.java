@@ -69,24 +69,26 @@ public class SQL {
         return false;
     }
 
-    public boolean connect() {
+    private boolean connect() {
 
-        try {
+        synchronized (this) {
+            try {
 
-            if (this.getConnection() != null) {
-                if (!this.getConnection().isClosed()) return false;
+                if (this.getConnection() != null) {
+                    if (!this.getConnection().isClosed()) return false;
+                }
+
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+                setConnection(DriverManager.getConnection("jdbc:mysql://" + this.host + "/"+ this.db
+                        + "?" + "user=" + this.user + "&password=" + this.password));
+
+                statements.clear();
+                return true;
+
+            } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
             }
-
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-
-            setConnection(DriverManager.getConnection("jdbc:mysql://" + this.host + "/"+ this.db
-                    + "?" + "user=" + this.user + "&password=" + this.password));
-
-            statements.clear();
-            return true;
-
-        } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
         }
 
         return false;

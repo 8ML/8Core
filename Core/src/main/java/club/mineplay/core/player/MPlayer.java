@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class MPlayer {
@@ -48,7 +49,6 @@ public class MPlayer {
     public MPlayer(String player) {
 
         this.player = player;
-        this.isOffline = true;
 
         try {
 
@@ -65,6 +65,8 @@ public class MPlayer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        this.isOffline = !Bukkit.getOfflinePlayer(java.util.UUID.fromString(getUUID())).isOnline();
 
         update();
 
@@ -177,14 +179,18 @@ public class MPlayer {
         else { getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You are not allowed to do this!"); return false;}
     }
 
-    public static void registerMPlayer(Player player) {
-        if (playerMap.containsKey(player.getName())) return;
-        playerMap.put(player.getName(), new MPlayer(player));
+    public static void registerMPlayer(String player) {
+        if (playerMap.containsKey(player)) playerMap.remove(player, getMPlayer(player));
+        playerMap.put(player, new MPlayer(player));
     }
 
     public static MPlayer getMPlayer(String player) {
-        if (!playerMap.containsKey(player)) return new MPlayer(player);
-        else return new MPlayer(playerMap.get(player));
+        if (!playerMap.containsKey(player)) registerMPlayer(player);
+        return playerMap.get(player);
+    }
+
+    public static void removeMPlayer(MPlayer player) {
+        playerMap.remove(player.getPlayerStr(), player);
     }
 
     public static boolean exists(String player) {

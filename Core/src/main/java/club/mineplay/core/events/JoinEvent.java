@@ -55,7 +55,7 @@ public class JoinEvent implements Listener {
             addCoins = true;
         }
 
-        MPlayer.registerMPlayer(e.getPlayer());
+        MPlayer.registerMPlayer(e.getPlayer().getName());
 
         if (addCoins) Coin.addCoins(MPlayer.getMPlayer(e.getPlayer().getName()), 50, false);
 

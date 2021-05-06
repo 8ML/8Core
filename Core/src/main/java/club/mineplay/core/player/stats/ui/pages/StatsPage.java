@@ -74,7 +74,7 @@ public class StatsPage extends Page {
                 ChatColor.WHITE + "Coins: " + ChatColor.GOLD + this.t.getCoins(),
                 ChatColor.WHITE + "Level: " + ChatColor.of(new Color(68, 85, 90)) + ((int) Level.getLevelFromXP(this.t.getXP(), false)),
                 "",
-                ChatColor.WHITE + "First Login:",
+                ChatColor.WHITE + "First Login: " +
                 ChatColor.GRAY + this.t.firstJoin(),
                 "",
                 status});

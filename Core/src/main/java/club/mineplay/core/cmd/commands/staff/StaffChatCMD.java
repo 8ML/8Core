@@ -7,6 +7,7 @@ import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.utils.StaffMSG;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class StaffChatCMD extends CMD {
@@ -29,7 +30,7 @@ public class StaffChatCMD extends CMD {
             msg.append(" ").append(arg);
         }
 
-        StaffMSG.sendStaffMessage(msg.toString(), MPlayer.getMPlayer(paramPlayer.getName()));
+        StaffMSG.sendStaffMessage(ChatColor.GRAY + msg.toString(), MPlayer.getMPlayer(paramPlayer.getName()));
 
     }
 }

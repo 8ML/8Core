@@ -28,13 +28,13 @@ public class StaffMSG {
 
         messenger.sendPluginMessage(ChatColor.AQUA + "[STAFF] "
                 + pl.getRankEnum().getRank().getFullPrefixWithSpace()
-                + ChatColor.GRAY + pl.getPlayerStr() + " " + ChatColor.RESET + msg);
+                + ChatColor.WHITE + pl.getPlayerStr() + " " + ChatColor.RESET + msg);
         for (Player p : Bukkit.getOnlinePlayers()) {
             MPlayer staff = MPlayer.getMPlayer(p.getName());
             if (staff.isPermissible(Ranks.BUILD_TEAM)) {
                 p.sendMessage(ChatColor.AQUA + "[STAFF] "
                         + pl.getRankEnum().getRank().getFullPrefixWithSpace()
-                        + ChatColor.GRAY + pl.getPlayerStr() + " " + ChatColor.RESET + msg);
+                        + ChatColor.WHITE + pl.getPlayerStr() + " " + ChatColor.RESET + msg);
             }
         }
 

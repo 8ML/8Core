@@ -14,6 +14,7 @@ import club.mineplay.core.punishment.type.Warn;
 import club.mineplay.core.ui.component.components.Button;
 import club.mineplay.core.ui.component.components.Label;
 import club.mineplay.core.ui.page.Page;
+import club.mineplay.core.utils.StaffMSG;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -264,20 +265,13 @@ public class PunishPage extends Page {
 
         boolean np = (this.type.equals(Punishment.PunishType.KICK) || this.type.equals(Punishment.PunishType.WARN));
 
-        StringBuilder msg = new StringBuilder(ChatColor.RED + this.executor.getPlayerStr() + " " + t + " " + this.target.getPlayerStr());
+        StringBuilder msg = new StringBuilder(ChatColor.RED + t + " " + this.target.getPlayerStr());
         if (ti && !this.time.getUnit()
                 .equals(Punishment.TimeUnit.PERMANENT)) msg.append(" for ").append(this.time.getTimeLeft()).append(" ")
                 .append(this.time.getUnit().getFormatted());
         if (this.time.getUnit().equals(Punishment.TimeUnit.PERMANENT) && !np) msg.append(" permanently");
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
-
-            MPlayer pl = MPlayer.getMPlayer(p.getName());
-            if (pl.isPermissible(Ranks.STAFF)) {
-                p.sendMessage(msg.toString());
-            }
-
-        }
+        StaffMSG.sendStaffMessage(msg.toString(), executor);
 
     }
 }

@@ -5,6 +5,7 @@ Created by Sander on 4/24/2021
 
 import club.mineplay.core.Main;
 import club.mineplay.core.config.MessageColor;
+import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.currency.Coin;
 import club.mineplay.core.punishment.PunishInfo;
@@ -12,6 +13,7 @@ import club.mineplay.core.punishment.Punishment;
 import club.mineplay.core.punishment.type.Ban;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.utils.BookUtil;
+import club.mineplay.core.utils.StaffMSG;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -59,8 +61,13 @@ public class JoinEvent implements Listener {
 
         e.setJoinMessage("");
 
+        MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
+        if (player.isPermissible(Ranks.BUILD_TEAM)) {
+            StaffMSG.sendStaffMessage(ChatColor.YELLOW + "joined.", player);
+        }
 
     }
+
 
     @EventHandler
     public void onConnect(PlayerLoginEvent e) {

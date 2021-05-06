@@ -9,12 +9,14 @@ import club.mineplay.core.cmd.commands.StatsCMD;
 import club.mineplay.core.cmd.commands.admin.*;
 import club.mineplay.core.cmd.commands.staff.PunishCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMDTEST;
+import club.mineplay.core.cmd.commands.staff.StaffChatCMD;
 import club.mineplay.core.events.ChatEvent;
 import club.mineplay.core.events.CommandEvent;
 import club.mineplay.core.events.JoinEvent;
 import club.mineplay.core.events.LeaveEvent;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.storage.file.PluginFile;
+import club.mineplay.core.utils.PluginMessenger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -26,6 +28,8 @@ public class Main extends JavaPlugin {
     public PluginFile sqlYML;
     public PluginFile configYML;
     public PluginFile messagesYML;
+
+    public PluginMessenger pluginMessenger;
 
 
     private void initSql() {
@@ -62,6 +66,7 @@ public class Main extends JavaPlugin {
         CommandCenter.registerCommand(new CoinCMD(), this);
         CommandCenter.registerCommand(new PunishCMD(), this);
         CommandCenter.registerCommand(new StatsCMD(), this);
+        CommandCenter.registerCommand(new StaffChatCMD(), this);
 
 
         //REMEMBER TO DISABLE THESE WHEN DEVELOPMENT IS DONE.
@@ -78,6 +83,8 @@ public class Main extends JavaPlugin {
         initSql();
         registerEvents();
         registerCommands();
+
+        this.pluginMessenger = new PluginMessenger(this);
 
     }
 

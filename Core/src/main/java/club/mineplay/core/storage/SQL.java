@@ -3,12 +3,15 @@ package club.mineplay.core.storage;
 Created by Sander on 4/23/2021
 */
 
+import club.mineplay.core.Main;
+
 import javax.security.auth.login.LoginException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SQL {
@@ -114,10 +117,13 @@ public class SQL {
     }
 
     public void closeConnection(PreparedStatement call) throws SQLException {
+
         this.statements.remove(call);
         if (this.statements.isEmpty()) {
             this.getConnection().close();
         }
+
+        Main.instance.getLogger().info("DEBUG: " + statements.size() + " " + Arrays.toString(statements.toArray()));
 
     }
 

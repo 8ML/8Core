@@ -23,6 +23,8 @@ public class HistoryMutePage extends Page {
         super("Mutes | " + target.getPlayerStr(), 54, true);
 
         this.target = target;
+
+        setFrameLabel(" ");
     }
 
     @Override
@@ -55,6 +57,7 @@ public class HistoryMutePage extends Page {
             b.setOnClick(() -> {
                 if (i.isActive()) {
                     Punishment.removePunishment(i.getID());
+                    getParent().openPage(3);
                 }
             });
 

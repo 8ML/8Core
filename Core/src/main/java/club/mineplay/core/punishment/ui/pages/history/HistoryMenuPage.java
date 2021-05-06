@@ -18,6 +18,8 @@ public class HistoryMenuPage extends Page {
         super("History", 54, true);
 
         this.target = target;
+
+        setFrameLabel(" ");
     }
 
     @Override

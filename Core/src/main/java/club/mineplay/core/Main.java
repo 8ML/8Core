@@ -13,10 +13,9 @@ import club.mineplay.core.events.ChatEvent;
 import club.mineplay.core.events.CommandEvent;
 import club.mineplay.core.events.JoinEvent;
 import club.mineplay.core.events.LeaveEvent;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.storage.file.PluginFile;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 

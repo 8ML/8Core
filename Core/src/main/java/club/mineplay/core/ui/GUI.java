@@ -14,9 +14,11 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class GUI implements Listener {
 
@@ -30,8 +32,6 @@ public abstract class GUI implements Listener {
 
     public GUI(MPlayer player) {
 
-        Main.instance.getServer().getPluginManager().registerEvents(this, Main.instance);
-
         this.player = player;
         this.session = player.getUUID();
     }
@@ -44,13 +44,20 @@ public abstract class GUI implements Listener {
     }
 
     public void openPage(int index) {
-        if (currentPage != null) this.currentPage.getInventory().clear();
+        player.getPlayer().closeInventory();
+
+        Main.instance.getServer().getPluginManager().registerEvents(this, Main.instance);
+
         this.currentPage = pages.get(index);
         this.currentPage.open();
     }
 
     protected void initialize() {
         init();
+    }
+
+    public void unregisterHandlers() {
+        HandlerList.unregisterAll(this);
     }
 
 
@@ -89,16 +96,25 @@ public abstract class GUI implements Listener {
             for (Component component : currentPage.getComponents()) {
                 if (component.getSlot() == e.getSlot()) {
 
-                    if (component instanceof Button) ((Button) component).getEventRunnable().run();
-
-                    e.getWhoClicked().closeInventory();
-                    HandlerList.unregisterAll(this);
+                    if (component instanceof Button) {
+                        ((Button) component).getEventRunnable().run();
+                        return;
+                    }
 
                 }
             }
 
         }
 
+    }
+
+    @EventHandler
+    public void onInvClose(InventoryCloseEvent e) {
+        if (e.getPlayer().getUniqueId().toString().equalsIgnoreCase(this.session)) {
+
+            HandlerList.unregisterAll(this);
+
+        }
     }
 
 }

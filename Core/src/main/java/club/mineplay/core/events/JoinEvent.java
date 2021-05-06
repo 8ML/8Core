@@ -93,6 +93,7 @@ public class JoinEvent implements Listener {
                 del.execute();
 
                 sql.closeConnection(st);
+                sql.closeConnection(del);
                 return true;
             }
 

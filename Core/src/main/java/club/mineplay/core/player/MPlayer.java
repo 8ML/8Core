@@ -60,6 +60,8 @@ public class MPlayer {
                 this.sql.closeConnection(checkStmt);
             }
 
+            this.sql.closeConnection(checkStmt);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -197,6 +199,7 @@ public class MPlayer {
                 sql.closeConnection(st);
                 return true;
             }
+            sql.closeConnection(st);
 
         } catch (SQLException e) {
             e.printStackTrace();

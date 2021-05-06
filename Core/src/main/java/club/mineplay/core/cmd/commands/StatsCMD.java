@@ -7,7 +7,7 @@ import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.Messages;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
-import club.mineplay.core.player.stats.StatsUI;
+import club.mineplay.core.player.stats.ui.StatsUI;
 import org.bukkit.entity.Player;
 
 public class StatsCMD extends CMD {
@@ -31,7 +31,7 @@ public class StatsCMD extends CMD {
             pl = MPlayer.getMPlayer(paramPlayer.getName());
 
         }
-        new StatsUI(pl, paramPlayer).open();
+        new StatsUI(MPlayer.getMPlayer(paramPlayer.getName()), pl);
 
     }
 }

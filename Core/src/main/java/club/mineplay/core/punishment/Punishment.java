@@ -158,8 +158,10 @@ public abstract class Punishment {
                 update.setString(3, this.type.toString());
 
                 update.executeUpdate();
+                sql.closeConnection(update);
 
             }
+            sql.closeConnection(check);
 
             PreparedStatement st = sql.preparedStatement("INSERT INTO punishments (`uuid`, `playerName`, `executor`, `when`, `end`, `duration`, `reason`, `type`, `active`, `uid`) " +
                     "VALUES (?,?,?,?,?,?,?,?,?,?)");
@@ -221,6 +223,8 @@ public abstract class Punishment {
                 return pInfo;
 
             }
+
+            sql.closeConnection(st);
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -39,6 +39,9 @@ public class PunishPage extends Page {
         this.target = target;
         this.executor = executor;
         this.reason = reason;
+
+        setFrameLabel(ChatColor.WHITE + "Reason: " + ChatColor.GRAY + reason);
+        setFrameLore(new String[]{"", ChatColor.GREEN + "Click to view history"});
     }
 
     @Override
@@ -54,6 +57,9 @@ public class PunishPage extends Page {
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button muteTwo = new Button(MessageColor.COLOR_MAIN + "7 Days", Material.YELLOW_DYE, getParent());
@@ -64,6 +70,9 @@ public class PunishPage extends Page {
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button muteThree = new Button(MessageColor.COLOR_MAIN + "30 Days", Material.ORANGE_DYE, getParent());
@@ -74,6 +83,9 @@ public class PunishPage extends Page {
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button muteFour = new Button(MessageColor.COLOR_MAIN + "60 Days", Material.RED_DYE, getParent());
@@ -84,6 +96,9 @@ public class PunishPage extends Page {
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button mutePerm = new Button(ChatColor.RED + "Permanent", Material.REDSTONE, getParent());
@@ -94,6 +109,9 @@ public class PunishPage extends Page {
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         //BAN
@@ -106,6 +124,9 @@ public class PunishPage extends Page {
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button banTwo = new Button(MessageColor.COLOR_MAIN + "30 Days", Material.GREEN_DYE, getParent());
@@ -116,6 +137,9 @@ public class PunishPage extends Page {
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button banThree = new Button(MessageColor.COLOR_MAIN + "60 Days", Material.ORANGE_DYE, getParent());
@@ -126,6 +150,9 @@ public class PunishPage extends Page {
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button banFour = new Button(MessageColor.COLOR_MAIN + "90 Days", Material.RED_DYE, getParent());
@@ -136,6 +163,9 @@ public class PunishPage extends Page {
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button banPerm = new Button(ChatColor.RED + "Permanent", Material.REDSTONE, getParent());
@@ -146,6 +176,9 @@ public class PunishPage extends Page {
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         //OTHER
@@ -158,16 +191,22 @@ public class PunishPage extends Page {
             new Warn(this.target, this.executor,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         Button kick = new Button(MessageColor.COLOR_MAIN + "Kick", Material.STICK, getParent());
-        warn.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to kick"});
-        warn.setOnClick(() -> {
+        kick.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to kick"});
+        kick.setOnClick(() -> {
             this.type = Punishment.PunishType.KICK;
             this.time = new Punishment.PunishTime();
             new Kick(this.target, this.executor,
                     this.reason).execute();
             sendStaffMessage();
+
+            executor.getPlayer().closeInventory();
+            getParent().unregisterHandlers();
         });
 
         //CATEGORY

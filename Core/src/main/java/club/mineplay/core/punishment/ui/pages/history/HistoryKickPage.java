@@ -21,6 +21,8 @@ public class HistoryKickPage extends Page {
         super("Kicks | " + target.getPlayerStr(), 54, true);
 
         this.target = target;
+
+        setFrameLabel(" ");
     }
 
     @Override

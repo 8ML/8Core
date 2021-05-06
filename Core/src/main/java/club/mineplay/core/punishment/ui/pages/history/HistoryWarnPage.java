@@ -21,6 +21,8 @@ public class HistoryWarnPage extends Page {
         super("Warns | " + target.getPlayerStr(), 54, true);
 
         this.target = target;
+
+        setFrameLabel(" ");
     }
 
     @Override

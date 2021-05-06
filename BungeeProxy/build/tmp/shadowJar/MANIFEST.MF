@@ -1,2 +1,4 @@
 Manifest-Version: 1.0
+Class-Path: commons-io-2.6.jar json-simple-1.1.1.jar junit-4.10.jar ha
+ mcrest-core-1.1.jar
 

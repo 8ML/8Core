@@ -61,11 +61,6 @@ public class JoinEvent implements Listener {
 
         e.setJoinMessage("");
 
-        MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
-        if (player.isPermissible(Ranks.BUILD_TEAM)) {
-            StaffMSG.sendStaffMessage(ChatColor.YELLOW + "joined.", player);
-        }
-
     }
 
 

@@ -27,8 +27,7 @@ public class LeaveEvent implements Listener {
             StaffMSG.sendStaffMessage(ChatColor.YELLOW + "quit.", player);
         }
 
-
-
+        MPlayer.removeMPlayer(player);
 
     }
 

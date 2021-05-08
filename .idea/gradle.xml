@@ -23,6 +23,28 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/Core" name="Core">
+                <projects>
+                  <project path="$PROJECT_DIR$/Core" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Hub" />
+        <option name="gradleJvm" value="14" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/Core" />
+            <option value="$PROJECT_DIR$/Hub" />
+          </set>
+        </option>
+      </GradleProjectSettings>
     </option>
   </component>
 </project>

@@ -3,7 +3,7 @@ package club.mineplay.core.punishment;
 Created by Sander on 4/27/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.storage.SQL;
 
@@ -120,7 +120,7 @@ public abstract class Punishment {
 
     private final PunishType type;
 
-    private final SQL sql = Main.instance.sql;
+    private final SQL sql = Core.instance.sql;
 
     public Punishment(PunishType type) {
         this.type = type;
@@ -196,7 +196,7 @@ public abstract class Punishment {
 
     public static PunishInfo getActivePunishment(MPlayer player, PunishType type) {
 
-        SQL sql = Main.instance.sql;
+        SQL sql = Core.instance.sql;
 
         try {
 
@@ -236,7 +236,7 @@ public abstract class Punishment {
 
     public static List<PunishInfo> getPunishments(MPlayer player, PunishType type) {
 
-        SQL sql = Main.instance.sql;
+        SQL sql = Core.instance.sql;
 
         List<PunishInfo> activePunishments = new ArrayList<>();
         List<PunishInfo> punishments = new ArrayList<>();
@@ -274,7 +274,7 @@ public abstract class Punishment {
     }
 
     public static void removePunishment(int id) {
-        SQL sql = Main.instance.sql;
+        SQL sql = Core.instance.sql;
 
         try {
 

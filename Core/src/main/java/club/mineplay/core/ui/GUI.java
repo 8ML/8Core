@@ -3,7 +3,7 @@ package club.mineplay.core.ui;
 Created by Sander on 5/4/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.ui.component.Component;
 import club.mineplay.core.ui.component.components.Button;
@@ -14,11 +14,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public abstract class GUI implements Listener {
 
@@ -46,7 +44,7 @@ public abstract class GUI implements Listener {
     public void openPage(int index) {
         player.getPlayer().closeInventory();
 
-        Main.instance.getServer().getPluginManager().registerEvents(this, Main.instance);
+        Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
 
         this.currentPage = pages.get(index);
         this.currentPage.open();

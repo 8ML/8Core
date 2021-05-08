@@ -3,7 +3,7 @@ package club.mineplay.core.punishment;
 Created by Sander on 4/28/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.player.MPlayer;
 
 import java.sql.PreparedStatement;
@@ -36,7 +36,7 @@ public class PunishInfo {
 
         try {
 
-            PreparedStatement st = Main.instance.sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND uid=?");
+            PreparedStatement st = Core.instance.sql.preparedStatement("SELECT * FROM punishments WHERE uuid=? AND type=? AND uid=?");
             st.setString(1, player.getUUID());
             st.setString(2, this.punishType.name());
             st.setString(3, this.uid);
@@ -50,7 +50,7 @@ public class PunishInfo {
 
             }
 
-            Main.instance.sql.closeConnection(st);
+            Core.instance.sql.closeConnection(st);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class PunishInfo {
 
             try {
 
-                PreparedStatement st = Main.instance.sql.preparedStatement("UPDATE punishments SET active=? WHERE uuid=? AND type=?");
+                PreparedStatement st = Core.instance.sql.preparedStatement("UPDATE punishments SET active=? WHERE uuid=? AND type=?");
                 st.setBoolean(1, false);
                 st.setString(2, this.player.getUUID());
                 st.setString(3, this.punishType.toString());
@@ -113,7 +113,7 @@ public class PunishInfo {
                 try {
                     st.executeUpdate();
                 } finally {
-                    Main.instance.sql.closeConnection(st);
+                    Core.instance.sql.closeConnection(st);
                 }
 
             } catch (SQLException e) {

@@ -1,0 +1,3 @@
+rootProject.name = 'Hub'
+includeBuild('../Core')
+

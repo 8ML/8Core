@@ -3,7 +3,7 @@ package club.mineplay.core.player.level;
 Created by Sander on 4/24/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.currency.Coin;
@@ -18,7 +18,7 @@ public class Level {
 
     private static final double multiplier = 14;
 
-    private static final SQL sql = Main.instance.sql;
+    private static final SQL sql = Core.instance.sql;
 
     public static void addXP(MPlayer player, int xp) {
         try {

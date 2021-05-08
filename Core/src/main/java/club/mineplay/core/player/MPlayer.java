@@ -3,12 +3,10 @@ package club.mineplay.core.player;
 Created by Sander on 4/23/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.hierarchy.Ranks;
-import club.mineplay.core.player.currency.Coin;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import club.mineplay.core.storage.SQL;
 
@@ -18,7 +16,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class MPlayer {
@@ -35,7 +32,7 @@ public class MPlayer {
 
     private String UUID;
 
-    private final SQL sql = Main.instance.sql;
+    private final SQL sql = Core.instance.sql;
 
     public MPlayer(Player player) {
 
@@ -196,7 +193,7 @@ public class MPlayer {
     public static boolean exists(String player) {
         try {
 
-            SQL sql = Main.instance.sql;
+            SQL sql = Core.instance.sql;
 
             PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
             st.setString(1, Bukkit.getOfflinePlayer(player).getUniqueId().toString());

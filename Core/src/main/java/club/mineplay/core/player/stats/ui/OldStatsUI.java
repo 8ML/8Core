@@ -3,7 +3,7 @@ package club.mineplay.core.player.stats.ui;
 Created by Sander on 5/3/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.level.Level;
@@ -36,7 +36,7 @@ public class OldStatsUI implements Listener {
         this.session = UUID.randomUUID().toString();
         this.player = player;
         this.executor = executor;
-        Bukkit.getServer().getPluginManager().registerEvents(this, Main.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(this, Core.instance);
 
     }
 

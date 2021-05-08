@@ -3,9 +3,8 @@ package club.mineplay.core.events;
 Created by Sander on 4/24/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.config.MessageColor;
-import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.currency.Coin;
 import club.mineplay.core.punishment.PunishInfo;
@@ -13,14 +12,12 @@ import club.mineplay.core.punishment.Punishment;
 import club.mineplay.core.punishment.type.Ban;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.utils.BookUtil;
-import club.mineplay.core.utils.StaffMSG;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.PreparedStatement;
@@ -33,7 +30,7 @@ public class JoinEvent implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    SQL sql = Main.instance.sql;
+    SQL sql = Core.instance.sql;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {

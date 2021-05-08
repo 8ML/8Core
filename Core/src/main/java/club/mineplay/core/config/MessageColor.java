@@ -3,7 +3,7 @@ package club.mineplay.core.config;
 Created by Sander on 4/24/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.storage.file.PluginFile;
 import net.md_5.bungee.api.ChatColor;
 
@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class MessageColor {
 
-    private static final PluginFile file = Main.instance.messagesYML;
+    private static final PluginFile file = Core.instance.messagesYML;
 
     public static ChatColor COLOR_MAIN = ChatColor.of(parseColor(Objects.requireNonNull(file.getString("main"))));
     public static ChatColor COLOR_HIGHLIGHT = ChatColor.of(parseColor(Objects.requireNonNull(file.getString("highlight"))));

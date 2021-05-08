@@ -3,7 +3,7 @@ package club.mineplay.core.punishment.ui;
 Created by Sander on 4/29/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
@@ -47,7 +47,7 @@ public class OldPunishUI implements Listener {
         this.executor = executor;
         this.reason = reason;
 
-        Main.instance.getServer().getPluginManager().registerEvents(this, Main.instance);
+        Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
 
         this.session = UUID.randomUUID().toString();
 

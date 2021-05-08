@@ -3,9 +3,8 @@ package club.mineplay.core.storage;
 Created by Sander on 4/23/2021
 */
 
-import club.mineplay.core.Main;
+import club.mineplay.core.Core;
 
-import javax.security.auth.login.LoginException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -123,7 +122,7 @@ public class SQL {
             this.getConnection().close();
         }
 
-        Main.instance.getLogger().info("DEBUG: " + statements.size() + " " + Arrays.toString(statements.toArray()));
+        Core.instance.getLogger().info("DEBUG: " + statements.size() + " " + Arrays.toString(statements.toArray()));
 
     }
 

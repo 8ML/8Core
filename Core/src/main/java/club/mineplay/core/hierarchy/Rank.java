@@ -4,6 +4,8 @@ Created by Sander on 4/23/2021
 */
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -57,6 +59,16 @@ public abstract class Rank {
     public String getFullPrefix() {
         if (isDefaultRank()) return "";
         return ChatColor.WHITE + "[" + ChatColor.of(this.rankColor) + prefix + ChatColor.WHITE + "]";
+    }
+
+    public BaseComponent[] getFullPrefixComponent() {
+        if (isDefaultRank()) return new ComponentBuilder("").create();
+
+        ComponentBuilder builder = new ComponentBuilder(ChatColor.WHITE + "[").color(ChatColor.WHITE)
+                .append(getPrefix()).color(ChatColor.of(getRankColor()))
+                .append("] ").color(ChatColor.WHITE);
+        return builder.create();
+
     }
 
     public ChatColor getChatColor() {

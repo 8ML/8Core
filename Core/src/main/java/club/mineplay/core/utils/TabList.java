@@ -37,15 +37,17 @@ public class TabList implements Listener {
         this.header = header;
         this.tabListSet = true;
 
-        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
 
         try {
-            Field a = packet.getClass().getDeclaredField("header");
-            a.setAccessible(true);
-            Field b = packet.getClass().getDeclaredField("footer");
-            b.setAccessible(true);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
+
+                PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+
+                Field a = packet.getClass().getDeclaredField("header");
+                a.setAccessible(true);
+                Field b = packet.getClass().getDeclaredField("footer");
+                b.setAccessible(true);
 
                 MPlayer player = MPlayer.getMPlayer(p.getName());
 
@@ -65,18 +67,45 @@ public class TabList implements Listener {
 
     }
 
-    private void updateTabList() {
+    public void removeTabList(Player player) {
 
-        if (!this.tabListSet) return;
-
-        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
         try {
+
+            PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
 
             Field a = packet.getClass().getDeclaredField("header");
             a.setAccessible(true);
             Field b = packet.getClass().getDeclaredField("footer");
+            b.setAccessible(true);
+
+            ChatComponentText header = new ChatComponentText("");
+            ChatComponentText footer = new ChatComponentText("");
+
+            a.set(packet, header);
+            b.set(packet, footer);
+
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateTabList() {
+
+        if (!this.tabListSet) return;
+
+        try {
+
 
             for (Player p : Bukkit.getOnlinePlayers()) {
+
+                PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+
+                Field a = packet.getClass().getDeclaredField("header");
+                a.setAccessible(true);
+                Field b = packet.getClass().getDeclaredField("footer");
 
                 MPlayer player = MPlayer.getMPlayer(p.getName());
 
@@ -103,6 +132,10 @@ public class TabList implements Listener {
                 .replaceAll("%onlineServer%", String.valueOf(Bukkit.getOnlinePlayers().size()))
                 .replaceAll("%onlineBungee%", String.valueOf(pluginMessenger.getBungeeCount()))
                 .replaceAll(":nl:", "\n"));
+    }
+
+    public boolean isTabListSet() {
+        return this.tabListSet;
     }
 
     private int timer = 0;

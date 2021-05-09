@@ -1,0 +1,5 @@
+host: localhost
+database: monke
+user: monke
+password: monke.4994
+port: 3306

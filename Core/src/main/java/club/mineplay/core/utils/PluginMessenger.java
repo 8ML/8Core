@@ -158,12 +158,14 @@ public class PluginMessenger implements PluginMessageListener, Listener {
                         if (!result[1].equalsIgnoreCase(Core.instance.serverName)) return;
 
                         String playerName = result[2];
-                        MPlayer pl = MPlayer.getMPlayer(playerName);
-                        if (pl.isPermissible(Ranks.BUILD_TEAM)) {
-                            StaffMSG.sendStaffMessage(ChatColor.YELLOW + "joined.", pl);
-                        }
 
-                        plugin.getServer().getPluginManager().callEvent(new ProxyJoinEvent(pl.getPlayer()));
+                        if (MPlayer.exists(playerName)) {
+                            MPlayer pl = MPlayer.getMPlayer(playerName);
+                            if (pl.isPermissible(Ranks.BUILD_TEAM)) {
+                                StaffMSG.sendStaffMessage(ChatColor.YELLOW + "joined.", pl);
+                            }
+                            plugin.getServer().getPluginManager().callEvent(new ProxyJoinEvent(pl.getPlayer()));
+                        }
 
                         break;
                     case "PROXY_QUIT":

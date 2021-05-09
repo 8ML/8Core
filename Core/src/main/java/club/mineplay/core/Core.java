@@ -7,6 +7,7 @@ import club.mineplay.core.cmd.CommandCenter;
 import club.mineplay.core.cmd.commands.HelpCMD;
 import club.mineplay.core.cmd.commands.StatsCMD;
 import club.mineplay.core.cmd.commands.admin.*;
+import club.mineplay.core.cmd.commands.special.SignatureCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMDTEST;
 import club.mineplay.core.cmd.commands.staff.StaffChatCMD;
@@ -85,6 +86,7 @@ public class Core extends JavaPlugin {
         CommandCenter.registerCommand(new PunishCMD(), this);
         CommandCenter.registerCommand(new StatsCMD(), this);
         CommandCenter.registerCommand(new StaffChatCMD(), this);
+        CommandCenter.registerCommand(new SignatureCMD(), this);
 
 
         //REMEMBER TO DISABLE THESE WHEN DEVELOPMENT IS DONE.

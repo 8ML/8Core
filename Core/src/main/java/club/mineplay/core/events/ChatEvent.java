@@ -9,6 +9,12 @@ import club.mineplay.core.punishment.PunishInfo;
 import club.mineplay.core.punishment.Punishment;
 import club.mineplay.core.punishment.type.Mute;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -22,6 +28,8 @@ public class ChatEvent implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
+        e.setCancelled(true);
+
         MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
 
         PunishInfo info = Punishment.getActivePunishment(player, Punishment.PunishType.MUTE);
@@ -29,16 +37,21 @@ public class ChatEvent implements Listener {
         if (info.isActive()) {
 
             player.getPlayer().sendMessage(Mute.getMute(info).getPunishMessage());
-            e.setCancelled(true);
             return;
 
         }
 
         e.setMessage(e.getMessage().replaceAll("%", "%%"));
 
-        e.setFormat(ChatColor.GRAY + "[" + ((int) Level.getLevelFromXP(player.getXP(), false)) + "] "
-                + player.getRankEnum().getRank().getFullPrefixWithSpace()
-                + player.getRankEnum().getRank().getNameColor() + player.getPlayer().getName()
-                + ": " + player.getRankEnum().getRank().getChatColor() + e.getMessage());
+        ComponentBuilder componentBuilder = new ComponentBuilder(ChatColor.GRAY + "[" + ((int) Level.getLevelFromXP(player.getXP(), false)) + "] ")
+                .append(player.getRankEnum().getRank().getFullPrefixComponent())
+                .append(player.getRankEnum().getRank().getNameColor() + player.getPlayer().getName() + ": "
+                + player.getRankEnum().getRank().getChatColor() + e.getMessage());
+        if (!player.getSignature().equals("")) componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder(player.getSignature()).create()));
+
+        BaseComponent[] message = componentBuilder.create();
+
+        Bukkit.spigot().broadcast(message);
     }
 }

@@ -6,6 +6,7 @@ Created by Sander on 4/23/2021
 import club.mineplay.core.Core;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.hierarchy.Ranks;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import club.mineplay.core.storage.SQL;
@@ -29,6 +30,7 @@ public class MPlayer {
     private int coins;
     private int xp;
     private long firstJoin;
+    private String signature;
 
     private String UUID;
 
@@ -76,6 +78,7 @@ public class MPlayer {
         this.rank = player.rank;
         this.xp = player.xp;
         this.coins = player.coins;
+        this.signature = player.signature;
         update();
     }
 
@@ -87,13 +90,14 @@ public class MPlayer {
             ResultSet rs = checkStmt.executeQuery();
             if (!rs.next()) {
                 PreparedStatement createUser = sql.preparedStatement("INSERT INTO users" +
-                        " (`uuid`, `playerName`, `rank`, `xp`, `coins`, `firstJoin`) VALUES (?,?,?,?,?,?)");
+                        " (`uuid`, `playerName`, `rank`, `xp`, `coins`, `firstJoin`, `signature`) VALUES (?,?,?,?,?,?,?)");
                 createUser.setString(1, this.getUUID());
                 createUser.setString(2, player);
                 createUser.setString(3, Ranks.DEFAULT.toString());
                 createUser.setInt(4, 0);
                 createUser.setInt(5, 0);
                 createUser.setLong(6, System.currentTimeMillis());
+                createUser.setString(7, "");
                 try {
                     createUser.execute();
                 } finally {
@@ -104,6 +108,7 @@ public class MPlayer {
                 this.xp = rs.getInt("xp");
                 this.coins = rs.getInt("coins");
                 this.firstJoin = rs.getLong("firstJoin");
+                this.signature = ChatColor.translateAlternateColorCodes('&', rs.getString("signature"));
             }
 
             sql.closeConnection(checkStmt);
@@ -144,6 +149,28 @@ public class MPlayer {
         update();
     }
 
+    public void setSignature(String str) {
+
+        try {
+
+            PreparedStatement st = sql.preparedStatement("UPDATE users SET `signature`=? WHERE `uuid`=?");
+            st.setString(1, str);
+            st.setString(2, this.getUUID());
+
+            try {
+                st.executeUpdate();
+            } finally {
+                sql.closeConnection(st);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        update();
+
+    }
+
     public Player getPlayer() {
 
         if (Bukkit.getServer().getOfflinePlayer(this.player).isOnline()) {
@@ -169,6 +196,10 @@ public class MPlayer {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date(this.firstJoin);
         return format.format(date);
+    }
+
+    public String getSignature() {
+        return this.signature;
     }
 
     public boolean isPermissible(Ranks rankEnum) {

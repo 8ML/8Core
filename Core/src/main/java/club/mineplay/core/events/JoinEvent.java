@@ -57,6 +57,12 @@ public class JoinEvent implements Listener {
 
         if (addCoins) Coin.addCoins(MPlayer.getMPlayer(e.getPlayer().getName()), 50, false);
 
+        if (!Core.instance.tabList.isTabListSet()) {
+            Core.instance.tabList.removeTabList(e.getPlayer());
+        } else {
+            Core.instance.tabList.updateTabList();
+        }
+
         e.setJoinMessage("");
 
     }
@@ -73,12 +79,14 @@ public class JoinEvent implements Listener {
                     "You have to connect using" + ChatColor.YELLOW + " mineplay.club");
         }
 
-        MPlayer p = MPlayer.getMPlayer(e.getPlayer().getName());
-        PunishInfo info = Punishment.getActivePunishment(p, Punishment.PunishType.BAN);
-        if (info.isActive()) {
+        if (MPlayer.exists(e.getPlayer().getName())) {
+            MPlayer p = MPlayer.getMPlayer(e.getPlayer().getName());
+            PunishInfo info = Punishment.getActivePunishment(p, Punishment.PunishType.BAN);
+            if (info.isActive()) {
 
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Ban.getBan(info).getPunishMessage());
+                e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Ban.getBan(info).getPunishMessage());
 
+            }
         }
 
     }

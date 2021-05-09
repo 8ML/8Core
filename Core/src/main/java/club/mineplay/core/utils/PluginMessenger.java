@@ -4,11 +4,13 @@ Created by Sander on 5/6/2021
 */
 
 import club.mineplay.core.Core;
+import club.mineplay.core.events.event.ProxyJoinEvent;
 import club.mineplay.core.events.event.UpdateEvent;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -18,8 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.io.*;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PluginMessenger implements PluginMessageListener, Listener {
@@ -27,6 +28,8 @@ public class PluginMessenger implements PluginMessageListener, Listener {
     private final Core plugin;
 
     private int bungeeOnline = 0;
+    private List<String> bungeePlayers = new ArrayList<>();
+    private final HashMap<String, String> playerServer = new HashMap<>();
 
     public PluginMessenger(Core plugin) {
         this.plugin = plugin;
@@ -35,7 +38,7 @@ public class PluginMessenger implements PluginMessageListener, Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public void sendPluginMessage(String channel, List<String> objects, String message) {
+    public void sendPluginMessage(String channel, String hoverMessage, List<String> objects, String message) {
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(stream);
@@ -45,6 +48,14 @@ public class PluginMessenger implements PluginMessageListener, Listener {
         if (!objects.isEmpty()) obj = true;
 
         try {
+
+            String[] hoverStr = hoverMessage.split(" ");
+            StringBuilder hoverBuilder = new StringBuilder(hoverStr[0]);
+            for (String h : hoverStr) {
+                if (h.equals(hoverStr[0])) continue;
+                hoverBuilder.append(",").append(h);
+            }
+
             if (obj) {
                 StringBuilder b = new StringBuilder(objects.get(0));
                 for (String o : objects) {
@@ -52,9 +63,9 @@ public class PluginMessenger implements PluginMessageListener, Listener {
                     b.append(",").append(o);
                 }
                 String objectsArray = b.toString();
-                out.writeUTF(channel + " " + objectsArray + " " + message);
+                out.writeUTF(channel + " " + hoverBuilder.toString() + " " + objectsArray + " " + message);
             } else {
-                out.writeUTF(channel + " " + message);
+                out.writeUTF(channel + " " + hoverBuilder.toString() + " " + message);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,23 +77,57 @@ public class PluginMessenger implements PluginMessageListener, Listener {
     }
 
     private void requestBungeeCount() {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(stream);
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
 
-        try {
-            out.writeUTF("PlayerCount");
-            out.writeUTF("ALL");
+        out.writeUTF("PlayerCount");
+        out.writeUTF("ALL");
 
-            Objects.requireNonNull(Iterables.getFirst(Bukkit.getOnlinePlayers(), null))
-                    .sendPluginMessage(this.plugin, "BungeeCord", stream.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (Bukkit.getOnlinePlayers().isEmpty()) return;
+
+        Objects.requireNonNull(Iterables.getFirst(Bukkit.getOnlinePlayers(), null))
+                .sendPluginMessage(this.plugin, "BungeeCord", out.toByteArray());
     }
 
     public int getBungeeCount() {
         return this.bungeeOnline;
     }
+
+    public List<String> getBungeePlayers() {
+        return this.bungeePlayers;
+    }
+
+    public String getServer(String player) {
+        return playerServer.get(player);
+    }
+
+    private void requestBungeePlayers() {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
+        out.writeUTF("PlayerList");
+        out.writeUTF("ALL");
+
+        if (Bukkit.getOnlinePlayers().isEmpty()) return;
+
+        Objects.requireNonNull(Iterables.getFirst(Bukkit.getOnlinePlayers(), null))
+                .sendPluginMessage(this.plugin, "BungeeCord", out.toByteArray());
+
+    }
+
+    private void requestServers() {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(stream);
+        try {
+            out.writeUTF("PROXY_REQUEST PLAYER_SERVER");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (Bukkit.getOnlinePlayers().isEmpty()) return;
+
+        Objects.requireNonNull(Iterables.getFirst(Bukkit.getOnlinePlayers(), null))
+                .sendPluginMessage(this.plugin, "BungeeCord", stream.toByteArray());
+    }
+
 
     @Override
     public void onPluginMessageReceived(String s, Player player, byte[] bytes) {
@@ -93,21 +138,61 @@ public class PluginMessenger implements PluginMessageListener, Listener {
             ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
             String subChannel = in.readUTF();
 
-            if (subChannel.equals("OnlineCount")) {
+            if (subChannel.equals("PlayerCount")) {
+                in.readUTF();
                 this.bungeeOnline = in.readInt();
+            } else if (subChannel.equals("PlayerList")) {
+                in.readUTF();
+                this.bungeePlayers = Arrays.asList(in.readUTF().split(", "));
             } else {
 
                 ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
                 DataInputStream i = new DataInputStream(stream);
 
                 String[] result = i.readUTF().split(" ");
-                if (result[0].equals("PROXY_JOIN")) {
-                    String playerName = result[1];
-                    MPlayer pl = MPlayer.getMPlayer(playerName);
-                    if (pl.isPermissible(Ranks.BUILD_TEAM)) {
-                        StaffMSG.sendStaffMessage(ChatColor.YELLOW + "joined.", pl);
-                    }
+                switch (result[0]) {
+                    case "PROXY_JOIN":
+                        requestBungeePlayers();
+                        requestBungeeCount();
+
+                        if (!result[1].equalsIgnoreCase(Core.instance.serverName)) return;
+
+                        String playerName = result[2];
+                        MPlayer pl = MPlayer.getMPlayer(playerName);
+                        if (pl.isPermissible(Ranks.BUILD_TEAM)) {
+                            StaffMSG.sendStaffMessage(ChatColor.YELLOW + "joined.", pl);
+                        }
+
+                        plugin.getServer().getPluginManager().callEvent(new ProxyJoinEvent(pl.getPlayer()));
+
+                        break;
+                    case "PROXY_QUIT":
+                        requestBungeePlayers();
+                        requestBungeeCount();
+
+                        String playerName2 = result[1];
+                        MPlayer pl2 = MPlayer.getMPlayer(playerName2);
+
+                        if (pl2.isPermissible(Ranks.BUILD_TEAM)) {
+                            StaffMSG.sendStaffMessage(ChatColor.YELLOW + "quit.", pl2);
+                        }
+                        break;
+                    case "PROXY_RESPONSE":
+                        requestBungeeCount();
+                        requestBungeePlayers();
+
+                        String[] players = result[1].split(",");
+                        String[] servers = result[2].split(",");
+
+                        for (String p : players) {
+                            String server = Arrays.asList(servers)
+                                    .get(Arrays.asList(players).indexOf(p));
+                            playerServer.put(p, server);
+                        }
+                        break;
+
                 }
+
             }
 
 
@@ -120,5 +205,7 @@ public class PluginMessenger implements PluginMessageListener, Listener {
     @EventHandler
     public void onUpdate(UpdateEvent e) {
         requestBungeeCount();
+        requestBungeePlayers();
+        requestServers();
     }
 }

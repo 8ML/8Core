@@ -17,32 +17,35 @@ public class StaffMSG {
 
     private static final PluginMessenger messenger = Core.instance.pluginMessenger;
 
-    public static void sendStaffMessage(String msg) {
+    public static void sendStaffMessage(String msg, String hoverMessage) {
 
         List<String> staffList = new ArrayList<>();
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            MPlayer staff = MPlayer.getMPlayer(p.getName());
+        for (String p : messenger.getBungeePlayers()) {
+            MPlayer staff = MPlayer.getMPlayer(p);
             if (staff.isPermissible(Ranks.BUILD_TEAM)) {
                 staffList.add(staff.getPlayerStr());
             }
         }
 
-        messenger.sendPluginMessage("STAFF_CHANNEL", staffList, ChatColor.AQUA + "[STAFF] " + ChatColor.RESET + msg);
+        messenger.sendPluginMessage("STAFF_CHANNEL", hoverMessage, staffList, ChatColor.AQUA + "[STAFF] " + ChatColor.RESET + msg);
     }
     public static void sendStaffMessage(String msg, MPlayer pl) {
 
         List<String> staffList = new ArrayList<>();
-
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            MPlayer staff = MPlayer.getMPlayer(p.getName());
+        staffList.add(pl.getPlayerStr());
+        for (String p : messenger.getBungeePlayers()) {
+            MPlayer staff = MPlayer.getMPlayer(p);
             if (staff.isPermissible(Ranks.BUILD_TEAM)) {
+                if (staff.getPlayerStr().equals(pl.getPlayerStr())) continue;
                 staffList.add(staff.getPlayerStr());
             }
         }
 
-        messenger.sendPluginMessage("STAFF_CHANNEL", staffList, ChatColor.AQUA + "[STAFF] "
-                + ChatColor.AQUA + ChatColor.stripColor(pl.getRankEnum().getRank().getFullPrefixWithSpace())
+        String hover = ChatColor.WHITE + "Rank: " + ChatColor.AQUA + pl.getRankEnum().getRank().getPrefix()
+                + ChatColor.WHITE + "\nServer: " + ChatColor.AQUA + "%server%";
+
+        messenger.sendPluginMessage("STAFF_CHANNEL", hover, staffList, ChatColor.AQUA + "[STAFF] "
                 + ChatColor.WHITE + pl.getPlayerStr() + " " + ChatColor.RESET + msg);
 
     }

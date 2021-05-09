@@ -5,6 +5,7 @@ Created by Sander on 4/26/2021
 
 import club.mineplay.bungee.Main;
 import club.mineplay.bungee.storage.SQL;
+import net.md_5.bungee.api.ServerConnectRequest;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -26,7 +27,7 @@ public class JoinEvent implements Listener {
     private final SQL sql = Main.instance.sql;
 
     @EventHandler
-    public void onConnect(ServerConnectEvent e) {
+    public void onServerConnect(ServerConnectEvent e) {
 
         System.out.println(e.getPlayer().getName() + " Connected!");
 
@@ -40,21 +41,24 @@ public class JoinEvent implements Listener {
                 sql.getConnection().close();
             }
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            DataOutputStream out = new DataOutputStream(stream);
+            if (e.getReason().equals(ServerConnectEvent.Reason.JOIN_PROXY)) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                DataOutputStream out = new DataOutputStream(stream);
 
-            try {
-                out.writeUTF("PROXY_JOIN " + e.getPlayer().getName());
-                for (ServerInfo server : Main.instance.getProxy().getServers().values()) {
-                    server.sendData("BungeeCord", stream.toByteArray());
+                try {
+                    out.writeUTF("PROXY_JOIN " + e.getTarget().getName() + " " + e.getPlayer().getName());
+                    for (ServerInfo server : Main.instance.getProxy().getServers().values()) {
+                        server.sendData("BungeeCord", stream.toByteArray());
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-            } catch (IOException ex) {
-                ex.printStackTrace();
             }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+
 
 }

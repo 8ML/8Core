@@ -23,9 +23,6 @@ public class LeaveEvent implements Listener {
         e.setQuitMessage("");
 
         MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
-        if (player.isPermissible(Ranks.BUILD_TEAM)) {
-            StaffMSG.sendStaffMessage(ChatColor.YELLOW + "quit.", player);
-        }
 
         MPlayer.removeMPlayer(player);
 

@@ -9,6 +9,7 @@ import club.mineplay.core.player.level.Level;
 import net.minecraft.server.v1_16_R3.ChatComponentText;
 import net.minecraft.server.v1_16_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,9 +39,9 @@ public class TabList implements Listener {
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
 
         try {
-            Field a = packet.getClass().getDeclaredField("a");
+            Field a = packet.getClass().getDeclaredField("header");
             a.setAccessible(true);
-            Field b = packet.getClass().getDeclaredField("b");
+            Field b = packet.getClass().getDeclaredField("footer");
             b.setAccessible(true);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -70,9 +71,9 @@ public class TabList implements Listener {
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
         try {
 
-            Field a = packet.getClass().getDeclaredField("a");
+            Field a = packet.getClass().getDeclaredField("header");
             a.setAccessible(true);
-            Field b = packet.getClass().getDeclaredField("b");
+            Field b = packet.getClass().getDeclaredField("footer");
 
             for (Player p : Bukkit.getOnlinePlayers()) {
 
@@ -94,12 +95,12 @@ public class TabList implements Listener {
     }
 
     private String getWithPlaceholders(MPlayer p, String str) {
-        return str.replaceAll("%playerRank%", p.getRankEnum().getRank().getFullPrefix())
+        return ChatColor.translateAlternateColorCodes('&', str.replaceAll("%playerRank%", p.getRankEnum().getRank().getFullPrefix())
                 .replaceAll("%playerCoins%", String.valueOf(p.getCoins()))
                 .replaceAll("%playerXP%", String.valueOf(p.getXP()))
                 .replaceAll("%playerLevel%", String.valueOf(Level.getLevelFromXP(p.getXP(), false)))
                 .replaceAll("%onlineServer%", String.valueOf(Bukkit.getOnlinePlayers().size())
-                .replaceAll("%onlineBungee%", String.valueOf(pluginMessenger.getBungeeCount())));
+                        .replaceAll("%onlineBungee%", String.valueOf(pluginMessenger.getBungeeCount()))));
     }
 
     private int timer = 0;

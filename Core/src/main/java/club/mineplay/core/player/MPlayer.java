@@ -63,7 +63,7 @@ public class MPlayer {
             e.printStackTrace();
         }
 
-        this.isOffline = !Bukkit.getOfflinePlayer(java.util.UUID.fromString(getUUID())).isOnline();
+        this.isOffline = !Core.instance.pluginMessenger.getBungeePlayers().contains(player);
 
         update();
 

@@ -3,6 +3,7 @@ package club.mineplay.core.player.stats.ui.pages;
 Created by Sander on 5/5/2021
 */
 
+import club.mineplay.core.Core;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.level.Level;
@@ -33,7 +34,8 @@ public class StatsPage extends Page {
 
         String status;
         if (this.t.isOffline()) status = ChatColor.WHITE + "Status: " + ChatColor.RED + "Offline";
-        else status = ChatColor.WHITE + "Status: " + ChatColor.GREEN + "Online";
+        else status = ChatColor.WHITE + "Status: " + ChatColor.GREEN + "Online" + ChatColor.GRAY + " ("
+                + Core.instance.pluginMessenger.getServer(t.getPlayerStr()) + ")";
 
         String rank;
         if (this.t.getRankEnum().equals(Ranks.DEFAULT)) rank = ChatColor.GRAY + "Default";

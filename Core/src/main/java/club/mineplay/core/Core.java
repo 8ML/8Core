@@ -35,6 +35,8 @@ public class Core extends JavaPlugin {
     public PluginMessenger pluginMessenger;
     public TabList tabList;
 
+    public String serverName;
+
 
     private void initSql() {
         this.sql = new SQL("monke", "monke", "localhost", "monke.4994", 3306);
@@ -67,7 +69,7 @@ public class Core extends JavaPlugin {
             public void run() {
                 instance.getServer().getPluginManager().callEvent(new UpdateEvent());
             }
-        }.runTaskTimer(this, 20L, 0L);
+        }.runTaskTimer(this, 0, 20L);
     }
 
     private void registerCommands() {
@@ -100,6 +102,8 @@ public class Core extends JavaPlugin {
 
         this.pluginMessenger = new PluginMessenger(this);
         this.tabList = new TabList(this);
+
+        this.serverName = configYML.getString("serverName");
 
     }
 

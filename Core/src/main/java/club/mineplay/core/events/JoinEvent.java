@@ -5,6 +5,7 @@ Created by Sander on 4/24/2021
 
 import club.mineplay.core.Core;
 import club.mineplay.core.config.MessageColor;
+import club.mineplay.core.events.event.ProxyJoinEvent;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.currency.Coin;
 import club.mineplay.core.punishment.PunishInfo;
@@ -26,15 +27,22 @@ import java.sql.SQLException;
 
 public class JoinEvent implements Listener {
 
-    public JoinEvent(JavaPlugin plugin) {
+    public JoinEvent(Core plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    SQL sql = Core.instance.sql;
+    private final SQL sql = Core.instance.sql;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
 
+
+        e.setJoinMessage("");
+
+    }
+
+    @EventHandler
+    public void onProxyJoin(ProxyJoinEvent e) {
         boolean addCoins = false;
 
         if (!MPlayer.exists(e.getPlayer().getName())) {
@@ -55,9 +63,6 @@ public class JoinEvent implements Listener {
         MPlayer.registerMPlayer(e.getPlayer().getName());
 
         if (addCoins) Coin.addCoins(MPlayer.getMPlayer(e.getPlayer().getName()), 50, false);
-
-        e.setJoinMessage("");
-
     }
 
 

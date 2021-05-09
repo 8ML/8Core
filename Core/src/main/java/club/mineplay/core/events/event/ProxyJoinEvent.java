@@ -22,7 +22,7 @@ public class ProxyJoinEvent extends Event {
         return HANDLERS;
     }
 
-    public HandlerList getHandlerList() {
+    public static HandlerList getHandlerList() {
         return HANDLERS;
     }
 

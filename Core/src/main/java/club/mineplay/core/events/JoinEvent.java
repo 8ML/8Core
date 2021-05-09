@@ -36,13 +36,6 @@ public class JoinEvent implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
 
-
-        e.setJoinMessage("");
-
-    }
-
-    @EventHandler
-    public void onProxyJoin(ProxyJoinEvent e) {
         boolean addCoins = false;
 
         if (!MPlayer.exists(e.getPlayer().getName())) {
@@ -60,10 +53,16 @@ public class JoinEvent implements Listener {
             addCoins = true;
         }
 
-        MPlayer.registerMPlayer(e.getPlayer().getName());
+        MPlayer.registerMPlayer(e.getPlayer());
 
         if (addCoins) Coin.addCoins(MPlayer.getMPlayer(e.getPlayer().getName()), 50, false);
+
+        e.setJoinMessage("");
+
     }
+
+    @EventHandler
+    public void onProxyJoin(ProxyJoinEvent e) { }
 
 
     @EventHandler

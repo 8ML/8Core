@@ -48,6 +48,7 @@ public class JoinEvent implements Listener {
                 try {
                     out.writeUTF("PROXY_JOIN " + e.getTarget().getName() + " " + e.getPlayer().getName());
                     for (ServerInfo server : Main.instance.getProxy().getServers().values()) {
+                        if (server.getPlayers().isEmpty()) continue;
                         server.sendData("BungeeCord", stream.toByteArray());
                     }
                 } catch (IOException ex) {

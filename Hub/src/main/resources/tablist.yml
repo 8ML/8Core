@@ -1,2 +1,7 @@
-header: "&aMineplay"
-footer: "&7Coins: &b%coins%"
+header: ':nl:&aMineplay:nl:'
+footer: ':nl:&fThere are currently &7%onlineBungee% &fplayers online:nl::nl:&7Coins: &b%playerCoins%:nl:'
+
+#
+# Placeholders:
+# %playerRank%, %playerLevel%, %playerXP%, %playerCoins%, %onlineServer%, %onlineBungee%, :nl: (new line)
+#

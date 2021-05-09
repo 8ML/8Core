@@ -181,6 +181,11 @@ public class MPlayer {
         playerMap.put(player, new MPlayer(player));
     }
 
+    public static void registerMPlayer(Player player) {
+        if (playerMap.containsKey(player.getName())) playerMap.remove(player.getName(), getMPlayer(player.getName()));
+        playerMap.put(player.getName(), new MPlayer(player));
+    }
+
     public static MPlayer getMPlayer(String player) {
         if (!playerMap.containsKey(player)) registerMPlayer(player);
         return playerMap.get(player);

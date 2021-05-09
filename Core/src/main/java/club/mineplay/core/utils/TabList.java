@@ -4,6 +4,7 @@ Created by Sander on 5/8/2021
 */
 
 import club.mineplay.core.Core;
+import club.mineplay.core.events.event.UpdateEvent;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.level.Level;
 import net.minecraft.server.v1_16_R3.ChatComponentText;
@@ -48,8 +49,8 @@ public class TabList implements Listener {
 
                 MPlayer player = MPlayer.getMPlayer(p.getName());
 
-                Object h = new ChatComponentText(getWithPlaceholders(player, header));
-                Object f = new ChatComponentText(getWithPlaceholders(player, footer));
+                Object h = new ChatComponentText(getWithPlaceholders(player, String.join("\n", header)));
+                Object f = new ChatComponentText(getWithPlaceholders(player, String.join("\n", footer)));
 
                 a.set(packet, h);
                 b.set(packet, f);
@@ -79,8 +80,8 @@ public class TabList implements Listener {
 
                 MPlayer player = MPlayer.getMPlayer(p.getName());
 
-                Object h = new ChatComponentText(getWithPlaceholders(player, this.header));
-                Object f = new ChatComponentText(getWithPlaceholders(player, this.footer));
+                Object h = new ChatComponentText(getWithPlaceholders(player, String.join("\n", this.header)));
+                Object f = new ChatComponentText(getWithPlaceholders(player, String.join("\n", this.footer)));
 
                 a.set(packet, h);
                 b.set(packet, f);
@@ -99,14 +100,15 @@ public class TabList implements Listener {
                 .replaceAll("%playerCoins%", String.valueOf(p.getCoins()))
                 .replaceAll("%playerXP%", String.valueOf(p.getXP()))
                 .replaceAll("%playerLevel%", String.valueOf(Level.getLevelFromXP(p.getXP(), false)))
-                .replaceAll("%onlineServer%", String.valueOf(Bukkit.getOnlinePlayers().size())
-                        .replaceAll("%onlineBungee%", String.valueOf(pluginMessenger.getBungeeCount()))));
+                .replaceAll("%onlineServer%", String.valueOf(Bukkit.getOnlinePlayers().size()))
+                .replaceAll("%onlineBungee%", String.valueOf(pluginMessenger.getBungeeCount()))
+                .replaceAll(":nl:", "\n"));
     }
 
     private int timer = 0;
 
     @EventHandler
-    public void onUpdate() {
+    public void onUpdate(UpdateEvent e) {
         timer++;
         if (timer >= 5) {
             timer = 0;

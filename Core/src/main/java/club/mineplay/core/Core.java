@@ -39,7 +39,10 @@ public class Core extends JavaPlugin {
 
 
     private void initSql() {
-        this.sql = new SQL("monke", "monke", "localhost", "monke.4994", 3306);
+        this.sql = new SQL(sqlYML.getString("database"),
+                sqlYML.getString("user"),
+                sqlYML.getString("host"), sqlYML.getString("password"),
+                sqlYML.getInt("port"));
         if (this.sql.testConnection()) { this.getLogger().info("[SQL] Connection Established!"); this.sql.init(); }
         else this.getLogger().severe("[SQL] Connection could not be established!");
     }

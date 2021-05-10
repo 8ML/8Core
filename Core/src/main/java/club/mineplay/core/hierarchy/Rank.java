@@ -6,6 +6,8 @@ Created by Sander on 4/23/2021
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public abstract class Rank {
 
     private Color rankColor;
     private boolean defaultRank;
+    private String description;
 
     public Rank(String label, String prefix, double permissionLevel) {
         this.label = label;
@@ -32,6 +35,10 @@ public abstract class Rank {
 
     public void setColor(Color color) {
         this.rankColor = color;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setDefault() {
@@ -64,9 +71,14 @@ public abstract class Rank {
     public BaseComponent[] getFullPrefixComponent() {
         if (isDefaultRank()) return new ComponentBuilder("").create();
 
-        ComponentBuilder builder = new ComponentBuilder(ChatColor.WHITE + "[").color(ChatColor.WHITE)
+        if (this.description == null) this.description = "";
+
+        ComponentBuilder builder = new ComponentBuilder()
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.DARK_AQUA + this.description)))
+                .append(ChatColor.WHITE + "[").color(ChatColor.WHITE)
                 .append(getPrefix()).color(ChatColor.of(getRankColor()))
                 .append("] ").color(ChatColor.WHITE);
+
         return builder.create();
 
     }

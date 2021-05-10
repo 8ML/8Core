@@ -12,6 +12,7 @@ public class Creator extends Rank {
     public Creator() {
         super("Creator", "Creator", 10.0D);
         setColor(new Color(238, 77, 77));
+        setDescription("Creators consists of media related influences\nsuch as Youtubers and Streamers");
     }
 
     @Override

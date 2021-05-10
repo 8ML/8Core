@@ -6,6 +6,7 @@ Created by Sander on 4/29/2021
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.punishment.Punishment;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 
 public class Warn extends Punishment {
 
@@ -33,6 +34,10 @@ public class Warn extends Punishment {
 
     @Override
     public String getPunishMessage() {
+
+        if (!this.player.isOffline())
+            this.player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_CAT_HISS, 1f, 1f);
+
         return ChatColor.RED + "You were warned by " + this.executor.getPlayerStr() + " for " + ChatColor.GRAY + this.reason;
     }
 }

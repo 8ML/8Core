@@ -7,12 +7,13 @@ import java.util.Date;
 
 public class Test {
 
+    private static final boolean p = false;
+
     public static void main(String[] args) {
 
-        double d = Math.sqrt(323) / 14;
-        double dd = Math.floor(d);
-        int i = (int) dd;
-        System.out.println(i + 1);
+        String msg = p  ? "Yes it is" : "No";
+
+        System.out.println(msg);
 
     }
 

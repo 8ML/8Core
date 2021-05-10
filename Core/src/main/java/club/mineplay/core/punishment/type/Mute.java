@@ -7,6 +7,7 @@ import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.punishment.PunishInfo;
 import club.mineplay.core.punishment.Punishment;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Sound;
 
 public class Mute extends Punishment {
 
@@ -40,10 +41,13 @@ public class Mute extends Punishment {
     public String getPunishMessage() {
 
         String msg;
-        if (this.time.getUnit().equals(TimeUnit.PERMANENT)) msg = ChatColor.RED + "You are permanently muted for "
+        msg = this.time.getUnit().equals(TimeUnit.PERMANENT) ? ChatColor.RED + "You are permanently muted for "
+                + ChatColor.GRAY + this.reason : ChatColor.RED + "You are muted for " + time.getTimeLeft() + " " + time.getUnit().getFormatted()
+                + " for "
                 + ChatColor.GRAY + this.reason;
-        else msg = msg = ChatColor.RED + "You are muted for " + time.getTimeLeft() + " " + time.getUnit().getFormatted() + " for "
-                + ChatColor.GRAY + this.reason;
+
+        if (!this.player.isOffline())
+            this.player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
 
         return msg;
 

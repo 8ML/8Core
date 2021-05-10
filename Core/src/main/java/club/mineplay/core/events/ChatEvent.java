@@ -15,6 +15,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -43,12 +44,23 @@ public class ChatEvent implements Listener {
 
         e.setMessage(e.getMessage().replaceAll("%", "%%"));
 
-        ComponentBuilder componentBuilder = new ComponentBuilder(ChatColor.GRAY + "[" + ((int) Level.getLevelFromXP(player.getXP(), false)) + "] ")
+        int playerXP = player.getXP();
+        int nextLevelXP = Level.getXPFromLevel(((int) Level.getLevelFromXP(playerXP, false)) + 1);
+
+        ComponentBuilder level = new ComponentBuilder(ChatColor.GRAY + "["
+                + ((int) Level.getLevelFromXP(player.getXP(), false))
+                + "] ");
+        level.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.WHITE + "\nLevel: "
+                + ChatColor.GRAY + ((int) Level.getLevelFromXP(player.getXP(), false))
+                + ChatColor.WHITE + "\nXP for next level: " + ChatColor.GRAY + playerXP + "/" + nextLevelXP + "\n")));
+
+        ComponentBuilder componentBuilder = new ComponentBuilder()
+                .append(level.create())
                 .append(player.getRankEnum().getRank().getFullPrefixComponent())
                 .append(player.getRankEnum().getRank().getNameColor() + player.getPlayer().getName() + ": "
                 + player.getRankEnum().getRank().getChatColor() + e.getMessage());
         if (!player.getSignature().equals("")) componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder(player.getSignature()).create()));
+                new Text(player.getSignature())));
 
         BaseComponent[] message = componentBuilder.create();
 

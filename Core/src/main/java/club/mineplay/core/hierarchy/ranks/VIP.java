@@ -12,6 +12,7 @@ public class VIP extends Rank {
     public VIP() {
         super("VIP", "VIP", 1.0D);
         this.setColor(new Color(200, 0, 255));
+        this.setDescription("VIP players are our most valuable players,\nwe could not thank them more for their support");
     }
 
     @Override

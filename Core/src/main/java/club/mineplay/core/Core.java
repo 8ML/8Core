@@ -11,10 +11,7 @@ import club.mineplay.core.cmd.commands.special.SignatureCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMDTEST;
 import club.mineplay.core.cmd.commands.staff.StaffChatCMD;
-import club.mineplay.core.events.ChatEvent;
-import club.mineplay.core.events.CommandEvent;
-import club.mineplay.core.events.JoinEvent;
-import club.mineplay.core.events.LeaveEvent;
+import club.mineplay.core.events.*;
 import club.mineplay.core.events.event.UpdateEvent;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.storage.file.PluginFile;
@@ -65,6 +62,7 @@ public class Core extends JavaPlugin {
         new LeaveEvent(this);
         new ChatEvent(this);
         new CommandEvent(this);
+        new FunEvent(this);
     }
 
     public void startEvents() {
@@ -87,6 +85,7 @@ public class Core extends JavaPlugin {
         CommandCenter.registerCommand(new StatsCMD(), this);
         CommandCenter.registerCommand(new StaffChatCMD(), this);
         CommandCenter.registerCommand(new SignatureCMD(), this);
+        CommandCenter.registerCommand(new EACMD(), this);
 
 
         //REMEMBER TO DISABLE THESE WHEN DEVELOPMENT IS DONE.

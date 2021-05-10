@@ -12,6 +12,7 @@ public class Owner extends Rank {
     public Owner() {
         super("Owner", "Owner", 100.0D);
         setColor(new Color(238, 77, 77));
+        setDescription("Owner consists of the founders.\nThe people that made Mineplay a reality");
     }
 
     @Override

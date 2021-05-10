@@ -12,6 +12,8 @@ public class BuildTeam extends Rank {
     public BuildTeam() {
         super("BuildTeam", "Build Team", 30.0D);
         setColor(new Color(30, 160, 150));
+        setDescription("Build Team consists of dedicated builders that\n" +
+                "make sure all the maps bring satisfaction to our players");
     }
 
     @Override

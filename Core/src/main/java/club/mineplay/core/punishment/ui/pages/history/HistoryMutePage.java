@@ -37,10 +37,8 @@ public class HistoryMutePage extends Page {
 
         for (PunishInfo i : punishInfoList) {
 
-            String time;
-            if (i.getOriginalTime().getUnit().equals(Punishment.TimeUnit.PERMANENT)) time = "Permanent";
-            else time = i.getOriginalTime().getTimeLeft()
-                    + " " + i.getOriginalTime().getUnit().getFormatted();
+            String time = i.getOriginalTime().getUnit().equals(Punishment.TimeUnit.PERMANENT)
+                    ? "Permanent" : i.getOriginalTime().getTimeLeft() + " " + i.getOriginalTime().getUnit().getFormatted();
 
             Button b = new Button(ChatColor.YELLOW + String.valueOf(i.getID()), Material.PAPER, getParent());
             ItemMeta bM = b.getMeta();

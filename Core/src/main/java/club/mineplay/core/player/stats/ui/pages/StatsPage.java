@@ -32,14 +32,12 @@ public class StatsPage extends Page {
     @Override
     public void onOpen() {
 
-        String status;
-        if (this.t.isOffline()) status = ChatColor.WHITE + "Status: " + ChatColor.RED + "Offline";
-        else status = ChatColor.WHITE + "Status: " + ChatColor.GREEN + "Online" + ChatColor.GRAY + " ("
+        String status = this.t.isOffline() ? ChatColor.WHITE + "Status: " + ChatColor.RED + "Offline" : ChatColor.WHITE
+                + "Status: " + ChatColor.GREEN + "Online " +ChatColor.GRAY + " ("
                 + Core.instance.pluginMessenger.getServer(t.getPlayerStr()) + ")";
 
-        String rank;
-        if (this.t.getRankEnum().equals(Ranks.DEFAULT)) rank = ChatColor.GRAY + "Default";
-        else rank = this.t.getRankEnum().getRank().getFullPrefix();
+        String rank = this.t.getRankEnum().equals(Ranks.DEFAULT)
+                ? "Default" : this.t.getRankEnum().getRank().getFullPrefix();
 
         //Level calculations
 

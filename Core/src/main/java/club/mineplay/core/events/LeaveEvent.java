@@ -6,6 +6,7 @@ Created by Sander on 4/24/2021
 import club.mineplay.core.Core;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
+import club.mineplay.core.utils.NameTag;
 import club.mineplay.core.utils.StaffMSG;
 import club.mineplay.core.utils.TabList;
 import net.md_5.bungee.api.ChatColor;
@@ -29,6 +30,8 @@ public class LeaveEvent implements Listener {
         MPlayer.removeMPlayer(player);
 
         Core.instance.tabList.removeTabList(e.getPlayer());
+
+        NameTag.removeTitle(e.getPlayer());
 
     }
 

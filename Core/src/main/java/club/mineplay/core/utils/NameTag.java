@@ -6,6 +6,7 @@ Created by Sander on 5/8/2021
 import club.mineplay.core.Core;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -92,7 +93,10 @@ public class NameTag implements Listener {
         if (titleMap.containsKey(e.getPlayer())) {
 
             Entity entity = titleMap.get(e.getPlayer());
-            entity.teleport(e.getPlayer().getLocation().subtract(0, 0.7, 0));
+            for (int i = 0; i < 10; i++) {
+                entity.teleport(e.getPlayer().getLocation().subtract(0, 0.35, 0));
+            }
+
 
         }
     }

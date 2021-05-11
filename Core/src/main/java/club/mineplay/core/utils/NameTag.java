@@ -4,16 +4,13 @@ Created by Sander on 5/8/2021
 */
 
 import club.mineplay.core.Core;
+import club.mineplay.core.events.event.UpdateEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -37,6 +34,9 @@ public class NameTag implements Listener {
             scoreBoard.registerNewTeam(player.getName());
         }
 
+        if (scoreBoard.getObjective(player.getName()) != null)
+            Objects.requireNonNull(scoreBoard.getObjective(player.getName())).unregister();
+
         Team team = scoreBoard.getTeam(player.getName());
         assert team != null;
         team.setColor(color);
@@ -57,6 +57,8 @@ public class NameTag implements Listener {
                 entityID.remove(titleMap.get(player).getEntityId());
                 titleMap.get(player).remove();
                 titleMap.remove(player);
+                offsetMap.get(player).remove();
+                offsetMap.remove(player);
             } else return;
 
         }
@@ -71,9 +73,20 @@ public class NameTag implements Listener {
         entity.setGravity(false);
 
         ((ArmorStand) entity).setVisible(false);
+        ((ArmorStand) entity).setMarker(true);
+
+        Entity offset = location.getWorld().spawnEntity(location, EntityType.SLIME);
+        offset.setGravity(false);
+
+        ((Slime) offset).setInvisible(true);
+        ((Slime) offset).setSize(3);
+
+        offset.addPassenger(entity);
+        player.addPassenger(offset);
 
         entityID.add(entity.getEntityId());
         titleMap.put(player, entity);
+        offsetMap.put(player, offset);
 
 
     }
@@ -84,21 +97,31 @@ public class NameTag implements Listener {
             entityID.remove(titleMap.get(player).getEntityId());
             titleMap.get(player).remove();
             titleMap.remove(player);
+            offsetMap.get(player).remove();
+            offsetMap.remove(player);
 
         }
     }
 
     @EventHandler
-    public void onMove(PlayerMoveEvent e) {
-        if (titleMap.containsKey(e.getPlayer())) {
+    public void onUpdate(UpdateEvent e) {
 
-            Entity entity = titleMap.get(e.getPlayer());
-            for (int i = 0; i < 10; i++) {
-                entity.teleport(e.getPlayer().getLocation().subtract(0, 0.35, 0));
+        if (!e.getType().equals(UpdateEvent.UpdateType.SECONDS)) return;
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+
+            if (!titleMap.containsKey(p)) continue;
+
+            Entity entity = titleMap.get(p);
+            Entity offset = offsetMap.get(p);
+            if (!p.getPassengers().contains(offset) || !offset.getPassengers().contains(entity)) {
+
+                removeTitle(p);
+
             }
 
-
         }
+
     }
 
 }

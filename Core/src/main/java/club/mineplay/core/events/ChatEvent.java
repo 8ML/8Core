@@ -50,17 +50,15 @@ public class ChatEvent implements Listener {
         ComponentBuilder level = new ComponentBuilder(ChatColor.GRAY + "["
                 + ((int) Level.getLevelFromXP(player.getXP(), false))
                 + "] ");
-        level.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.WHITE + "\nLevel: "
+        level.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.WHITE + "Level: "
                 + ChatColor.GRAY + ((int) Level.getLevelFromXP(player.getXP(), false))
-                + ChatColor.WHITE + "\nXP for next level: " + ChatColor.GRAY + playerXP + "/" + nextLevelXP + "\n")));
+                + ChatColor.WHITE + "\nXP for next level: " + ChatColor.GRAY + playerXP + "/" + nextLevelXP)));
 
         ComponentBuilder componentBuilder = new ComponentBuilder()
                 .append(level.create())
                 .append(player.getRankEnum().getRank().getFullPrefixComponent())
                 .append(player.getRankEnum().getRank().getNameColor() + player.getPlayer().getName() + ": "
                 + player.getRankEnum().getRank().getChatColor() + e.getMessage());
-        if (!player.getSignature().equals("")) componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new Text(player.getSignature())));
 
         BaseComponent[] message = componentBuilder.create();
 

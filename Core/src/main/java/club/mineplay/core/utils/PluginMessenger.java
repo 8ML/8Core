@@ -206,8 +206,10 @@ public class PluginMessenger implements PluginMessageListener, Listener {
 
     @EventHandler
     public void onUpdate(UpdateEvent e) {
-        requestBungeeCount();
-        requestBungeePlayers();
-        requestServers();
+        if (e.getType().equals(UpdateEvent.UpdateType.SECONDS)) {
+            requestBungeeCount();
+            requestBungeePlayers();
+            requestServers();
+        }
     }
 }

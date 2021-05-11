@@ -33,7 +33,7 @@ public class StatsPage extends Page {
     public void onOpen() {
 
         String status = this.t.isOffline() ? ChatColor.WHITE + "Status: " + ChatColor.RED + "Offline" : ChatColor.WHITE
-                + "Status: " + ChatColor.GREEN + "Online " +ChatColor.GRAY + " ("
+                + "Status: " + ChatColor.GREEN + "Online" +ChatColor.GRAY + " ("
                 + Core.instance.pluginMessenger.getServer(t.getPlayerStr()) + ")";
 
         String rank = this.t.getRankEnum().equals(Ranks.DEFAULT)

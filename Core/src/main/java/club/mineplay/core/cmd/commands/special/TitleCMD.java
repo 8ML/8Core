@@ -7,12 +7,13 @@ import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class SignatureCMD extends CMD {
+public class TitleCMD extends CMD {
 
-    public SignatureCMD() {
-        super("signature", new String[0], "", "/signature", Ranks.VIP);
+    public TitleCMD() {
+        super("title", new String[0], "", "/title", Ranks.VIP);
     }
 
     @Override
@@ -21,8 +22,8 @@ public class SignatureCMD extends CMD {
         MPlayer player = MPlayer.getMPlayer(paramPlayer.getName());
 
         if (paramArrayOfString.length == 0) {
-            player.setSignature("");
-            paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Your signature is now removed!");
+            player.setTitle("");
+            paramPlayer.sendMessage(ChatColor.RED + "Removed your previous title!");
         } else {
 
             StringBuilder args = new StringBuilder(paramArrayOfString[0]);
@@ -31,10 +32,10 @@ public class SignatureCMD extends CMD {
                 args.append(" ").append(s);
             }
 
-            player.setSignature(args.toString());
+            player.setTitle(args.toString());
 
             paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS
-                    + "Success! your signature is now " + MessageColor.COLOR_MAIN + args.toString());
+                    + "Your title is now " + MessageColor.COLOR_MAIN + args.toString() + MessageColor.COLOR_SUCCESS + "!");
 
         }
 

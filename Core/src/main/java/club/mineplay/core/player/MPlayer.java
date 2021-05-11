@@ -118,18 +118,6 @@ public class MPlayer {
         }
     }
 
-    public Ranks getRankEnum() {
-        return this.rank;
-    }
-
-    public int getXP() {
-        return this.xp;
-    }
-
-    public int getCoins() {
-        return this.coins;
-    }
-
     public void setRank(Ranks ranks) {
         try {
 
@@ -149,7 +137,7 @@ public class MPlayer {
         update();
     }
 
-    public void setSignature(String str) {
+    public void setTitle(String str) {
 
         try {
 
@@ -169,6 +157,18 @@ public class MPlayer {
 
         update();
 
+    }
+
+    public Ranks getRankEnum() {
+        return this.rank;
+    }
+
+    public int getXP() {
+        return this.xp;
+    }
+
+    public int getCoins() {
+        return this.coins;
     }
 
     public Player getPlayer() {
@@ -198,7 +198,7 @@ public class MPlayer {
         return format.format(date);
     }
 
-    public String getSignature() {
+    public String getTitle() {
         return this.signature;
     }
 

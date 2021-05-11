@@ -132,8 +132,7 @@ public class Level {
     }
 
     public static double getLevelFromXP(int xp, boolean w) {
-        if (!w) return (int) Math.floor(Math.sqrt(xp) / multiplier);
-        else return Math.sqrt(xp) / multiplier;
+        return !w ? (int) Math.floor(Math.sqrt(xp) / multiplier) : Math.sqrt(xp) / multiplier;
     }
 
     //REQUIRES THE WHOLE LEVEL! AND NOT THE ROUNDED ONE

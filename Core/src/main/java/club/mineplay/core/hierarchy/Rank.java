@@ -71,10 +71,10 @@ public abstract class Rank {
     public BaseComponent[] getFullPrefixComponent() {
         if (isDefaultRank()) return new ComponentBuilder("").create();
 
-        if (this.description == null) this.description = "";
+        String description = this.description == null ? "" : this.description;
 
         ComponentBuilder builder = new ComponentBuilder()
-                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.DARK_AQUA + this.description)))
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.DARK_AQUA + description)))
                 .append(ChatColor.WHITE + "[").color(ChatColor.WHITE)
                 .append(getPrefix()).color(ChatColor.of(getRankColor()))
                 .append("] ").color(ChatColor.WHITE);

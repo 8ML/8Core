@@ -7,7 +7,7 @@ import club.mineplay.core.cmd.CommandCenter;
 import club.mineplay.core.cmd.commands.HelpCMD;
 import club.mineplay.core.cmd.commands.StatsCMD;
 import club.mineplay.core.cmd.commands.admin.*;
-import club.mineplay.core.cmd.commands.special.SignatureCMD;
+import club.mineplay.core.cmd.commands.special.TitleCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMDTEST;
 import club.mineplay.core.cmd.commands.staff.StaffChatCMD;
@@ -15,6 +15,7 @@ import club.mineplay.core.events.*;
 import club.mineplay.core.events.event.UpdateEvent;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.storage.file.PluginFile;
+import club.mineplay.core.utils.NameTag;
 import club.mineplay.core.utils.PluginMessenger;
 import club.mineplay.core.utils.TabList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -63,15 +64,23 @@ public class Core extends JavaPlugin {
         new ChatEvent(this);
         new CommandEvent(this);
         new FunEvent(this);
+
+        new NameTag(this);
     }
 
-    public void startEvents() {
+    private void startEvents() {
+        final int[] timer = {0};
         new BukkitRunnable() {
             @Override
             public void run() {
-                instance.getServer().getPluginManager().callEvent(new UpdateEvent());
+                instance.getServer().getPluginManager().callEvent(new UpdateEvent(UpdateEvent.UpdateType.TICK));
+                timer[0]++;
+                if (timer[0] >= 20) {
+                    instance.getServer().getPluginManager().callEvent(new UpdateEvent(UpdateEvent.UpdateType.SECONDS));
+                }
+
             }
-        }.runTaskTimer(this, 0, 20L);
+        }.runTaskTimer(this, 0, 1L);
     }
 
     private void registerCommands() {
@@ -84,7 +93,7 @@ public class Core extends JavaPlugin {
         CommandCenter.registerCommand(new PunishCMD(), this);
         CommandCenter.registerCommand(new StatsCMD(), this);
         CommandCenter.registerCommand(new StaffChatCMD(), this);
-        CommandCenter.registerCommand(new SignatureCMD(), this);
+        CommandCenter.registerCommand(new TitleCMD(), this);
         CommandCenter.registerCommand(new EACMD(), this);
 
 

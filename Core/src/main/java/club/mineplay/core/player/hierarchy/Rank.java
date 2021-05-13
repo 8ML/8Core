@@ -33,17 +33,17 @@ public abstract class Rank {
         this.register();
     }
 
-    public void setColor(ChatColor rankColor, ChatColor nameColor) {
+    protected void setColor(ChatColor rankColor, ChatColor nameColor) {
         this.rankColor = rankColor;
         this.nameColor = nameColor;
     }
 
 
-    public void setDescription(String description) {
+    protected void setDescription(String description) {
         this.description = description;
     }
 
-    public void setDefault() {
+    protected void setDefault() {
         this.defaultRank = true;
     }
 
@@ -53,7 +53,7 @@ public abstract class Rank {
 
     public abstract void onRegister();
 
-    public void register() {
+    private void register() {
         this.onRegister();
     }
 

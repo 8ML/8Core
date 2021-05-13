@@ -51,7 +51,7 @@ public class GameModeCMD extends CMD {
                         }
 
 
-                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to " + b.toString() + ".");
+                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to " + b + ".");
 
                     } else {
                         paramPlayer.setGameMode(GameMode.SURVIVAL);

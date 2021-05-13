@@ -35,7 +35,7 @@ public class TitleCMD extends CMD {
             player.setTitle(args.toString());
 
             paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS
-                    + "Your title is now " + MessageColor.COLOR_MAIN + args.toString() + MessageColor.COLOR_SUCCESS + "!");
+                    + "Your title is now " + MessageColor.COLOR_MAIN + args + MessageColor.COLOR_SUCCESS + "!");
 
         }
 

@@ -61,9 +61,9 @@ public class PluginMessenger implements PluginMessageListener, Listener {
                     b.append(",").append(o);
                 }
                 String objectsArray = b.toString();
-                out.writeUTF(channel + " " + hoverBuilder.toString() + " " + objectsArray + " " + message);
+                out.writeUTF(channel + " " + hoverBuilder + " " + objectsArray + " " + message);
             } else {
-                out.writeUTF(channel + " " + hoverBuilder.toString() + " " + message);
+                out.writeUTF(channel + " " + hoverBuilder + " " + message);
             }
         } catch (IOException e) {
             e.printStackTrace();

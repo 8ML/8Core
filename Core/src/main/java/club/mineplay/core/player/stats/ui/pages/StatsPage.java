@@ -87,7 +87,7 @@ public class StatsPage extends Page {
                 "",
                 ChatColor.WHITE + "Progress: " + ChatColor.GOLD + ((int) percentage) + "%",
                 ChatColor.DARK_AQUA + "Level " + ChatColor.GREEN + iLevel
-                        + ChatColor.GRAY + " [" + builder.toString() + ChatColor.GRAY + "] "
+                        + ChatColor.GRAY + " [" + builder + ChatColor.GRAY + "] "
                         + ChatColor.DARK_AQUA + (iLevel + 1),
                 "",
                 ChatColor.WHITE + "XP required: " + ChatColor.DARK_AQUA + this.t.getXP()

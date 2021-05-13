@@ -4,7 +4,7 @@ Created by Sander on 4/23/2021
 */
 
 import club.mineplay.core.config.MessageColor;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

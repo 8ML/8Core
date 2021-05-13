@@ -4,7 +4,7 @@ Created by Sander on 5/5/2021
 */
 
 import club.mineplay.core.Core;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.level.Level;
 import club.mineplay.core.ui.component.components.Button;

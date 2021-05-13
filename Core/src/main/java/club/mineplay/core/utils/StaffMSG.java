@@ -4,11 +4,9 @@ Created by Sander on 5/6/2021
 */
 
 import club.mineplay.core.Core;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;

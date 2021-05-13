@@ -5,7 +5,7 @@ Created by Sander on 5/3/2021
 
 import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.Messages;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.stats.ui.StatsUI;
 import org.bukkit.entity.Player;

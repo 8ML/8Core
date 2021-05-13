@@ -1,17 +1,16 @@
-package club.mineplay.core.hierarchy.ranks;
+package club.mineplay.core.player.hierarchy.ranks;
 /*
 Created by Sander on 4/26/2021
 */
 
-import club.mineplay.core.hierarchy.Rank;
-
-import java.awt.*;
+import club.mineplay.core.player.hierarchy.Rank;
+import org.bukkit.ChatColor;
 
 public class Creator extends Rank {
 
     public Creator() {
-        super("Creator", "Creator", 10.0D);
-        setColor(new Color(238, 77, 77));
+        super("Creator", "CREATOR", 10.0D);
+        setColor(ChatColor.RED, ChatColor.RED);
         setDescription("Creators consists of media related influences\nsuch as Youtubers and Streamers");
     }
 

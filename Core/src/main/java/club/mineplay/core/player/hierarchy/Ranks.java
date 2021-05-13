@@ -1,6 +1,6 @@
-package club.mineplay.core.hierarchy;
+package club.mineplay.core.player.hierarchy;
 
-import club.mineplay.core.hierarchy.ranks.*;
+import club.mineplay.core.player.hierarchy.ranks.*;
 
 public enum Ranks {
 

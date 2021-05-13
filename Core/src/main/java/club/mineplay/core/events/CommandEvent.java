@@ -3,7 +3,6 @@ package club.mineplay.core.events;
 Created by Sander on 4/25/2021
 */
 
-import club.mineplay.core.config.MessageColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;

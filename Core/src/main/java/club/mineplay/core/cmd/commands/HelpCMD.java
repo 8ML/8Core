@@ -4,7 +4,7 @@ Created by Sander on 4/24/2021
 */
 
 import club.mineplay.core.cmd.CMD;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.utils.BookUtil;
 import org.bukkit.entity.Player;
 

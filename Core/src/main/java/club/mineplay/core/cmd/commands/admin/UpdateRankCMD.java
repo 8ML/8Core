@@ -4,14 +4,10 @@ Created by Sander on 4/24/2021
 */
 
 import club.mineplay.core.cmd.CMD;
-import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.config.Messages;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 public class UpdateRankCMD extends CMD {
 

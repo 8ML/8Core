@@ -5,7 +5,7 @@ Created by Sander on 4/23/2021
 
 import club.mineplay.core.Core;
 import club.mineplay.core.config.MessageColor;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -119,31 +119,24 @@ public class MPlayer {
     }
 
     public void setRank(Ranks ranks) {
-        try {
 
-            PreparedStatement st = sql.preparedStatement("UPDATE users SET `rank`=? WHERE `uuid`=?");
-            st.setString(1, ranks.toString());
-            st.setString(2, this.UUID);
+        set("rank", ranks.toString());
 
-            try {
-                st.executeUpdate();
-            } finally {
-                sql.closeConnection(st);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        update();
     }
 
     public void setTitle(String str) {
 
+        set("title", str);
+
+    }
+
+    private void set(String column, String value) {
+
         try {
 
-            PreparedStatement st = sql.preparedStatement("UPDATE users SET `signature`=? WHERE `uuid`=?");
-            st.setString(1, str);
-            st.setString(2, this.getUUID());
+            PreparedStatement st = sql.preparedStatement("UPDATE users SET `" + column + "`=? WHERE `uuid`=?");
+            st.setString(1, value);
+            st.setString(2, this.UUID);
 
             try {
                 st.executeUpdate();

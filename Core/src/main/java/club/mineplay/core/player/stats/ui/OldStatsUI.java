@@ -4,7 +4,7 @@ Created by Sander on 5/3/2021
 */
 
 import club.mineplay.core.Core;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.level.Level;
 import net.md_5.bungee.api.ChatColor;

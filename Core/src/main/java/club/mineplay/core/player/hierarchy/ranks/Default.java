@@ -1,9 +1,9 @@
-package club.mineplay.core.hierarchy.ranks;
+package club.mineplay.core.player.hierarchy.ranks;
 /*
 Created by Sander on 4/23/2021
 */
 
-import club.mineplay.core.hierarchy.Rank;
+import club.mineplay.core.player.hierarchy.Rank;
 
 public class Default extends Rank {
 

@@ -5,7 +5,7 @@ Created by Sander on 4/28/2021
 
 import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.Messages;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.punishment.Punishment;
 import club.mineplay.core.punishment.type.Ban;

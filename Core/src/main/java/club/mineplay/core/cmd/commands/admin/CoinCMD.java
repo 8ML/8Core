@@ -5,10 +5,9 @@ Created by Sander on 4/27/2021
 
 import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.Messages;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.currency.Coin;
-import club.mineplay.core.player.level.Level;
 import org.bukkit.entity.Player;
 
 public class CoinCMD extends CMD {

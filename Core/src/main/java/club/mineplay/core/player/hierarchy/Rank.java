@@ -1,15 +1,14 @@
-package club.mineplay.core.hierarchy;
+package club.mineplay.core.player.hierarchy;
 /*
 Created by Sander on 4/23/2021
 */
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.ChatColor;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,8 @@ public abstract class Rank {
     private final double permissionLevel;
     private final List<Rank> inherits;
 
-    private Color rankColor;
+    private ChatColor rankColor;
+    private ChatColor nameColor;
     private boolean defaultRank;
     private String description;
 
@@ -28,14 +28,16 @@ public abstract class Rank {
         this.label = label;
         this.prefix = prefix;
         this.permissionLevel = permissionLevel;
-        this.rankColor = Color.gray;
+        this.rankColor = ChatColor.GRAY;
         this.inherits = new ArrayList<>();
         this.register();
     }
 
-    public void setColor(Color color) {
-        this.rankColor = color;
+    public void setColor(ChatColor rankColor, ChatColor nameColor) {
+        this.rankColor = rankColor;
+        this.nameColor = nameColor;
     }
+
 
     public void setDescription(String description) {
         this.description = description;
@@ -60,12 +62,10 @@ public abstract class Rank {
     }
 
     public String getFullPrefixWithSpace() {
-        if (isDefaultRank()) return "";
-        return ChatColor.WHITE + "[" + ChatColor.of(this.rankColor) + prefix + ChatColor.WHITE + "] ";
+        return this.isDefaultRank() ? "" : this.rankColor + "[" + this.rankColor + prefix + this.rankColor + "] ";
     }
     public String getFullPrefix() {
-        if (isDefaultRank()) return "";
-        return ChatColor.WHITE + "[" + ChatColor.of(this.rankColor) + prefix + ChatColor.WHITE + "]";
+        return isDefaultRank() ? "" : this.rankColor + "[" + this.rankColor + prefix + this.rankColor + "]";
     }
 
     public BaseComponent[] getFullPrefixComponent() {
@@ -75,25 +75,23 @@ public abstract class Rank {
 
         ComponentBuilder builder = new ComponentBuilder()
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.DARK_AQUA + description)))
-                .append(ChatColor.WHITE + "[").color(ChatColor.WHITE)
-                .append(getPrefix()).color(ChatColor.of(getRankColor()))
-                .append("] ").color(ChatColor.WHITE);
+                .append(getRankColor() + "[")
+                .append(getRankColor() + getPrefix())
+                .append(getRankColor() +"] ");
 
         return builder.create();
 
     }
 
     public ChatColor getChatColor() {
-        if (isDefaultRank()) return ChatColor.GRAY;
-        else return ChatColor.WHITE;
+        return isDefaultRank() ? ChatColor.GRAY : ChatColor.WHITE;
     }
 
     public ChatColor getNameColor() {
-        if (isDefaultRank()) return ChatColor.GRAY;
-        else return ChatColor.WHITE;
+        return isDefaultRank() ? ChatColor.GRAY : this.nameColor;
     }
 
-    public Color getRankColor() {
+    public ChatColor getRankColor() {
         return rankColor;
     }
 

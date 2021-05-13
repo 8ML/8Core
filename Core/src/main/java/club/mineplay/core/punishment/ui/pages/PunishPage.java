@@ -4,7 +4,6 @@ Created by Sander on 5/4/2021
 */
 
 import club.mineplay.core.config.MessageColor;
-import club.mineplay.core.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.punishment.Punishment;
 import club.mineplay.core.punishment.type.Ban;
@@ -15,10 +14,8 @@ import club.mineplay.core.ui.component.components.Button;
 import club.mineplay.core.ui.component.components.Label;
 import club.mineplay.core.ui.page.Page;
 import club.mineplay.core.utils.StaffMSG;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,7 +6,7 @@ Created by Sander on 5/6/2021
 import club.mineplay.core.Core;
 import club.mineplay.core.events.event.ProxyJoinEvent;
 import club.mineplay.core.events.event.UpdateEvent;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataInput;
@@ -43,9 +43,7 @@ public class PluginMessenger implements PluginMessageListener, Listener {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(stream);
 
-        boolean obj = false;
-
-        if (!objects.isEmpty()) obj = true;
+        boolean obj = !objects.isEmpty();
 
         try {
 

@@ -4,7 +4,7 @@ Created by Sander on 5/8/2021
 */
 
 import club.mineplay.core.events.event.UpdateEvent;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.utils.NameTag;
 import club.mineplay.hub.Hub;
@@ -47,7 +47,7 @@ public class JoinEvent implements Listener {
 
     private void changeTag(MPlayer player) {
         NameTag.changeTag(player.getPlayer(), player.getRankEnum().getRank().getFullPrefixWithSpace(), "",
-                player.getRankEnum().equals(Ranks.DEFAULT) ? ChatColor.GRAY : ChatColor.WHITE);
+                player.getRankEnum().equals(Ranks.DEFAULT) ? ChatColor.GRAY : player.getRankEnum().getRank().getNameColor());
         if (player.getTitle().equals("")) {
             NameTag.removeTitle(player.getPlayer());
         } else {

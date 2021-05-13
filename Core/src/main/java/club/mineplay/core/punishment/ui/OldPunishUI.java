@@ -5,7 +5,7 @@ Created by Sander on 4/29/2021
 
 import club.mineplay.core.Core;
 import club.mineplay.core.config.MessageColor;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.punishment.PunishInfo;
 import club.mineplay.core.punishment.Punishment;

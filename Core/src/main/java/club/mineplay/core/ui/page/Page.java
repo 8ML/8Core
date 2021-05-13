@@ -125,6 +125,18 @@ public abstract class Page {
         component.setSlot(slot);
     }
 
+    protected void setFrameLabel(String frameLabel) {
+        this.frameLabel = frameLabel;
+    }
+
+    protected void setFrameLore(String[] frameLore) {
+        this.frameLore = frameLore;
+    }
+
+    protected GUI getParent() {
+        return parent;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -133,24 +145,12 @@ public abstract class Page {
         this.parent = parent;
     }
 
-    public void setFrameLabel(String frameLabel) {
-        this.frameLabel = frameLabel;
-    }
-
-    public void setFrameLore(String[] frameLore) {
-        this.frameLore = frameLore;
-    }
-
     public Inventory getInventory() {
         return inventory;
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public GUI getParent() {
-        return parent;
     }
 
     public List<Component> getComponents() {

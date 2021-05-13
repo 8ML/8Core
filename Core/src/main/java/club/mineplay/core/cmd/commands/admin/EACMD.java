@@ -5,7 +5,7 @@ Created by Sander on 5/10/2021
 
 import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.Messages;
-import club.mineplay.core.hierarchy.Ranks;
+import club.mineplay.core.player.hierarchy.Ranks;
 import org.bukkit.entity.Player;
 
 public class EACMD extends CMD {

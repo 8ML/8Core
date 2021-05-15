@@ -9,8 +9,8 @@ import org.bukkit.ChatColor;
 public class BuildTeam extends Rank {
 
     public BuildTeam() {
-        super("BuildTeam", "BUILD TEAM", 30.0D);
-        setColor(ChatColor.DARK_AQUA, ChatColor.DARK_AQUA);
+        super("Build Team", "BUILD TEAM", 30.0D);
+        setColor(ChatColor.DARK_GREEN, ChatColor.DARK_GREEN);
         setDescription("Build Team consists of dedicated builders that\n" +
                 "make sure all the maps bring satisfaction to our players");
     }

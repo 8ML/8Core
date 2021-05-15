@@ -51,8 +51,8 @@ public class TabList implements Listener {
 
                 MPlayer player = MPlayer.getMPlayer(p.getName());
 
-                Object h = new ChatComponentText(getWithPlaceholders(player, String.join("\n", header)));
-                Object f = new ChatComponentText(getWithPlaceholders(player, String.join("\n", footer)));
+                Object h = new ChatComponentText(StringUtils.getWithPlaceholders(player, String.join("\n", header)));
+                Object f = new ChatComponentText(StringUtils.getWithPlaceholders(player, String.join("\n", footer)));
 
                 a.set(packet, h);
                 b.set(packet, f);
@@ -109,8 +109,8 @@ public class TabList implements Listener {
 
                 MPlayer player = MPlayer.getMPlayer(p.getName());
 
-                Object h = new ChatComponentText(getWithPlaceholders(player, String.join("\n", this.header)));
-                Object f = new ChatComponentText(getWithPlaceholders(player, String.join("\n", this.footer)));
+                Object h = new ChatComponentText(StringUtils.getWithPlaceholders(player, String.join("\n", this.header)));
+                Object f = new ChatComponentText(StringUtils.getWithPlaceholders(player, String.join("\n", this.footer)));
 
                 a.set(packet, h);
                 b.set(packet, f);
@@ -122,16 +122,6 @@ public class TabList implements Listener {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
-
-    private String getWithPlaceholders(MPlayer p, String str) {
-        return ChatColor.translateAlternateColorCodes('&', str.replaceAll("%playerRank%", p.getRankEnum().getRank().getFullPrefix())
-                .replaceAll("%playerCoins%", String.valueOf(p.getCoins()))
-                .replaceAll("%playerXP%", String.valueOf(p.getXP()))
-                .replaceAll("%playerLevel%", String.valueOf(Level.getLevelFromXP(p.getXP(), false)))
-                .replaceAll("%onlineServer%", String.valueOf(Bukkit.getOnlinePlayers().size()))
-                .replaceAll("%onlineBungee%", String.valueOf(pluginMessenger.getBungeeCount()))
-                .replaceAll(":nl:", "\n"));
     }
 
     public boolean isTabListSet() {

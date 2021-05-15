@@ -26,10 +26,9 @@ import java.util.*;
 
 public class NameTag implements Listener {
 
-    public static final Map<Player, EntityArmorStand> offsetMap = new HashMap<>();
-    public static final Map<Player, Entity> offset2Map = new HashMap<>();
-    public static final Map<Player, EntityArmorStand> titleMap = new HashMap<>();
-    public static final Set<Integer> entityID = new HashSet<>();
+    private static final Map<Player, EntityArmorStand> offsetMap = new HashMap<>();
+    private static final Map<Player, EntityArmorStand> titleMap = new HashMap<>();
+    private static final Set<Integer> entityID = new HashSet<>();
 
     public NameTag(Core plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -37,24 +36,7 @@ public class NameTag implements Listener {
 
     public static void changeTag(Player player, String prefix, String suffix, ChatColor color) {
 
-        Scoreboard scoreBoard = player.getScoreboard();
-
-        Team team = scoreBoard.getTeam(player.getName()) == null
-                ? scoreBoard.registerNewTeam(player.getName())
-                : scoreBoard.getTeam(player.getName());
-
-        if (scoreBoard.getObjective(player.getName()) != null)
-            Objects.requireNonNull(scoreBoard.getObjective(player.getName())).unregister();
-
-        assert team != null;
-        team.setDisplayName(color + player.getName());
-        team.setColor(color);
-        team.setPrefix(prefix);
-        team.setSuffix(suffix);
-        team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
-
-        team.addEntry(player.getName());
-
+        player.setPlayerListName(prefix + color + "" + player.getName());
 
     }
 
@@ -88,9 +70,6 @@ public class NameTag implements Listener {
         offset.setInvisible(true);
         offset.setSmall(true);
 
-        offset.passengers.add(entity);
-        ((CraftPlayer) player).getHandle().passengers.add(offset);
-
         PacketPlayOutSpawnEntity packetOffset = new PacketPlayOutSpawnEntity(offset);
         PacketPlayOutSpawnEntity packetEntity = new PacketPlayOutSpawnEntity(entity);
 
@@ -99,6 +78,9 @@ public class NameTag implements Listener {
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packetOffset);
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packetEntity);
         }
+
+        offset.passengers.add(entity);
+        ((CraftPlayer) player).getHandle().passengers.add(offset);
 
         entityID.add(entity.getId());
         titleMap.put(player, entity);

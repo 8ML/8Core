@@ -3,6 +3,7 @@ package club.mineplay.hub.events;
 Created by Sander on 5/8/2021
 */
 
+import club.mineplay.core.Core;
 import club.mineplay.core.events.event.UpdateEvent;
 import club.mineplay.core.player.hierarchy.Ranks;
 import club.mineplay.core.player.MPlayer;
@@ -25,6 +26,7 @@ public class JoinEvent implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         MPlayer pl = MPlayer.getMPlayer(e.getPlayer().getName());
         changeTag(pl);
+        setScoreboard(pl);
     }
 
     private int timer = 0;
@@ -53,6 +55,12 @@ public class JoinEvent implements Listener {
         } else {
             NameTag.changeTitle(player.getPlayer(), player.getTitle());
         }
+    }
+
+    private void setScoreboard(MPlayer player) {
+
+        Core.instance.scoreBoard.setScoreboard(player.getPlayer());
+
     }
 
 }

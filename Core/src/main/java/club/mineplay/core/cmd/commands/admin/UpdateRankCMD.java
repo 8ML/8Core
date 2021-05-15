@@ -21,6 +21,11 @@ public class UpdateRankCMD extends CMD {
             try {
 
                 MPlayer player = MPlayer.getMPlayer(paramArrayOfString[0]);
+                if (!player.exists()) {
+                    Messages.sendFailedMessage(paramPlayer);
+                    return;
+                }
+
 
                 Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
                 player.setRank(rank);

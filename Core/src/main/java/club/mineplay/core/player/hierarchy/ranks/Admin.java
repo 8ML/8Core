@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 public class Admin extends Rank {
 
     public Admin() {
-        super("Administrator", "ADMIN", 90.0D);
+        super("Admin", "ADMIN", 90.0D);
         setColor(ChatColor.RED, ChatColor.RED);
         setDescription("Admin's are the people that manages the server and makes sure\n" +
                 "everything goes as it should, they consist of developers, quality assurance,\n" +

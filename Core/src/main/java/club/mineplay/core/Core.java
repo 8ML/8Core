@@ -12,11 +12,14 @@ import club.mineplay.core.cmd.commands.staff.PunishCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMDTEST;
 import club.mineplay.core.cmd.commands.staff.StaffChatCMD;
 import club.mineplay.core.events.*;
+import club.mineplay.core.events.common.JoinEvent;
+import club.mineplay.core.events.common.LeaveEvent;
 import club.mineplay.core.events.event.UpdateEvent;
 import club.mineplay.core.storage.SQL;
 import club.mineplay.core.storage.file.PluginFile;
 import club.mineplay.core.utils.NameTag;
 import club.mineplay.core.utils.PluginMessenger;
+import club.mineplay.core.utils.ScoreBoard;
 import club.mineplay.core.utils.TabList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -33,6 +36,7 @@ public class Core extends JavaPlugin {
 
     public PluginMessenger pluginMessenger;
     public TabList tabList;
+    public ScoreBoard scoreBoard;
 
     public String serverName;
 
@@ -68,8 +72,8 @@ public class Core extends JavaPlugin {
         new NameTag(this);
     }
 
+    private final int[] timer = {0};
     private void startEvents() {
-        final int[] timer = {0};
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -77,10 +81,11 @@ public class Core extends JavaPlugin {
                 timer[0]++;
                 if (timer[0] >= 20) {
                     instance.getServer().getPluginManager().callEvent(new UpdateEvent(UpdateEvent.UpdateType.SECONDS));
+                    timer[0] = 0;
                 }
 
             }
-        }.runTaskTimer(this, 0, 1L);
+        }.runTaskTimer(this, 1L, 1L);
     }
 
     private void registerCommands() {
@@ -115,6 +120,7 @@ public class Core extends JavaPlugin {
 
         this.pluginMessenger = new PluginMessenger(this);
         this.tabList = new TabList(this);
+        this.scoreBoard = new ScoreBoard(this);
 
         this.serverName = configYML.getString("serverName");
 

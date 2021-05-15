@@ -10,7 +10,7 @@ public class Creator extends Rank {
 
     public Creator() {
         super("Creator", "CREATOR", 10.0D);
-        setColor(ChatColor.RED, ChatColor.RED);
+        setColor(ChatColor.GOLD, ChatColor.GOLD);
         setDescription("Creators consists of media related influences\nsuch as Youtubers and Streamers");
     }
 

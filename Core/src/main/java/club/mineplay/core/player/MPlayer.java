@@ -25,6 +25,7 @@ public class MPlayer {
 
     private final String player;
     private final boolean isOffline;
+    private final boolean exists;
 
     private Ranks rank;
     private int coins;
@@ -41,6 +42,7 @@ public class MPlayer {
         this.player = player.getName();
         this.UUID = player.getUniqueId().toString();
         this.isOffline = false;
+        this.exists = true;
 
         update();
     }
@@ -49,26 +51,32 @@ public class MPlayer {
 
         this.player = player;
 
-        try {
+        if (!exists(player)) {
+            this.exists = true;
+            this.isOffline = true;
+        } else {
+            try {
 
-            PreparedStatement checkStmt = sql.preparedStatement("SELECT * FROM users WHERE `playerName`=?");
-            checkStmt.setString(1, player);
-            ResultSet rs = checkStmt.executeQuery();
-            if (rs.next()) {
-                this.UUID = rs.getString("uuid");
+                PreparedStatement checkStmt = sql.preparedStatement("SELECT * FROM users WHERE `playerName`=?");
+                checkStmt.setString(1, player);
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next()) {
+                    this.UUID = rs.getString("uuid");
+                    this.sql.closeConnection(checkStmt);
+                }
+
                 this.sql.closeConnection(checkStmt);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
-            this.sql.closeConnection(checkStmt);
+            this.isOffline = !Core.instance.pluginMessenger.getBungeePlayers().contains(player);
+            this.exists = true;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            update();
+
         }
-
-        this.isOffline = !Core.instance.pluginMessenger.getBungeePlayers().contains(player);
-
-        update();
-
     }
 
     public MPlayer(MPlayer player) {
@@ -79,6 +87,7 @@ public class MPlayer {
         this.xp = player.xp;
         this.coins = player.coins;
         this.signature = player.signature;
+        this.exists = player.exists;
         update();
     }
 
@@ -120,17 +129,23 @@ public class MPlayer {
 
     public void setRank(Ranks ranks) {
 
+        if (!exists) return;
+
         set("rank", ranks.toString());
 
     }
 
     public void setTitle(String str) {
 
+        if (!exists) return;
+
         set("title", str);
 
     }
 
     private void set(String column, String value) {
+
+        if (!exists) return;
 
         try {
 
@@ -198,6 +213,10 @@ public class MPlayer {
     public boolean isPermissible(Ranks rankEnum) {
         if (this.getRankEnum().getRank().hasPermissionLevel(rankEnum.getRank())) return true;
         else { getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You are not allowed to do this!"); return false;}
+    }
+
+    public boolean exists() {
+        return this.exists;
     }
 
     public static void registerMPlayer(String player) {

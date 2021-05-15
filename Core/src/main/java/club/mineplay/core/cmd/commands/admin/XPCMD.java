@@ -22,6 +22,10 @@ public class XPCMD extends CMD {
         if (paramArrayOfString.length == 3) {
 
             MPlayer player = MPlayer.getMPlayer(paramArrayOfString[0]);
+            if (!player.exists()) {
+                Messages.sendFailedMessage(paramPlayer);
+                return;
+            }
 
             try {
 

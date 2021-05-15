@@ -5,6 +5,7 @@ Created by Sander on 5/8/2021
 import club.mineplay.core.Core;
 import club.mineplay.core.storage.file.PluginFile;
 import club.mineplay.hub.events.JoinEvent;
+import club.mineplay.hub.scoreboard.Scoreboard;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Hub extends JavaPlugin {
@@ -31,6 +32,7 @@ public class Hub extends JavaPlugin {
         registerEvents();
 
         Core.instance.tabList.setTabList(tabConf.getString("header"), tabConf.getString("footer"));
+        Scoreboard.init();
     }
 
     @Override

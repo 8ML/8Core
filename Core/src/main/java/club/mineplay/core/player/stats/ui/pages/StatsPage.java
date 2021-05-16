@@ -90,7 +90,7 @@ public class StatsPage extends Page {
                         + ChatColor.GRAY + " [" + builder + ChatColor.GRAY + "] "
                         + ChatColor.GRAY + (iLevel + 1),
                 "",
-                ChatColor.WHITE + "XP required: " + ChatColor.GRAY + this.t.getXP() +
+                ChatColor.WHITE + "Required XP: " + ChatColor.GRAY + this.t.getXP() +
                         ChatColor.DARK_GRAY + "/"
                         + ChatColor.GRAY + Level.getXPFromLevel(iLevel + 1)});
 

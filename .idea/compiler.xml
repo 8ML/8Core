@@ -5,6 +5,8 @@
       <module name="BungeeProxy.main" target="1.8" />
       <module name="BungeeProxy.test" target="1.8" />
       <module name="club.mineplay.Core" target="1.8" />
+      <module name="club.mineplay.Hub" target="1.8" />
+      <module name="club.mineplay.Hub.test" target="1.8" />
       <module name="Hub" target="1.8" />
       <module name="Hub.test" target="1.8" />
     </bytecodeTargetLevel>

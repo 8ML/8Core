@@ -114,7 +114,7 @@ public class ScoreBoard implements Listener {
         if (e.getType().equals(UpdateEvent.UpdateType.TICK)) {
 
             ticks++;
-            if (ticks < 1.5) return;
+            if (ticks < 2) return;
 
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!scoreboardSet.contains(player)) continue;

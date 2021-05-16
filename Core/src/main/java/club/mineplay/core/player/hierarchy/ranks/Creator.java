@@ -9,9 +9,9 @@ import org.bukkit.ChatColor;
 public class Creator extends Rank {
 
     public Creator() {
-        super("Creator", "CREATOR", 10.0D);
+        super("YT", "YT", 10.0D);
         setColor(ChatColor.GOLD, ChatColor.GOLD);
-        setDescription("Creators consists of media related influences\nsuch as Youtubers and Streamers");
+        setDescription("YouTubers are content creators and streamers.");
     }
 
     @Override

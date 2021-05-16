@@ -45,7 +45,7 @@ public class JoinEvent implements Listener {
                     "\n\n" +
                     "&fJoin our &adiscord &ffor news and announcements!" +
                     "\n" +
-                    "&d&ndiscord.io/mineplayclub" +
+                    "&d&nmineplay.club/discord" +
                     "\n\n" +
                     "&7You received &e+50 coins &7for joining the first time!"));
 
@@ -75,7 +75,7 @@ public class JoinEvent implements Listener {
 
         if (!proxyCheck(e.getPlayer())) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, MessageColor.COLOR_ERROR + "Could not establish connection!\n\n" +
-                    "You have to connect using" + ChatColor.YELLOW + " mineplay.club");
+                    "You have to connect using" + ChatColor.YELLOW + " mineplay.club" + MessageColor.COLOR_ERROR + "!");
         }
 
         if (MPlayer.exists(e.getPlayer().getName())) {

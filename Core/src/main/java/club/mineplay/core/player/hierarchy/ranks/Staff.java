@@ -11,7 +11,8 @@ public class Staff extends Rank {
     public Staff() {
         super("Staff", "STAFF", 50.0D);
         setColor(ChatColor.BLUE, ChatColor.BLUE);
-        setDescription("Consists of our well organized staff team\nthat makes your experience satisfactory");
+        setDescription("Staff enforce rules and provide help to\n" +
+                       "anyone with questions or concerns.");
     }
 
     @Override

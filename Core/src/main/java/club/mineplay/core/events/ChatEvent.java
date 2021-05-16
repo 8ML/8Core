@@ -47,9 +47,9 @@ public class ChatEvent implements Listener {
                 + ((int) Level.getLevelFromXP(player.getXP(), false))
                 + "] ");
 
-        level.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.WHITE + "Level: "
-                + ChatColor.GRAY + ((int) Level.getLevelFromXP(player.getXP(), false))
-                + ChatColor.WHITE + "\nXP for next level: " + ChatColor.GRAY + playerXP + "/" + nextLevelXP)));
+        level.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.YELLOW + "Network Level: "
+                + ChatColor.AQUA + ((int) Level.getLevelFromXP(player.getXP(), false))
+                + ChatColor.YELLOW + "\nXP required: " + ChatColor.GOLD + playerXP + "/" + nextLevelXP)));
 
         ComponentBuilder componentBuilder = new ComponentBuilder()
                 .append(level.create())

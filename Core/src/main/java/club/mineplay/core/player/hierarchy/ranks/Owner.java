@@ -11,7 +11,9 @@ public class Owner extends Rank {
     public Owner() {
         super("Owner", "OWNER", 100.0D);
         setColor(ChatColor.RED, ChatColor.RED);
-        setDescription("Owner consists of the founders.\nThe people that made Mineplay a reality");
+        setDescription("Owners are the founders of Mineplay,\n" +
+                       "managing all aspects of the network\n" +
+                       "and ensuring its efficient operation.");
     }
 
     @Override

@@ -40,8 +40,8 @@ public class StaffMSG {
             }
         }
 
-        String hover = ChatColor.WHITE + "Rank: " + ChatColor.AQUA + pl.getRankEnum().getRank().getPrefix()
-                + ChatColor.WHITE + "\nServer: " + ChatColor.AQUA + "%server%";
+        String hover = ChatColor.YELLOW + "Rank: " + ChatColor.AQUA + pl.getRankEnum().getRank().getPrefix()
+                + ChatColor.YELLOW + "\nServer: " + ChatColor.AQUA + "%server%";
 
         messenger.sendPluginMessage("STAFF_CHANNEL", hover, staffList, ChatColor.AQUA + "[STAFF] "
                 + ChatColor.WHITE + pl.getPlayerStr() + " " + ChatColor.RESET + msg);

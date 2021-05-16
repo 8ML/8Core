@@ -74,7 +74,7 @@ public abstract class Rank {
         String description = this.description == null ? "" : this.description;
 
         ComponentBuilder builder = new ComponentBuilder()
-                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.DARK_AQUA + description)))
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GRAY + description)))
                 .append(getRankColor() + "[")
                 .append(getRankColor() + getPrefix())
                 .append(getRankColor() +"] ");

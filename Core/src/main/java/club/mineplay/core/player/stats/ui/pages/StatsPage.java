@@ -23,7 +23,7 @@ public class StatsPage extends Page {
     private final MPlayer t;
 
     public StatsPage(MPlayer t) {
-        super("Stats | " + t.getPlayerStr(), 27, false);
+        super(t.getPlayerStr() + "'s Profile", 27, false);
         this.t = t;
 
         setFrameLabel(" ");
@@ -66,7 +66,7 @@ public class StatsPage extends Page {
 
         //Labels
 
-        Label profile = new Label(ChatColor.YELLOW + "Profile", Material.PLAYER_HEAD, getParent());
+        Label profile = new Label(ChatColor.YELLOW + t.getPlayerStr() + "'s Profile", Material.PLAYER_HEAD, getParent());
         SkullMeta meta = (SkullMeta) profile.getMeta();
         meta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(t.getUUID())));
         profile.setItemMeta(meta);
@@ -86,17 +86,17 @@ public class StatsPage extends Page {
                 ChatColor.GRAY + "is required to level up.",
                 "",
                 ChatColor.WHITE + "Progress: " + ChatColor.GOLD + ((int) percentage) + "%",
-                ChatColor.DARK_AQUA + "Level " + ChatColor.GREEN + iLevel
+                ChatColor.GRAY + "Level " + ChatColor.GREEN + iLevel
                         + ChatColor.GRAY + " [" + builder + ChatColor.GRAY + "] "
-                        + ChatColor.DARK_AQUA + (iLevel + 1),
+                        + ChatColor.GRAY + (iLevel + 1),
                 "",
-                ChatColor.WHITE + "XP required: " + ChatColor.DARK_AQUA + this.t.getXP()
-                        + ChatColor.GRAY + "/"
-                        + ChatColor.DARK_AQUA + Level.getXPFromLevel(iLevel + 1)});
+                ChatColor.WHITE + "XP required: " + ChatColor.GRAY + this.t.getXP() +
+                        ChatColor.DARK_GRAY + "/"
+                        + ChatColor.GRAY + Level.getXPFromLevel(iLevel + 1)});
 
         //Buttons
 
-        Button exit = new Button(ChatColor.RED + "Click to Close", Material.BARRIER, getParent());
+        Button exit = new Button(ChatColor.RED + "Close", Material.BARRIER, getParent());
         exit.setOnClick(() -> {
             getParent().getPlayer().getPlayer().closeInventory();
             getParent().unregisterHandlers();

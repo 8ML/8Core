@@ -45,7 +45,7 @@ public class BookUtil {
                 "&0announcements!\n\n")).create();
         BaseComponent[] cl = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&r     &r&d&l&nCLICK HERE&r"))
                 .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.io/mineplayclub"))
-                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.YELLOW + "Click to join!").create())).create();
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Click for link!").create())).create();
 
         BaseComponent[] comp = new ComponentBuilder().append(cb).append(cl).create();
 

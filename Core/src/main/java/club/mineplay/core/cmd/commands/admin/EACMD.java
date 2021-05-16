@@ -21,6 +21,5 @@ public class EACMD extends CMD {
 
         ea = !ea;
         Messages.sendSuccessMessage(paramPlayer);
-
     }
 }

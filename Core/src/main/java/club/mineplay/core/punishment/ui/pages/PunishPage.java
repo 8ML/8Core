@@ -32,7 +32,7 @@ public class PunishPage extends Page {
 
     public PunishPage(MPlayer target, MPlayer executor, String reason) {
 
-        super("Punish | " + target.getPlayerStr() , 54, true);
+        super("Punish " + target.getPlayerStr() , 54, true);
 
         this.target = target;
         this.executor = executor;

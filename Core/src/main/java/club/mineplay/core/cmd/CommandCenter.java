@@ -14,7 +14,7 @@ public class CommandCenter {
 
     public static void registerCommand(CMD cmd, JavaPlugin plugin) {
         cmd.setMain(plugin).registerMe();
-        plugin.getLogger().info("[CMD] Registered Command: " + cmd.getLabel());
+        plugin.getLogger().info("Registering command " + cmd.getLabel() + "...");
     }
 
 }

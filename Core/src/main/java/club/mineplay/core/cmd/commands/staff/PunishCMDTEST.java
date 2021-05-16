@@ -18,6 +18,14 @@ public class PunishCMDTEST extends CMD {
         super("punishtest", new String[0], "", "-", Ranks.STAFF);
     }
 
+      /*
+    WARNING!
+
+    THIS IS A COMMAND FOR TESTING PURPOSES DURING DEVELOPMENT
+    THIS COMMAND SHOULD BE DISABLED IMMEDIATELY WHEN DEVELOPMENT IS DONE.
+
+     */
+
     @Override
     public void execute(Player paramPlayer, String[] paramArrayOfString) {
 

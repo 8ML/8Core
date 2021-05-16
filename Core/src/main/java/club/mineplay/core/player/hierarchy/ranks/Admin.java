@@ -11,9 +11,9 @@ public class Admin extends Rank {
     public Admin() {
         super("Admin", "ADMIN", 90.0D);
         setColor(ChatColor.RED, ChatColor.RED);
-        setDescription("Admin's are the people that manages the server and makes sure\n" +
-                "everything goes as it should, they consist of developers, quality assurance,\n" +
-                "build team leaders and more");
+        setDescription("Administrators are responsible for\n" +
+                       "managing their respective teams\n" +
+                       "and ongoing projects.");
     }
 
     @Override

@@ -11,8 +11,8 @@ public class BuildTeam extends Rank {
     public BuildTeam() {
         super("Build Team", "BUILD TEAM", 30.0D);
         setColor(ChatColor.DARK_GREEN, ChatColor.DARK_GREEN);
-        setDescription("Build Team consists of dedicated builders that\n" +
-                "make sure all the maps bring satisfaction to our players");
+        setDescription("Builders are level designers who build\n" +
+                       "all of the maps exclusive to Mineplay.");
     }
 
     @Override

@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BungeeProxy.main.iml" filepath="$PROJECT_DIR$/.idea/modules/BungeeProxy.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BungeeProxy.test.iml" filepath="$PROJECT_DIR$/.idea/modules/BungeeProxy.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Hub.iml" filepath="$PROJECT_DIR$/.idea/modules/Hub.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Hub.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Hub.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/club.mineplay.Hub.iml" filepath="$PROJECT_DIR$/.idea/modules/club.mineplay.Hub.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/club.mineplay.Hub.test.iml" filepath="$PROJECT_DIR$/.idea/modules/club.mineplay.Hub.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/mineplay.iml" filepath="$PROJECT_DIR$/.idea/mineplay.iml" />

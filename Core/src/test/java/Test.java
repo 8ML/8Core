@@ -1,5 +1,5 @@
 /*
-Created by Sander on 4/27/2021
+Created by @8ML (https://github.com/8ML) on 4/27/2021
 */
 
 import club.mineplay.core.utils.ScoreBoard;

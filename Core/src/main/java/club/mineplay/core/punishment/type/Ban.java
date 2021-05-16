@@ -1,6 +1,6 @@
 package club.mineplay.core.punishment.type;
 /*
-Created by Sander on 4/28/2021
+Created by @8ML (https://github.com/8ML) on 4/28/2021
 */
 
 import club.mineplay.core.player.MPlayer;

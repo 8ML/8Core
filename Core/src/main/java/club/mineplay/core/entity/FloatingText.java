@@ -1,6 +1,6 @@
 package club.mineplay.core.entity;
 /*
-Created by Sander on 5/11/2021
+Created by @8ML (https://github.com/8ML) on 5/11/2021
 */
 
 import net.minecraft.server.v1_16_R3.ChatComponentText;

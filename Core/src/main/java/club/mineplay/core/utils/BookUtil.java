@@ -1,6 +1,6 @@
 package club.mineplay.core.utils;
 /*
-Created by Sander on 4/25/2021
+Created by @8ML (https://github.com/8ML) on 4/25/2021
 */
 
 import net.md_5.bungee.api.chat.BaseComponent;

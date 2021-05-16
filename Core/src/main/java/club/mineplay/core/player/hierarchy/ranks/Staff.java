@@ -1,6 +1,6 @@
 package club.mineplay.core.player.hierarchy.ranks;
 /*
-Created by Sander on 4/26/2021
+Created by @8ML (https://github.com/8ML) on 4/26/2021
 */
 
 import club.mineplay.core.player.hierarchy.Rank;

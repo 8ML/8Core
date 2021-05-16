@@ -1,6 +1,6 @@
 package club.mineplay.core.punishment.ui.pages;
 /*
-Created by Sander on 5/4/2021
+Created by @8ML (https://github.com/8ML) on 5/4/2021
 */
 
 import club.mineplay.core.config.MessageColor;

@@ -1,6 +1,6 @@
 package club.mineplay.core.cmd.commands.staff;
 /*
-Created by Sander on 4/29/2021
+Created by @8ML (https://github.com/8ML) on 4/29/2021
 */
 
 import club.mineplay.core.cmd.CMD;

@@ -1,6 +1,6 @@
 package club.mineplay.core.events.event;
 /*
-Created by Sander on 5/9/2021
+Created by @8ML (https://github.com/8ML) on 5/9/2021
 */
 
 import org.bukkit.entity.Player;

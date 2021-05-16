@@ -1,6 +1,6 @@
 package club.mineplay.core.utils;
 /*
-Created by Sander on 5/8/2021
+Created by @8ML (https://github.com/8ML) on 5/8/2021
 */
 
 import club.mineplay.core.Core;
@@ -140,7 +140,6 @@ public class ScoreBoard implements Listener {
 
 
     //PLEASE DO NOT USE THIS METHOD AS IT DOES NOT WORK AT ALL
-    @Beta
     @Deprecated
     public static String[] animateString(String str) {
         int frame = 0;

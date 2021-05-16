@@ -1,6 +1,6 @@
 package club.mineplay.core.storage.file;
 /*
-Created by Sander on 4/23/2021
+Created by @8ML (https://github.com/8ML) on 4/23/2021
 */
 
 import org.bukkit.configuration.InvalidConfigurationException;

@@ -25,9 +25,8 @@ public class StaffChatCMD extends CMD {
         }
 
         StringBuilder msg = new StringBuilder(paramArrayOfString[0]);
-        for (String arg : paramArrayOfString) {
-            if (arg.equalsIgnoreCase(paramArrayOfString[0])) continue;
-            msg.append(" ").append(arg);
+        for (int i = 1; i < paramArrayOfString.length; i++) {
+            msg.append(" ").append(paramArrayOfString[i]);
         }
 
         StaffMSG.sendStaffMessage(ChatColor.GRAY + msg.toString(), MPlayer.getMPlayer(paramPlayer.getName()));

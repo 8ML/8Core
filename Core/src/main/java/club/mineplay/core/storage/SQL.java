@@ -4,6 +4,9 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 */
 
 import club.mineplay.core.Core;
+import club.mineplay.core.events.event.UpdateEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SQL {
+public class SQL implements Listener {
 
     private final String db, user, host, password;
     private final int port;
@@ -21,6 +24,7 @@ public class SQL {
     private final List<PreparedStatement> statements = new ArrayList<>();
 
     private Connection connection;
+    private int cleanupCount = 0;
 
     public SQL(String db, String user, String host, String password, int port) {
         this.db = db;
@@ -28,6 +32,7 @@ public class SQL {
         this.host = host;
         this.password = password;
         this.port = port;
+        Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
     }
 
     public void init() {
@@ -47,6 +52,13 @@ public class SQL {
                     ", `type` VARCHAR(100) NOT NULL" +
                     ", `active` BIT NOT NULL" +
                     ", `uid` VARCHAR(255) NOT NULL)");
+            createTable("CREATE TABLE IF NOT EXISTS friends (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
+                    ", `friendList` LONGTEXT NOT NULL" +
+                    ", `requests` LONGTEXT NOT NULL)");
+            createTable("CREATE TABLE IF NOT EXISTS preferences (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
+                    ", `key` VARCHAR(255) NOT NULL" +
+                    ", `value` VARCHAR(255) NOT NULL)");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -98,13 +110,14 @@ public class SQL {
     }
 
     public PreparedStatement preparedStatement(String sql) throws SQLException {
+        pollCleanup();
         connect();
         PreparedStatement st = this.getConnection().prepareStatement(sql);
         statements.add(st);
         return st;
     }
 
-    public void createTable(String sql) throws SQLException {
+    private void createTable(String sql) throws SQLException {
         try {
             connect();
             PreparedStatement stmt = this.getConnection().prepareStatement(sql);
@@ -126,12 +139,39 @@ public class SQL {
 
     }
 
-    public void setConnection(Connection connection) {
+    private void setConnection(Connection connection) {
         this.connection = connection;
     }
 
-    public Connection getConnection() {
+    private Connection getConnection() {
         return this.connection;
+    }
+
+    private void pollCleanup() {
+        this.cleanupCount = 0;
+    }
+
+    @EventHandler
+    public void onUpdate(UpdateEvent e) {
+        if (!e.getType().equals(UpdateEvent.UpdateType.SECONDS)) return;
+
+        if (cleanupCount >= 20) {
+
+            cleanupCount = 0;
+
+            try {
+
+                this.getConnection().close();
+                statements.clear();
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
+        cleanupCount++;
+
     }
 
 }

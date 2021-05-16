@@ -116,7 +116,7 @@ public class ScoreBoard implements Listener {
             ticks++;
             if (ticks < 2) return;
 
-            for (Player player : Bukkit.getOnlinePlayers()) {
+            for (Player player : Core.onlinePlayers) {
                 if (!scoreboardSet.contains(player)) continue;
                 updateScoreboard(player);
             }

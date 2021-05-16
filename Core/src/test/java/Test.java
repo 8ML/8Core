@@ -13,10 +13,6 @@ public class Test {
 
     public static void main(String[] args) {
 
-        String[] frames = ScoreBoard.animateString("Hello");
-        for (String frame : frames) {
-            System.out.println(frame);
-        }
 
     }
 

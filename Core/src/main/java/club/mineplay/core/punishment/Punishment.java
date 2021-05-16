@@ -210,7 +210,10 @@ public abstract class Punishment {
                 long timeLeft = 0;
 
                 if (rs.getLong("end") != 0 && rs.getLong("when") != 0) {
-                    if (rs.getLong("end") < System.currentTimeMillis()) return new PunishInfo();
+                    if (rs.getLong("end") < System.currentTimeMillis()) {
+                        sql.closeConnection(st);
+                        return new PunishInfo();
+                    }
                     timeLeft = rs.getLong("end") - System.currentTimeMillis();
                 }
 

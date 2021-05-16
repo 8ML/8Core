@@ -12,7 +12,7 @@ import org.bukkit.ChatColor;
 public class StringUtils {
 
     public static String getWithPlaceholders(MPlayer player, String str) {
-        return ChatColor.translateAlternateColorCodes('&', str.replaceAll("%onlineServer%", String.valueOf(Bukkit.getOnlinePlayers().size()))
+        return ChatColor.translateAlternateColorCodes('&', str.replaceAll("%onlineServer%", String.valueOf(Core.onlinePlayers.size()))
                 .replaceAll("%onlineBungee%", String.valueOf(Core.instance.pluginMessenger.getBungeeCount()))
                 .replaceAll("%playerRank%", player.getRankEnum().getRank().isDefaultRank() ? "Default" : player.getRankEnum().getRank().getLabel())
                 .replaceAll("%playerRankWithColor%", player.getRankEnum().getRank().isDefaultRank() ? ChatColor.GRAY + "Default"

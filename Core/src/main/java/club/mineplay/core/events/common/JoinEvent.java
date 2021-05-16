@@ -8,6 +8,8 @@ import club.mineplay.core.config.MessageColor;
 import club.mineplay.core.events.event.ProxyJoinEvent;
 import club.mineplay.core.player.MPlayer;
 import club.mineplay.core.player.currency.Coin;
+import club.mineplay.core.player.options.PlayerOptions;
+import club.mineplay.core.player.social.friend.Friend;
 import club.mineplay.core.punishment.PunishInfo;
 import club.mineplay.core.punishment.Punishment;
 import club.mineplay.core.punishment.type.Ban;
@@ -35,6 +37,8 @@ public class JoinEvent implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
 
+        Core.onlinePlayers.add(e.getPlayer());
+
         boolean addCoins = false;
 
         if (!MPlayer.exists(e.getPlayer().getName())) {
@@ -61,6 +65,9 @@ public class JoinEvent implements Listener {
         } else {
             Core.instance.tabList.updateTabList();
         }
+
+        Friend.initialize(MPlayer.getMPlayer(e.getPlayer().getName()));
+        PlayerOptions.fetchPreferences(MPlayer.getMPlayer(e.getPlayer().getName()));
 
         e.setJoinMessage("");
 

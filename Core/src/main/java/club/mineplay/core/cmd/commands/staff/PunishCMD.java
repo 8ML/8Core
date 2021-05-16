@@ -20,13 +20,9 @@ public class PunishCMD extends CMD {
 
         if (paramArrayOfString.length > 1) {
 
-            StringBuilder reason = new StringBuilder();
-            for (int i = 1; i < paramArrayOfString.length; i++) {
-                if (i == paramArrayOfString.length - 1) {
-                    reason.append(paramArrayOfString[i]);
-                } else {
-                    reason.append(paramArrayOfString[i]).append(" ");
-                }
+            StringBuilder reason = new StringBuilder(paramArrayOfString[0]);
+            for (int i = 2; i < paramArrayOfString.length; i++) {
+                reason.append(" ").append(paramArrayOfString[i]);
             }
 
             new PunishUI(MPlayer.getMPlayer(paramArrayOfString[0]), MPlayer.getMPlayer(paramPlayer.getName()), reason.toString());

@@ -24,7 +24,8 @@ public class StatsCMD extends CMD {
 
             if (MPlayer.exists(paramArrayOfString[0])) pl = MPlayer.getMPlayer(paramArrayOfString[0]);
             else {
-                Messages.sendFailedMessage(paramPlayer); return;}
+                Messages.sendFailedMessage(paramPlayer); return;
+            }
 
         } else {
 

@@ -69,7 +69,7 @@ public class PluginMessenger implements PluginMessageListener, Listener {
             e.printStackTrace();
         }
 
-        Objects.requireNonNull(Iterables.getFirst(Bukkit.getOnlinePlayers(), null))
+        Objects.requireNonNull(Iterables.getFirst(Core.onlinePlayers, null))
                 .sendPluginMessage(plugin, "BungeeCord", stream.toByteArray());
 
     }
@@ -80,9 +80,9 @@ public class PluginMessenger implements PluginMessageListener, Listener {
         out.writeUTF("PlayerCount");
         out.writeUTF("ALL");
 
-        if (Bukkit.getOnlinePlayers().isEmpty()) return;
+        if (Core.onlinePlayers.isEmpty()) return;
 
-        Objects.requireNonNull(Iterables.getFirst(Bukkit.getOnlinePlayers(), null))
+        Objects.requireNonNull(Iterables.getFirst(Core.onlinePlayers, null))
                 .sendPluginMessage(this.plugin, "BungeeCord", out.toByteArray());
     }
 
@@ -104,9 +104,9 @@ public class PluginMessenger implements PluginMessageListener, Listener {
         out.writeUTF("PlayerList");
         out.writeUTF("ALL");
 
-        if (Bukkit.getOnlinePlayers().isEmpty()) return;
+        if (Core.onlinePlayers.isEmpty()) return;
 
-        Objects.requireNonNull(Iterables.getFirst(Bukkit.getOnlinePlayers(), null))
+        Objects.requireNonNull(Iterables.getFirst(Core.onlinePlayers, null))
                 .sendPluginMessage(this.plugin, "BungeeCord", out.toByteArray());
 
     }
@@ -120,9 +120,9 @@ public class PluginMessenger implements PluginMessageListener, Listener {
             e.printStackTrace();
         }
 
-        if (Bukkit.getOnlinePlayers().isEmpty()) return;
+        if (Core.onlinePlayers.isEmpty()) return;
 
-        Objects.requireNonNull(Iterables.getFirst(Bukkit.getOnlinePlayers(), null))
+        Objects.requireNonNull(Iterables.getFirst(Core.onlinePlayers, null))
                 .sendPluginMessage(this.plugin, "BungeeCord", stream.toByteArray());
     }
 

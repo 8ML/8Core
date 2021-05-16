@@ -40,7 +40,7 @@ public class TabList implements Listener {
 
         try {
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
+            for (Player p : Core.onlinePlayers) {
 
                 PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
 
@@ -99,7 +99,7 @@ public class TabList implements Listener {
         try {
 
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
+            for (Player p : Core.onlinePlayers) {
 
                 PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
 

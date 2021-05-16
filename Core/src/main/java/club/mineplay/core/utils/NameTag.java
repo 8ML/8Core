@@ -73,7 +73,7 @@ public class NameTag implements Listener {
         PacketPlayOutSpawnEntity packetOffset = new PacketPlayOutSpawnEntity(offset);
         PacketPlayOutSpawnEntity packetEntity = new PacketPlayOutSpawnEntity(entity);
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Core.onlinePlayers) {
             if (p.equals(player)) continue;
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packetOffset);
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packetEntity);
@@ -105,7 +105,7 @@ public class NameTag implements Listener {
         PacketPlayOutEntityDestroy packetEntity = new PacketPlayOutEntityDestroy(titleMap.get(player).getId());
         PacketPlayOutEntityDestroy packetOffset = new PacketPlayOutEntityDestroy(offsetMap.get(player).getId());
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Core.onlinePlayers) {
             if (p.equals(player)) continue;
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packetEntity);
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packetOffset);
@@ -118,7 +118,7 @@ public class NameTag implements Listener {
 
         if (!e.getType().equals(UpdateEvent.UpdateType.SECONDS)) return;
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Core.onlinePlayers) {
 
             if (!titleMap.containsKey(p)) continue;
 
@@ -140,7 +140,7 @@ public class NameTag implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
+        for (Player p : Core.onlinePlayers) {
 
             if (titleMap.containsKey(p)) {
 

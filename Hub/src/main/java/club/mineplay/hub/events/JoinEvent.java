@@ -37,7 +37,7 @@ public class JoinEvent implements Listener {
         if (timer >= 5) {
             timer = 0;
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
+            for (Player p : Core.onlinePlayers) {
 
                 MPlayer pl = MPlayer.getMPlayer(p.getName());
 

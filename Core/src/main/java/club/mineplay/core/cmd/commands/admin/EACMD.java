@@ -6,6 +6,7 @@ Created by @8ML (https://github.com/8ML) on 5/10/2021
 import club.mineplay.core.cmd.CMD;
 import club.mineplay.core.config.Messages;
 import club.mineplay.core.player.hierarchy.Ranks;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class EACMD extends CMD {
@@ -21,5 +22,6 @@ public class EACMD extends CMD {
 
         ea = !ea;
         Messages.sendSuccessMessage(paramPlayer);
+        paramPlayer.sendMessage(ChatColor.GRAY + "Explosive Arrows is now set to " + ChatColor.AQUA + String.valueOf(ea));
     }
 }

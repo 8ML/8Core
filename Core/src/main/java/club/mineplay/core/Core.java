@@ -5,8 +5,12 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 
 import club.mineplay.core.cmd.CommandCenter;
 import club.mineplay.core.cmd.commands.HelpCMD;
+import club.mineplay.core.cmd.commands.OptionsCMD;
 import club.mineplay.core.cmd.commands.StatsCMD;
 import club.mineplay.core.cmd.commands.admin.*;
+import club.mineplay.core.cmd.commands.social.FriendCMD;
+import club.mineplay.core.cmd.commands.social.MessageCMD;
+import club.mineplay.core.cmd.commands.social.ReplyCMD;
 import club.mineplay.core.cmd.commands.special.TitleCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMD;
 import club.mineplay.core.cmd.commands.staff.PunishCMDTEST;
@@ -21,12 +25,19 @@ import club.mineplay.core.utils.NameTag;
 import club.mineplay.core.utils.PluginMessenger;
 import club.mineplay.core.utils.ScoreBoard;
 import club.mineplay.core.utils.TabList;
+import club.mineplay.core.world.MapExtract;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Core extends JavaPlugin {
 
     public static Core instance;
+    public static final Set<Player> onlinePlayers = new HashSet<>();
 
     public SQL sql;
 
@@ -39,6 +50,8 @@ public class Core extends JavaPlugin {
     public ScoreBoard scoreBoard;
 
     public String serverName;
+    public MapExtract mapExtractor;
+
 
 
     private void initSql() {
@@ -79,7 +92,7 @@ public class Core extends JavaPlugin {
             public void run() {
                 instance.getServer().getPluginManager().callEvent(new UpdateEvent(UpdateEvent.UpdateType.TICK));
                 timer[0]++;
-                if (timer[0] >= 20) {
+                if (timer[0] % 20 == 0) {
                     instance.getServer().getPluginManager().callEvent(new UpdateEvent(UpdateEvent.UpdateType.SECONDS));
                     timer[0] = 0;
                 }
@@ -100,6 +113,10 @@ public class Core extends JavaPlugin {
         CommandCenter.registerCommand(new StaffChatCMD(), this);
         CommandCenter.registerCommand(new TitleCMD(), this);
         CommandCenter.registerCommand(new EACMD(), this);
+        CommandCenter.registerCommand(new OptionsCMD(), this);
+        CommandCenter.registerCommand(new FriendCMD(), this);
+        CommandCenter.registerCommand(new MessageCMD(), this);
+        CommandCenter.registerCommand(new ReplyCMD(), this);
 
 
         //REMEMBER TO DISABLE THESE WHEN DEVELOPMENT IS DONE.
@@ -123,9 +140,12 @@ public class Core extends JavaPlugin {
         this.scoreBoard = new ScoreBoard(this);
 
         this.serverName = configYML.getString("serverName");
+        this.mapExtractor = new MapExtract();
 
     }
 
     @Override
-    public void onDisable() { }
+    public void onDisable() {
+        mapExtractor.load();
+    }
 }

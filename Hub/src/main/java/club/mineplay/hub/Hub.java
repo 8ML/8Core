@@ -28,6 +28,8 @@ public class Hub extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        Core.instance.mapExtractor.addMap("Base");
+
         registerFiles();
         registerEvents();
 

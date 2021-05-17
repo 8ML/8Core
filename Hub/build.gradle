@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
-group 'club.mineplay'
+group 'net.clubcraft'
 version '0.1'
 
 apply plugin: 'java'
@@ -29,7 +29,7 @@ dependencies {
     shadow 'commons-io:commons-io:2.6'
     shadow 'com.googlecode.json-simple:json-simple:1.1.1'
     provided files('Jars/spigot.jar')
-    provided 'club.mineplay:Core:1.0.0'
+    provided 'net.clubcraft:Core:1.0.0'
 }
 
 

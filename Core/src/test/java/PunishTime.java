@@ -2,8 +2,6 @@
 Created by @8ML (https://github.com/8ML) on 4/28/2021
 */
 
-import club.mineplay.core.punishment.Punishment;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 

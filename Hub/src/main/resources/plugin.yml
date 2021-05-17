@@ -1,5 +1,5 @@
 name: Hub
 version: 0.1
 api-version: 1.16
-main: club.mineplay.hub.Hub
+main: net.clubcraft.hub.Hub
 depend: [Core]

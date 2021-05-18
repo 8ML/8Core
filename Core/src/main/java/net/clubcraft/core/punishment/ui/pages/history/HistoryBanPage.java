@@ -55,7 +55,7 @@ public class HistoryBanPage extends Page {
             b.setOnClick(() -> {
                 if (i.isActive()) {
                     Punishment.removePunishment(i.getID());
-                    getParent().openPage(2);
+                    refresh();
                 }
             });
 

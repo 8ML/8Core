@@ -48,12 +48,7 @@ public class JoinEvent implements Listener {
 
     private void changeTag(MPlayer player) {
         NameTag.changeTag(player.getPlayer(), player.getRankEnum().getRank().getFullPrefixWithSpace(), "",
-                player.getRankEnum().equals(Ranks.DEFAULT) ? ChatColor.GRAY : player.getRankEnum().getRank().getNameColor());
-        if (player.getTitle().equals("")) {
-            NameTag.removeTitle(player.getPlayer());
-        } else {
-            NameTag.changeTitle(player.getPlayer(), player.getTitle());
-        }
+                player.getRankEnum().equals(Ranks.DEFAULT) ? ChatColor.GRAY : player.getRankEnum().getRank().getNameColor(), player.getTitle());
     }
 
     private void setScoreboard(MPlayer player) {

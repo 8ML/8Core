@@ -55,7 +55,7 @@ public class SQL implements Listener {
             createTable("CREATE TABLE IF NOT EXISTS friends (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
                     ", `friendList` LONGTEXT NOT NULL" +
                     ", `requests` LONGTEXT NOT NULL)");
-            createTable("CREATE TABLE IF NOT EXISTS preferences (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
+            createTable("CREATE TABLE IF NOT EXISTS preferences (`uuid` VARCHAR(255) NOT NULL" +
                     ", `key` VARCHAR(255) NOT NULL" +
                     ", `value` VARCHAR(255) NOT NULL)");
 

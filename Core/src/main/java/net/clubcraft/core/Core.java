@@ -9,7 +9,6 @@ import net.clubcraft.core.cmd.commands.OptionsCMD;
 import net.clubcraft.core.cmd.commands.StatsCMD;
 import net.clubcraft.core.cmd.commands.admin.*;
 import net.clubcraft.core.cmd.commands.social.FriendCMD;
-import net.clubcraft.core.cmd.commands.social.FriendListCMD;
 import net.clubcraft.core.cmd.commands.social.MessageCMD;
 import net.clubcraft.core.cmd.commands.social.ReplyCMD;
 import net.clubcraft.core.cmd.commands.special.TitleCMD;
@@ -117,7 +116,6 @@ public class Core extends JavaPlugin {
         CommandCenter.registerCommand(new FriendCMD(), this);
         CommandCenter.registerCommand(new MessageCMD(), this);
         CommandCenter.registerCommand(new ReplyCMD(), this);
-        CommandCenter.registerCommand(new FriendListCMD(), this);
 
 
         //REMEMBER TO DISABLE THESE WHEN DEVELOPMENT IS DONE.

@@ -55,7 +55,7 @@ public class HistoryMutePage extends Page {
             b.setOnClick(() -> {
                 if (i.isActive()) {
                     Punishment.removePunishment(i.getID());
-                    getParent().openPage(3);
+                    refresh();
                 }
             });
 

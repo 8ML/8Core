@@ -6,6 +6,7 @@ Created by @8ML (https://github.com/8ML) on 4/26/2021
 import net.clubcraft.core.cmd.CMD;
 import net.clubcraft.core.config.MessageColor;
 import net.clubcraft.core.player.hierarchy.Ranks;
+import net.clubcraft.core.utils.StringUtils;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -41,17 +42,10 @@ public class GameModeCMD extends CMD {
 
                         paramPlayer.setGameMode(modeMap.get(paramPlayer));
 
-                        StringBuilder b = new StringBuilder();
-                        char first = paramPlayer.getGameMode().toString().charAt(0);
-
-                        b.append(first);
-
-                        for (int i = 1; i < paramPlayer.getGameMode().toString().length(); i++) {
-                            b.append(String.valueOf(paramPlayer.getGameMode().toString().charAt(i)).toLowerCase());
-                        }
 
 
-                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to " + b + ".");
+                        paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "Changed to "
+                                + StringUtils.formatCapitalization(paramPlayer.getGameMode().toString()) + ".");
 
                     } else {
                         paramPlayer.setGameMode(GameMode.SURVIVAL);

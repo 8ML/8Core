@@ -39,12 +39,16 @@ public abstract class Page {
     public void open() {
         this.inventory = Bukkit.createInventory(null, size, title);
         onOpen();
+        updateComponents();
+        this.parent.getPlayer().getPlayer().openInventory(inventory);
+    }
 
+    private void updateComponents() {
         if (this.frame) {
             ItemStack frame = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
             ItemMeta frameMeta = frame.getItemMeta();
             assert frameMeta != null;
-            frameMeta.setDisplayName(this.frameLabel);
+            frameMeta.setDisplayName(this.frameLabel == null ? " " : this.frameLabel);
             frameMeta.setLore(Arrays.asList(this.frameLore));
             frame.setItemMeta(frameMeta);
 
@@ -112,8 +116,6 @@ public abstract class Page {
 
             this.inventory.setItem(component.getSlot(), i);
         }
-
-        this.parent.getPlayer().getPlayer().openInventory(inventory);
     }
 
     public abstract void onOpen();
@@ -123,6 +125,13 @@ public abstract class Page {
     protected void addComponent(Component component, int slot) {
         components.add(component);
         component.setSlot(slot);
+    }
+
+    protected void refresh() {
+        getInventory().clear();
+        components.clear();
+        onOpen();
+        updateComponents();
     }
 
     protected void setFrameLabel(String frameLabel) {

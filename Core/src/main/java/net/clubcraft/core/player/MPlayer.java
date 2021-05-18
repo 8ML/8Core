@@ -5,6 +5,7 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 
 import net.clubcraft.core.Core;
 import net.clubcraft.core.config.MessageColor;
+import net.clubcraft.core.game.GameInfo;
 import net.clubcraft.core.player.hierarchy.Ranks;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -139,7 +140,7 @@ public class MPlayer {
 
         if (!exists) return;
 
-        set("title", str);
+        set("signature", str);
 
     }
 

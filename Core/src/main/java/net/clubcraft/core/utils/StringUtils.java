@@ -11,7 +11,8 @@ import org.bukkit.ChatColor;
 public class StringUtils {
 
     public static String getWithPlaceholders(MPlayer player, String str) {
-        return ChatColor.translateAlternateColorCodes('&', str.replaceAll("%onlineServer%", String.valueOf(Core.onlinePlayers.size()))
+        return ChatColor.translateAlternateColorCodes('&', str
+                .replaceAll("%onlineServer%", String.valueOf(Core.onlinePlayers.size()))
                 .replaceAll("%onlineBungee%", String.valueOf(Core.instance.pluginMessenger.getBungeeCount()))
                 .replaceAll("%playerRank%", player.getRankEnum().getRank().isDefaultRank() ? "Default" : player.getRankEnum().getRank().getLabel())
                 .replaceAll("%playerRankWithColor%", player.getRankEnum().getRank().isDefaultRank() ? ChatColor.GRAY + "Default"
@@ -20,6 +21,13 @@ public class StringUtils {
                 .replaceAll("%playerLevel%", String.valueOf((int) Level.getLevelFromXP(player.getXP(), false)))
                 .replaceAll("%playerXP%", String.valueOf(player.getXP()))
                 .replaceAll(":nl:", "\n"));
+    }
+
+    public static String formatCapitalization(String str) {
+        String strLower = str.toLowerCase();
+        String firstChar = String.valueOf(strLower.charAt(0));
+        str = strLower.replaceFirst(firstChar, firstChar.toUpperCase());
+        return str;
     }
 
 }

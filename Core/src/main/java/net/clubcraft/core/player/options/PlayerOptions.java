@@ -19,6 +19,10 @@ public class PlayerOptions {
         FRIENDS_ONLY, ANYONE, OFF
     }
 
+    public enum FriendRequestPreference {
+        ANYONE, OFF
+    }
+
     public static void updatePreference(MPlayer player, String preference, String value) {
 
         SQL sql = Core.instance.sql;
@@ -73,18 +77,25 @@ public class PlayerOptions {
 
             SQL sql = Core.instance.sql;
 
-            Map<String, String> preferencesMap;
+            Map<String, String> preferencesMap = new HashMap<>();
 
             if (!preferences.containsKey(player)) {
                 preferencesMap = new HashMap<>();
             } else preferencesMap = preferences.get(player);
+
+            boolean found = false;
 
             PreparedStatement st = sql.preparedStatement("SELECT * FROM preferences WHERE `uuid`=?");
             st.setString(1, player.getUUID());
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
+                found = true;
                 preferencesMap.put(rs.getString("key"), rs.getString("value"));
+
+            }
+
+            if (!found) {
 
             }
 
@@ -95,6 +106,17 @@ public class PlayerOptions {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean check(MPlayer player, String key) {
+        if (!PlayerOptions.preferences.containsKey(player)) {
+            PlayerOptions.fetchPreferences(player);
+            if (!PlayerOptions.preferences.get(player).containsKey(key)) {
+                return true;
+            }
+        }
+
+        return !PlayerOptions.preferences.get(player).containsKey(key);
     }
 
     public static final Map<MPlayer, Map<String, String>> preferences = new HashMap<>();

@@ -40,7 +40,7 @@ public class MessageCMD extends CMD {
                 message.append(" ").append(paramArrayOfString[i]);
             }
 
-            friendManager.sendMessage(paramPlayer, recipient.getPlayer(), message.toString());
+            friendManager.sendMessage(paramPlayer, recipient, message.toString());
 
 
         } else {

@@ -7,12 +7,19 @@ import net.clubcraft.core.player.MPlayer;
 import net.clubcraft.core.player.options.PlayerOptions;
 import net.clubcraft.core.ui.component.components.Button;
 import net.clubcraft.core.ui.page.Page;
+import net.clubcraft.core.utils.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.Arrays;
 
 public class OptionsPage extends Page {
+
+    private Button privateMessagePreference;
+    private PlayerOptions.PrivateMessagePreference currentPrivateMessagePreference;
+    
+    private Button friendRequestPreference;
+    private PlayerOptions.FriendRequestPreference currentFriendRequestPreference;
 
     public OptionsPage(MPlayer player) {
         super("", 54, true);
@@ -22,25 +29,36 @@ public class OptionsPage extends Page {
     @Override
     public void onOpen() {
 
-        if (!PlayerOptions.preferences.containsKey(getParent().getPlayer())) {
-            PlayerOptions.fetchPreferences(getParent().getPlayer());
-            if (!PlayerOptions.preferences.get(getParent().getPlayer()).containsKey("PRIVATE_MESSAGE")) {
-                PlayerOptions.updatePreference(getParent().getPlayer(), "PRIVATE_MESSAGE",
-                        PlayerOptions.PrivateMessagePreference.FRIENDS_ONLY.toString());
-            }
+        initPrivateMessage();
+        initFriendRequest();
+
+        Button exit = new Button(ChatColor.RED + "Close", Material.BARRIER, getParent());
+        exit.setOnClick(() -> {
+            getParent().getPlayer().getPlayer().closeInventory();
+            getParent().unregisterHandlers();
+        });
+
+        addComponent(privateMessagePreference, 15);
+        addComponent(friendRequestPreference, 11);
+        addComponent(exit, 40);
+
+    }
+
+    private void initPrivateMessage() {
+        if (PlayerOptions.check(getParent().getPlayer(), "PRIVATE_MESSAGE")) {
+            PlayerOptions.updatePreference(getParent().getPlayer(), "PRIVATE_MESSAGE",
+                    PlayerOptions.PrivateMessagePreference.FRIENDS_ONLY.toString());
         }
 
-
-
-        PlayerOptions.PrivateMessagePreference currentPreference =
+        currentPrivateMessagePreference =
                 PlayerOptions.PrivateMessagePreference
                         .valueOf(PlayerOptions.preferences.get(getParent().getPlayer()).get("PRIVATE_MESSAGE"));
 
-        Button privateMessagePreference = new Button(Material.PAPER, getParent());
-        privateMessagePreference.setLabel(ChatColor.GREEN + "Update your preference for Private Messages");
+        privateMessagePreference = new Button(Material.PAPER, getParent());
+        privateMessagePreference.setLabel(ChatColor.GREEN + "Private Messages");
         privateMessagePreference.setLore(new String[]{"",
                 ChatColor.GRAY + "Current Preference: " + ChatColor.AQUA
-                        + currentPreference.toString().replaceAll("_", " ")});
+                        + StringUtils.formatCapitalization(currentPrivateMessagePreference.toString().replaceAll("_", " "))});
 
         privateMessagePreference.setOnClick(() -> {
 
@@ -49,25 +67,50 @@ public class OptionsPage extends Page {
 
 
             PlayerOptions.PrivateMessagePreference preference =
-                    Arrays.asList(preferences).indexOf(currentPreference) == preferences.length - 1
-                    ? preferences[0] : preferences[Arrays.asList(preferences).indexOf(currentPreference) + 1];
+                    Arrays.asList(preferences).indexOf(currentPrivateMessagePreference) == preferences.length - 1
+                            ? preferences[0] : preferences[Arrays.asList(preferences).indexOf(currentPrivateMessagePreference) + 1];
 
             PlayerOptions.updatePreference(getParent().getPlayer(), "PRIVATE_MESSAGE", preference.toString());
 
-            getParent().openPage(0);
+            refresh();
 
         });
-
-        Button exit = new Button(ChatColor.RED + "Close", Material.BARRIER, getParent());
-        exit.setOnClick(() -> {
-            getParent().getPlayer().getPlayer().closeInventory();
-            getParent().unregisterHandlers();
-        });
-
-        addComponent(privateMessagePreference, 13);
-        addComponent(exit, 40);
-
     }
+
+    private void initFriendRequest() {
+        if (PlayerOptions.check(getParent().getPlayer(), "FRIEND_REQUEST")) {
+            PlayerOptions.updatePreference(getParent().getPlayer(), "FRIEND_REQUEST",
+                    PlayerOptions.FriendRequestPreference.ANYONE.toString());
+        }
+
+        currentFriendRequestPreference =
+                PlayerOptions.FriendRequestPreference
+                        .valueOf(PlayerOptions.preferences.get(getParent().getPlayer()).get("FRIEND_REQUEST"));
+
+        friendRequestPreference = new Button(Material.POPPY, getParent());
+        friendRequestPreference.setLabel(ChatColor.GREEN + "Friend Requests");
+        friendRequestPreference.setLore(new String[]{"",
+                ChatColor.GRAY + "Current Preference: " + ChatColor.AQUA
+                        + StringUtils.formatCapitalization(currentFriendRequestPreference.toString().replaceAll("_", " "))});
+
+        friendRequestPreference.setOnClick(() -> {
+
+            PlayerOptions.FriendRequestPreference[] preferences =
+                    PlayerOptions.FriendRequestPreference.values();
+
+
+            PlayerOptions.FriendRequestPreference preference =
+                    Arrays.asList(preferences).indexOf(currentFriendRequestPreference) == preferences.length - 1
+                            ? preferences[0] : preferences[Arrays.asList(preferences).indexOf(currentFriendRequestPreference) + 1];
+
+            PlayerOptions.updatePreference(getParent().getPlayer(), "FRIEND_REQUEST", preference.toString());
+
+            refresh();
+
+        });
+    }
+
+
 
     @Override
     public void onFrameClick() {

@@ -19,20 +19,21 @@ public class ReplyCMD extends CMD {
     @Override
     public void execute(Player paramPlayer, String[] paramArrayOfString) {
 
-        Friend friendManager = Friend.getFriendManager(MPlayer.getMPlayer(paramPlayer.getName()));
+        MPlayer player = MPlayer.getMPlayer(paramPlayer.getName());
+        Friend friendManager = Friend.getFriendManager(player);
 
         if (paramArrayOfString.length == 0) {
             paramPlayer.sendMessage(getUsage());
             return;
         }
 
-        if (Friend.lastRecipient.containsKey(paramPlayer)) {
+        if (Friend.lastRecipient.containsKey(player)) {
 
-            MPlayer recipient = MPlayer.getMPlayer(Friend.lastRecipient.get(paramPlayer).getName());
+            MPlayer recipient = Friend.lastRecipient.get(player);
 
             if (recipient.isOffline()) {
                 paramPlayer.sendMessage(MessageColor.COLOR_ERROR + "Recipient went offline!");
-                Friend.lastRecipient.remove(paramPlayer);
+                Friend.lastRecipient.remove(player);
                 return;
             }
 
@@ -43,7 +44,7 @@ public class ReplyCMD extends CMD {
 
             }
 
-            friendManager.sendMessage(paramPlayer, recipient.getPlayer(), message.toString());
+            friendManager.sendMessage(paramPlayer, recipient, message.toString());
 
         } else {
             paramPlayer.sendMessage(MessageColor.COLOR_ERROR + "You do not have any previous conversations");

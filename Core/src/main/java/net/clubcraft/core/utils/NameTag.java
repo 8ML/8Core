@@ -5,7 +5,12 @@ Created by @8ML (https://github.com/8ML) on 5/8/2021
 
 import net.clubcraft.core.Core;
 import net.clubcraft.core.events.event.UpdateEvent;
-import net.minecraft.server.v1_16_R3.*;
+import net.clubcraft.core.player.MPlayer;
+import net.minecraft.server.v1_16_R3.ChatComponentText;
+import net.minecraft.server.v1_16_R3.EntityArmorStand;
+import net.minecraft.server.v1_16_R3.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_16_R3.PacketPlayOutSpawnEntity;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
@@ -14,6 +19,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
+import org.junit.Assert;
 
 import java.util.*;
 
@@ -27,16 +35,28 @@ public class NameTag implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public static void changeTag(Player player, String prefix, String suffix, ChatColor color) {
+    public static void changeTag(Player player, String prefix, String suffix, ChatColor color, String title) {
 
         player.setPlayerListName(prefix + color + "" + player.getName());
 
-        PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_DISPLAY_NAME,
-                ((CraftPlayer) player).getHandle());
-        packet.a();
+        for (Player p : Core.onlinePlayers) {
+            Scoreboard board = p.getScoreboard();
+
+            Team team = board.getTeam(player.getName()) == null ? board.registerNewTeam(player.getName())
+                    : board.getTeam(player.getName());
+
+            Assert.assertNotNull("Team cannot be null (changeTag)", team);
+            team.setPrefix(prefix);
+            team.setSuffix(title);
+            team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+            team.setColor(color);
+            team.addEntry(player.getName());
+
+        }
 
     }
 
+    @Deprecated
     public static void changeTitle(Player player, String title) {
 
         if (titleMap.containsKey(player)) {
@@ -86,6 +106,7 @@ public class NameTag implements Listener {
 
     }
 
+    @Deprecated
     public static void removeTitle(Player player) {
         if (titleMap.containsKey(player)) {
 
@@ -98,6 +119,7 @@ public class NameTag implements Listener {
         }
     }
 
+    @Deprecated
     private static void sendDestroyPacket(Player player) {
         PacketPlayOutEntityDestroy packetEntity = new PacketPlayOutEntityDestroy(titleMap.get(player).getId());
         PacketPlayOutEntityDestroy packetOffset = new PacketPlayOutEntityDestroy(offsetMap.get(player).getId());

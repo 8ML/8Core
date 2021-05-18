@@ -59,7 +59,7 @@ public class Scoreboard {
 
         Core.instance.scoreBoard.setScoreboard(frames,
                 new String[]{
-                        ChatColor.LIGHT_PURPLE + "www.clubcraft.net",
+                        ChatColor.WHITE + "www.clubcraft.net",
                         ChatColor.RESET + "",
                         "Rank: ",
                         ChatColor.GREEN + "",

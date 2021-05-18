@@ -25,7 +25,7 @@ import java.util.*;
 
 public class Friend {
 
-    public final static Map<MPlayer, Friend> friendManager = new HashMap<>();
+    private final static Map<MPlayer, Friend> friendManager = new HashMap<>();
 
     private final String PREFIX = ChatColor.AQUA + "";
     private final String playerFull;
@@ -33,14 +33,14 @@ public class Friend {
     private final MPlayer player;
     private final SQL sql = Core.instance.sql;
 
-    public Friend(MPlayer player) {
+    private Friend(MPlayer player) {
         this.player = player;
         this.playerFull = this.player.getRankEnum().getRank().getFullPrefixWithSpace()
                 + this.player.getRankEnum().getRank().getNameColor()
                 + this.player.getPlayerStr();
     }
 
-    public void sendRequest(MPlayer player) {
+    private void sendRequest(MPlayer player) {
 
         if (player.equals(this.player)) {
             this.player.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You cannot add yourself as a friend!");
@@ -49,6 +49,19 @@ public class Friend {
 
         if (getFriends().contains(player)) {
             this.player.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You are already friends with this player!");
+            return;
+        }
+
+        if (PlayerOptions.check(player, "FRIEND_REQUEST")) {
+            PlayerOptions.updatePreference(player, "FRIEND_REQUEST",
+                    PlayerOptions.FriendRequestPreference.ANYONE.toString());
+        }
+
+        PlayerOptions.fetchPreferences(player);
+
+        if (PlayerOptions.FriendRequestPreference.valueOf(PlayerOptions.preferences.get(player).get("FRIEND_REQUEST"))
+                .equals(PlayerOptions.FriendRequestPreference.OFF)) {
+            this.player.getPlayer().sendMessage(MessageColor.COLOR_ERROR + player.getPlayerStr() + " has friend requests disabled!");
             return;
         }
 
@@ -63,7 +76,7 @@ public class Friend {
                     .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend " + this.player.getPlayerStr()))
                     .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Click to accept!")));
             requestMessageBuilder.append(StringUtils.leftPad(ChatColor.RED + "" + ChatColor.BOLD + "[DECLINE]", 5))
-                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend " + this.player.getPlayerStr() + " decline"))
+                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend decline " + this.player.getPlayerStr()))
                     .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Click to decline!")));
             requestMessageBuilder.append("\n");
 
@@ -187,7 +200,7 @@ public class Friend {
     public void remove(MPlayer player) {
 
         if (this.player.getPlayerStr().equals(player.getPlayerStr())) {
-            this.player.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You cannot remove yourself from your life!");
+            this.player.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You cannot remove yourself as a friend!");
             return;
         }
 
@@ -344,39 +357,45 @@ public class Friend {
     }
 
 
-    public static final Map<Player, Player> lastRecipient = new HashMap<>();
+    public static final Map<MPlayer, MPlayer> lastRecipient = new HashMap<>();
 
-    public void sendMessage(Player sender, Player receiver, String message) {
+    public void sendMessage(Player sender, MPlayer receiver, String message) {
 
-        if (!PlayerOptions.preferences.get(player).containsKey("PRIVATE_MESSAGE"))
+        if (MPlayer.getMPlayer(sender.getName()).equals(receiver)) {
+            sender.sendMessage(MessageColor.COLOR_ERROR + "You cannot message yourself!");
+        }
+
+        if (PlayerOptions.check(receiver, "PRIVATE_MESSAGE")) {
             PlayerOptions.updatePreference(player, "PRIVATE_MESSAGE",
                     PlayerOptions.PrivateMessagePreference.FRIENDS_ONLY.toString());
+        }
+
 
         PlayerOptions.PrivateMessagePreference preference =
                 PlayerOptions.PrivateMessagePreference
                         .valueOf(PlayerOptions.preferences.get(player).get("PRIVATE_MESSAGE"));
 
         if (preference.equals(PlayerOptions.PrivateMessagePreference.OFF)) {
-            sender.sendMessage(MessageColor.COLOR_ERROR + receiver.getName() + " has private messaging disabled!");
+            sender.sendMessage(MessageColor.COLOR_ERROR + receiver.getPlayerStr() + " has private messaging disabled!");
             return;
         }
 
         if (preference.equals(PlayerOptions.PrivateMessagePreference.FRIENDS_ONLY)) {
-            if (!getFriends().contains(MPlayer.getMPlayer(receiver.getName()))) {
-                sender.sendMessage(MessageColor.COLOR_ERROR + "Only " + receiver.getName() + "'s friends can message them");
+            if (!getFriends().contains(receiver)) {
+                sender.sendMessage(MessageColor.COLOR_ERROR + "Only " + receiver.getPlayerStr() + "'s friends can message them");
                 return;
             }
         }
 
-        String msgRecipient = ChatColor.LIGHT_PURPLE + sender.getName() + ChatColor.GRAY + " ->" + ChatColor.LIGHT_PURPLE + " YOU: " + ChatColor.GRAY + message;
-        String msgSender = ChatColor.LIGHT_PURPLE + "YOU " + ChatColor.GRAY + "-> " + ChatColor.LIGHT_PURPLE + receiver.getName() + ": " + ChatColor.GRAY + message;
+        String msgRecipient = ChatColor.LIGHT_PURPLE + sender.getName() + ChatColor.DARK_GRAY + " ->" + ChatColor.LIGHT_PURPLE + " You: " + ChatColor.GRAY + message;
+        String msgSender = ChatColor.LIGHT_PURPLE + "You " + ChatColor.DARK_GRAY + "-> " + ChatColor.LIGHT_PURPLE + receiver.getPlayerStr() + ": " + ChatColor.GRAY + message;
         sender.sendMessage(msgSender);
 
-        lastRecipient.put(sender, receiver);
-        lastRecipient.put(receiver, sender);
+        lastRecipient.put(MPlayer.getMPlayer(sender.getName()), receiver);
+        lastRecipient.put(receiver, MPlayer.getMPlayer(sender.getName()));
 
         Core.instance.pluginMessenger.sendPluginMessage("MESSAGE_CHANNEL", "",
-                Collections.singletonList(receiver.getName()), msgRecipient);
+                Collections.singletonList(receiver.getPlayerStr()), msgRecipient);
 
     }
 

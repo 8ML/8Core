@@ -3,6 +3,7 @@ package xyz.dev_8.core.punishment.ui.pages.history;
 Created by @8ML (https://github.com/8ML) on 5/4/2021
 */
 
+import xyz.dev_8.core.Core;
 import xyz.dev_8.core.player.MPlayer;
 import xyz.dev_8.core.punishment.PunishInfo;
 import xyz.dev_8.core.punishment.Punishment;
@@ -37,6 +38,8 @@ public class HistoryBanPage extends Page {
 
         for (PunishInfo i : punishInfoList) {
 
+            if (slot >= 44) continue;
+
             String time = i.getOriginalTime().getUnit().equals(Punishment.TimeUnit.PERMANENT)
                     ? "Permanent" : i.getOriginalTime().getTimeLeft() + " " + i.getOriginalTime().getUnit().getFormatted();
 
@@ -61,7 +64,7 @@ public class HistoryBanPage extends Page {
 
             addComponent(b, slot);
             slot++;
-            if (slot > 16) slot = activeSlot;
+            if (getFrameSlots().contains(slot)) slot+=2;
 
         }
 

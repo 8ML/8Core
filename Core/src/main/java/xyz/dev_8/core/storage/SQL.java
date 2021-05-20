@@ -58,6 +58,10 @@ public class SQL implements Listener {
             createTable("CREATE TABLE IF NOT EXISTS preferences (`uuid` VARCHAR(255) NOT NULL" +
                     ", `key` VARCHAR(255) NOT NULL" +
                     ", `value` VARCHAR(255) NOT NULL)");
+            createTable("CREATE TABLE IF NOT EXISTS achievements (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
+                    ", `type` VARCHAR(255) NOT NULL" +
+                    ", `description` LONGTEXT NOT NULL" +
+                    ", `when` BIGINT NOT NULL)");
 
         } catch (SQLException e) {
             e.printStackTrace();

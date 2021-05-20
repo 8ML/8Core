@@ -38,12 +38,31 @@ public abstract class Page {
 
     public void open() {
         this.inventory = Bukkit.createInventory(null, size, title);
+        initializeFrame();
         onOpen();
         updateComponents();
         this.parent.getPlayer().getPlayer().openInventory(inventory);
     }
 
     private void updateComponents() {
+        for (Component component : components) {
+
+            ItemStack i = new ItemStack(component.getMaterial());
+            ItemMeta iM;
+            if (component.getMeta() == null) iM = i.getItemMeta();
+            else iM = component.getMeta();
+            assert iM != null;
+
+            if (!component.getLabel().isEmpty()) iM.setDisplayName(component.getLabel());
+            if (!component.getLore().isEmpty()) iM.setLore(component.getLore());
+
+            i.setItemMeta(iM);
+
+            this.inventory.setItem(component.getSlot(), i);
+        }
+    }
+
+    private void initializeFrame() {
         if (this.frame) {
             ItemStack frame = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
             ItemMeta frameMeta = frame.getItemMeta();
@@ -100,21 +119,6 @@ public abstract class Page {
                     break;
             }
 
-        }
-        for (Component component : components) {
-
-            ItemStack i = new ItemStack(component.getMaterial());
-            ItemMeta iM;
-            if (component.getMeta() == null) iM = i.getItemMeta();
-            else iM = component.getMeta();
-            assert iM != null;
-
-            if (!component.getLabel().isEmpty()) iM.setDisplayName(component.getLabel());
-            if (!component.getLore().isEmpty()) iM.setLore(component.getLore());
-
-            i.setItemMeta(iM);
-
-            this.inventory.setItem(component.getSlot(), i);
         }
     }
 

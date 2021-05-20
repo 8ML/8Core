@@ -34,6 +34,8 @@ public class HistoryWarnPage extends Page {
 
         for (PunishInfo i : punishInfoList) {
 
+            if (slot >= 44) continue;
+
             Button b = new Button(ChatColor.YELLOW + String.valueOf(i.getID()), Material.PAPER, getParent());
 
             b.setLore(new String[]{"",
@@ -42,7 +44,7 @@ public class HistoryWarnPage extends Page {
 
             addComponent(b, slot);
             slot++;
-            if (slot > 16) slot = 10;
+            if (getFrameSlots().contains(slot)) slot+=2;
 
         }
 

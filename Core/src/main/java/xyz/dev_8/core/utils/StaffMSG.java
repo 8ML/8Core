@@ -21,7 +21,7 @@ public class StaffMSG {
 
         for (String p : messenger.getBungeePlayers()) {
             MPlayer staff = MPlayer.getMPlayer(p);
-            if (staff.isPermissible(Ranks.BUILD_TEAM)) {
+            if (staff.isPermissible(Ranks.BUILD_TEAM, false)) {
                 staffList.add(staff.getPlayerStr());
             }
         }
@@ -34,7 +34,7 @@ public class StaffMSG {
         staffList.add(pl.getPlayerStr());
         for (String p : messenger.getBungeePlayers()) {
             MPlayer staff = MPlayer.getMPlayer(p);
-            if (staff.isPermissible(Ranks.BUILD_TEAM)) {
+            if (staff.isPermissible(Ranks.BUILD_TEAM, false)) {
                 if (staff.getPlayerStr().equals(pl.getPlayerStr())) continue;
                 staffList.add(staff.getPlayerStr());
             }

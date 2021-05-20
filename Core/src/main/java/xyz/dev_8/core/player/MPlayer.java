@@ -210,9 +210,12 @@ public class MPlayer {
         return this.signature;
     }
 
-    public boolean isPermissible(Ranks rankEnum) {
+    public boolean isPermissible(Ranks rankEnum, boolean msg) {
         if (this.getRankEnum().getRank().hasPermissionLevel(rankEnum.getRank())) return true;
-        else { getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You are not allowed to do this!"); return false;}
+        else {
+            if (msg) getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You are not allowed to do this!");
+            return false;
+        }
     }
 
     public boolean exists() {

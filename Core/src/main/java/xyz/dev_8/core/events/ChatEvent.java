@@ -4,6 +4,8 @@ Created by @8ML (https://github.com/8ML) on 4/24/2021
 */
 
 import xyz.dev_8.core.player.MPlayer;
+import xyz.dev_8.core.player.achievement.Achievement;
+import xyz.dev_8.core.player.achievement.achievements.ChatAchievement;
 import xyz.dev_8.core.player.level.Level;
 import xyz.dev_8.core.punishment.PunishInfo;
 import xyz.dev_8.core.punishment.Punishment;
@@ -18,6 +20,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public class ChatEvent implements Listener {
 
@@ -60,5 +64,7 @@ public class ChatEvent implements Listener {
         BaseComponent[] message = componentBuilder.create();
 
         Bukkit.spigot().broadcast(message);
+
+        Objects.requireNonNull(Achievement.getAchievement(ChatAchievement.class)).complete(player);
     }
 }

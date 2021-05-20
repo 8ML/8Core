@@ -23,6 +23,8 @@ import xyz.dev_8.core.events.FunEvent;
 import xyz.dev_8.core.events.common.JoinEvent;
 import xyz.dev_8.core.events.common.LeaveEvent;
 import xyz.dev_8.core.events.event.UpdateEvent;
+import xyz.dev_8.core.player.achievement.Achievement;
+import xyz.dev_8.core.player.achievement.achievements.ChatAchievement;
 import xyz.dev_8.core.storage.SQL;
 import xyz.dev_8.core.storage.file.PluginFile;
 import xyz.dev_8.core.utils.NameTag;
@@ -88,6 +90,10 @@ public class Core extends JavaPlugin {
         new NameTag(this);
     }
 
+    private void registerAchievements() {
+        Achievement.registerAchievement(new ChatAchievement());
+    }
+
     private final int[] timer = {0};
     private void startEvents() {
         new BukkitRunnable() {
@@ -137,6 +143,7 @@ public class Core extends JavaPlugin {
         startEvents();
         registerEvents();
         registerCommands();
+        registerAchievements();
 
         this.pluginMessenger = new PluginMessenger(this);
         this.tabList = new TabList(this);

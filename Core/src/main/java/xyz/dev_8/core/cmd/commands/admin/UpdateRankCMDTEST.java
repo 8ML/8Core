@@ -8,6 +8,7 @@ import xyz.dev_8.core.config.Messages;
 import xyz.dev_8.core.player.hierarchy.Ranks;
 import xyz.dev_8.core.player.MPlayer;
 import org.bukkit.entity.Player;
+import xyz.dev_8.core.utils.StringUtils;
 
 public class UpdateRankCMDTEST extends CMD {
 
@@ -30,7 +31,10 @@ public class UpdateRankCMDTEST extends CMD {
 
                 MPlayer player = MPlayer.getMPlayer(paramArrayOfString[0]);
 
-                Ranks rank = Ranks.valueOf(paramArrayOfString[1]);
+                Ranks rank = Ranks.valueOf(StringUtils.replaceMultiple(paramArrayOfString[1].toUpperCase(),
+                        new String[]{"BUILDER", "BUILDTEAM", "BUILD"},
+                        "BUILD_TEAM"));
+
                 player.setRank(rank);
                 player.update();
 

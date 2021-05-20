@@ -59,23 +59,29 @@ public class Scoreboard {
 
         Core.instance.scoreBoard.setScoreboard(frames,
                 new String[]{
-                        ChatColor.WHITE + "www.dev-8.xyz",
+                        ChatColor.GRAY + "www.dev-8.xyz",
+                        ChatColor.RESET + "" + ChatColor.BOLD,
                         ChatColor.RESET + "",
-                        "Rank: ",
-                        ChatColor.GREEN + "",
-                        "in the lobby!",
-                        "by clicking an " + ChatColor.GRAY + "NPC",
-                        "Start playing games",
+                        ChatColor.AQUA + "Players",
+                        ChatColor.BLACK + "" + ChatColor.RESET,
+                        ChatColor.BLACK + "" + ChatColor.GRAY,
+                        ChatColor.AQUA + "Coins",
+                        ChatColor.GRAY + "" + ChatColor.GOLD,
+                        ChatColor.BLACK.toString(),
+                        ChatColor.AQUA + "Rank",
                         ChatColor.GOLD + ""},
                 new String[]{
                         "",
                         " ",
-                        ChatColor.GRAY + "%playerRankWithColor%",
+                        ChatColor.DARK_GRAY + "" + ChatColor.BOLD + String.valueOf('\u00BB') + ChatColor.RESET + ChatColor.GRAY + " %onlineBungee%",
                         " ",
                         " ",
+                        ChatColor.DARK_GRAY + "" + ChatColor.BOLD + String.valueOf('\u00BB') + ChatColor.RESET + ChatColor.GOLD + " %playerCoins%",
                         " ",
                         " ",
-                        " "});
+                        ChatColor.DARK_GRAY + "" + ChatColor.BOLD + String.valueOf('\u00BB') + ChatColor.RESET + " %playerRankWithColor%",
+                        " ",
+                        ""});
     }
 
 }

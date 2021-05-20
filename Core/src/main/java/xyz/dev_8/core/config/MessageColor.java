@@ -18,9 +18,14 @@ public class MessageColor {
     public static ChatColor COLOR_HIGHLIGHT = ChatColor.of(parseColor(Objects.requireNonNull(file.getString("highlight"))));
     public static ChatColor COLOR_ERROR = ChatColor.of(parseColor(Objects.requireNonNull(file.getString("error"))));
     public static ChatColor COLOR_SUCCESS = ChatColor.of(parseColor(Objects.requireNonNull(file.getString("success"))));
+    /*
+    //public static ChatColor COLOR_MAIN_GRAY = ChatColor.of(parseColor(Objects.requireNonNull(file.getString("main-gray"))));
+    //public static ChatColor COLOR_DARK_GRAY = ChatColor.of(parseColor(Objects.requireNonNull(file.getString("dark-gray"))));
+     */
 
     private static Color parseColor(String configValue) {
         String[] rgbSTR = configValue.split(",");
+        if (rgbSTR.length == 0) return new Color(100, 100 ,100);
         int[] rgb = new int[]{Integer.parseInt(rgbSTR[0]),
                 Integer.parseInt(rgbSTR[1]), Integer.parseInt(rgbSTR[2])};
 

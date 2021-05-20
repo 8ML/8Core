@@ -3,11 +3,13 @@ package xyz.dev_8.core.events.common;
 Created by @8ML (https://github.com/8ML) on 4/24/2021
 */
 
+import com.google.common.util.concurrent.AbstractCheckedFuture;
 import xyz.dev_8.core.Core;
 import xyz.dev_8.core.config.MessageColor;
 import xyz.dev_8.core.config.ServerConfig;
 import xyz.dev_8.core.events.event.ProxyJoinEvent;
 import xyz.dev_8.core.player.MPlayer;
+import xyz.dev_8.core.player.achievement.Achievement;
 import xyz.dev_8.core.player.currency.Coin;
 import xyz.dev_8.core.player.options.PlayerOptions;
 import xyz.dev_8.core.player.social.friend.Friend;
@@ -65,8 +67,9 @@ public class JoinEvent implements Listener {
         }
 
         MPlayer.registerMPlayer(e.getPlayer());
+        MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
 
-        if (addCoins) Coin.addCoins(MPlayer.getMPlayer(e.getPlayer().getName()), 50, false);
+        if (addCoins) Coin.addCoins(player, 50, false);
 
         if (!Core.instance.tabList.isTabListSet()) {
             Core.instance.tabList.removeTabList(e.getPlayer());
@@ -74,8 +77,9 @@ public class JoinEvent implements Listener {
             Core.instance.tabList.updateTabList();
         }
 
-        Friend.initialize(MPlayer.getMPlayer(e.getPlayer().getName()));
-        PlayerOptions.fetchPreferences(MPlayer.getMPlayer(e.getPlayer().getName()));
+        Friend.initialize(player);
+        PlayerOptions.fetchPreferences(player);
+        Achievement.fetchAchievements(player);
 
         e.setJoinMessage("");
 

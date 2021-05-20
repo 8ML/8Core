@@ -96,6 +96,13 @@ public class StatsPage extends Page {
 
         //Buttons
 
+        Button achievements = new Button(ChatColor.YELLOW + "Achievements "
+                + ChatColor.GRAY + "(" + ChatColor.GREEN + "Click" + ChatColor.GRAY + ")",
+                Material.BOOK, getParent());
+        achievements.setOnClick(() -> {
+            getParent().openPage(1);
+        });
+
         Button exit = new Button(ChatColor.RED + "Close", Material.BARRIER, getParent());
         exit.setOnClick(() -> {
             getParent().getPlayer().getPlayer().closeInventory();
@@ -103,8 +110,9 @@ public class StatsPage extends Page {
         });
 
         //Registry
-        addComponent(profile, 3);
-        addComponent(leveling, 5);
+        addComponent(profile, 2);
+        addComponent(achievements, 4);
+        addComponent(leveling, 6);
         addComponent(exit, 22);
 
     }

@@ -43,4 +43,20 @@ public class StringUtils {
         return str;
     }
 
+    /**
+     *
+     * @param str - String to replace in
+     * @param regex - Array of objects to be replaced
+     * @param replacement - Replacement
+     * @return - String with all objects replaced
+     */
+
+    public static String replaceMultiple(String str, String[] regex, String replacement) {
+        String finalStr = str;
+        for (String reg: regex) {
+            finalStr = finalStr.replaceAll(reg, replacement);
+        }
+        return finalStr;
+    }
+
 }

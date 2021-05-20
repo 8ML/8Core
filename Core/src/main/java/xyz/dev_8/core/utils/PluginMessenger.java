@@ -175,7 +175,7 @@ public class PluginMessenger implements PluginMessageListener, Listener {
 
                         if (MPlayer.exists(playerName)) {
                             MPlayer pl = MPlayer.getMPlayer(playerName);
-                            if (pl.isPermissible(Ranks.BUILD_TEAM)) {
+                            if (pl.isPermissible(Ranks.BUILD_TEAM, false)) {
                                 StaffMSG.sendStaffMessage(ChatColor.YELLOW + "joined.", pl);
                             }
                             plugin.getServer().getPluginManager().callEvent(new ProxyJoinEvent(pl.getPlayer()));
@@ -189,7 +189,7 @@ public class PluginMessenger implements PluginMessageListener, Listener {
                         String playerName2 = result[1];
                         MPlayer pl2 = MPlayer.getMPlayer(playerName2);
 
-                        if (pl2.isPermissible(Ranks.BUILD_TEAM)) {
+                        if (pl2.isPermissible(Ranks.BUILD_TEAM, false)) {
                             StaffMSG.sendStaffMessage(ChatColor.YELLOW + "quit.", pl2);
                         }
                         break;

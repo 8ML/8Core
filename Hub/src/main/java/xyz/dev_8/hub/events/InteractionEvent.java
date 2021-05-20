@@ -3,7 +3,9 @@ package xyz.dev_8.hub.events;
 Created by @8ML (https://github.com/8ML) on 5/19/2021
 */
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -25,7 +27,7 @@ public class InteractionEvent implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
 
-        if (!player.isPermissible(Ranks.ADMIN)) {
+        if (!player.isPermissible(Ranks.ADMIN, false) || player.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
             e.setCancelled(true);
         }
     }
@@ -34,7 +36,7 @@ public class InteractionEvent implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
 
-        if (!player.isPermissible(Ranks.ADMIN)) {
+        if (!player.isPermissible(Ranks.ADMIN, false) || player.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
             e.setCancelled(true);
         }
     }
@@ -43,7 +45,7 @@ public class InteractionEvent implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
 
-        if (!player.isPermissible(Ranks.ADMIN)) {
+        if (!player.isPermissible(Ranks.ADMIN, false) || player.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
             e.setCancelled(true);
         }
     }
@@ -51,12 +53,7 @@ public class InteractionEvent implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if (e.getEntityType().equals(EntityType.PLAYER)) {
-
-            MPlayer player = MPlayer.getMPlayer(e.getEntity().getName());
-
-            if (!player.isPermissible(Ranks.ADMIN)) {
-                e.setCancelled(true);
-            }
+            e.setCancelled(true);
         }
     }
 

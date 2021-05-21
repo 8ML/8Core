@@ -5,6 +5,12 @@
       <module name="club.mineplay.Core" target="1.8" />
       <module name="club.mineplay.Hub" target="1.8" />
       <module name="club.mineplay.Hub.test" target="1.8" />
+      <module name="Game" target="1.8" />
+      <module name="Game.main" target="1.8" />
+      <module name="Game.test" target="1.8" />
+      <module name="Hub" target="1.8" />
+      <module name="Hub.main" target="1.8" />
+      <module name="Hub.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

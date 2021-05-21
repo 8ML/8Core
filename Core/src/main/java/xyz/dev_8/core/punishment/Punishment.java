@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -272,6 +273,7 @@ public abstract class Punishment {
         finalList.addAll(activePunishments);
         finalList.addAll(punishments);
 
+        Collections.reverse(finalList);
         return finalList;
 
     }

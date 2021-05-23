@@ -4,9 +4,7 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 */
 
 import xyz.dev_8.core.cmd.CommandCenter;
-import xyz.dev_8.core.cmd.commands.HelpCMD;
-import xyz.dev_8.core.cmd.commands.OptionsCMD;
-import xyz.dev_8.core.cmd.commands.StatsCMD;
+import xyz.dev_8.core.cmd.commands.*;
 import xyz.dev_8.core.cmd.commands.admin.*;
 import xyz.dev_8.core.cmd.commands.admin.*;
 import xyz.dev_8.core.cmd.commands.social.FriendCMD;
@@ -126,6 +124,9 @@ public class Core extends JavaPlugin {
         CommandCenter.registerCommand(new FriendCMD(), this);
         CommandCenter.registerCommand(new MessageCMD(), this);
         CommandCenter.registerCommand(new ReplyCMD(), this);
+        CommandCenter.registerCommand(new ServerCMD(), this);
+        CommandCenter.registerCommand(new ReportCMD(), this);
+        CommandCenter.registerCommand(new PingCMD(), this);
 
 
         //REMEMBER TO DISABLE THESE WHEN DEVELOPMENT IS DONE.

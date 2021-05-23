@@ -106,8 +106,6 @@ public class Friend {
             if (rs.next()) {
 
                 List<MPlayer> requests = getList(rs.getString("requests"));
-                Core.instance.getLogger().info("DEBUG LIST: " + requests.size());
-                Core.instance.getLogger().info("DEBUG LIST: " + Arrays.toString(requests.toArray()));
                 if (!requests.isEmpty()) {
                     for (MPlayer p : requests) {
                         Core.instance.getLogger().info("DEBUG NAME: " + p.getPlayerStr() + " : " + player.getPlayerStr());

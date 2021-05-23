@@ -270,10 +270,10 @@ public abstract class Punishment {
         }
 
         List<PunishInfo> finalList = new ArrayList<>();
-        finalList.addAll(activePunishments);
         finalList.addAll(punishments);
-
+        finalList.addAll(activePunishments);
         Collections.reverse(finalList);
+
         return finalList;
 
     }

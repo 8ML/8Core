@@ -165,7 +165,7 @@ public abstract class Achievement {
     }
 
     public static Set<Achievement> getAchievementClasses() {
-        return new HashSet<>(achievements);
+        return achievements;
     }
 
     public static Achievement getAchievement(Class<?> clazz) {

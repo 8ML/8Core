@@ -134,6 +134,7 @@ public abstract class Page {
     protected void refresh() {
         getInventory().clear();
         components.clear();
+        initializeFrame();
         onOpen();
         updateComponents();
     }

@@ -15,4 +15,12 @@ public class Messages {
         player.sendMessage(MessageColor.COLOR_SUCCESS + "Done!");
     }
 
+    public static void sendNotExistsMessage(Player player, String notExists) {
+        player.sendMessage(MessageColor.COLOR_ERROR + notExists + " does not exist!");
+    }
+
+    public static void sendPlayerIsOfflineMessage(Player player, String isOffline) {
+        player.sendMessage(MessageColor.COLOR_ERROR + isOffline + " is offline!");
+    }
+
 }

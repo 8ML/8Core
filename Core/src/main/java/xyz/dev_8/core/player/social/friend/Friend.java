@@ -360,6 +360,7 @@ public class Friend {
 
         if (MPlayer.getMPlayer(sender.getName()).equals(receiver)) {
             sender.sendMessage(MessageColor.COLOR_ERROR + "You cannot message yourself!");
+            return;
         }
 
         if (PlayerOptions.check(receiver, "PRIVATE_MESSAGE")) {

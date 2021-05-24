@@ -142,7 +142,6 @@ public abstract class Punishment {
             boolean active = (!this.type.equals(PunishType.WARN) && !this.type.equals(PunishType.KICK));
 
             if (time.permanent) {
-                now = 0;
                 end = 0;
             }
 
@@ -164,8 +163,9 @@ public abstract class Punishment {
             }
             sql.closeConnection(check);
 
-            PreparedStatement st = sql.preparedStatement("INSERT INTO punishments (`uuid`, `playerName`, `executor`, `when`, `end`, `duration`, `reason`, `type`, `active`, `uid`) " +
-                    "VALUES (?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement st = sql.preparedStatement("INSERT INTO punishments (`uuid`, `playerName`, `executor`, `when`, " +
+                    "`end`, `duration`, `reason`, `type`, `active`, `permanent`, `uid`) " +
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
             st.setString(1, target.getUUID());
             st.setString(2, target.getPlayerStr());
@@ -176,7 +176,8 @@ public abstract class Punishment {
             st.setString(7, reason);
             st.setString(8, this.type.toString());
             st.setBoolean(9, active);
-            st.setString(10, UUID.randomUUID().toString());
+            st.setBoolean(10, end == 0);
+            st.setString(11, UUID.randomUUID().toString());
 
             try {
                 st.execute();
@@ -253,12 +254,15 @@ public abstract class Punishment {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
+
+                long when = rs.getBoolean("permanent") ? 0 : rs.getLong("when");
+
                 if (rs.getBoolean("active"))
                     activePunishments.add(new PunishInfo(player, MPlayer.getMPlayer(rs.getString("executor")),
-                            new PunishTime(rs.getLong("end") - rs.getLong("when")), type,
+                            new PunishTime(rs.getLong("end") - when), type,
                             rs.getString("reason"), rs.getString("uid")));
                 else punishments.add(new PunishInfo(player, MPlayer.getMPlayer(rs.getString("executor")),
-                        new PunishTime(rs.getLong("end") - rs.getLong("when")), type,
+                        new PunishTime(rs.getLong("end") - when), type,
                         rs.getString("reason"), rs.getString("uid")));
             }
 

@@ -88,8 +88,13 @@ public class PunishInfo {
         return uid;
     }
 
+    public long getWhen() {
+        return this.when;
+    }
+
     public Punishment.PunishTime getOriginalTime() {
 
+        if (this.permanent) return new Punishment.PunishTime(0);
         return new Punishment.PunishTime(this.end - this.when);
 
     }

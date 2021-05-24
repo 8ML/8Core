@@ -3,6 +3,7 @@ package xyz.dev_8.core.punishment.ui.pages.history;
 Created by @8ML (https://github.com/8ML) on 5/4/2021
 */
 
+import org.bukkit.inventory.ItemFlag;
 import xyz.dev_8.core.Core;
 import xyz.dev_8.core.player.MPlayer;
 import xyz.dev_8.core.punishment.PunishInfo;
@@ -14,6 +15,9 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 public class HistoryMutePage extends Page {
@@ -43,17 +47,23 @@ public class HistoryMutePage extends Page {
             String time = i.getOriginalTime().getUnit().equals(Punishment.TimeUnit.PERMANENT)
                     ? "Permanent" : i.getOriginalTime().getTimeLeft() + " " + i.getOriginalTime().getUnit().getFormatted();
 
-            Button b = new Button(ChatColor.YELLOW + String.valueOf(i.getID()), Material.PAPER, getParent());
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String date = format.format(Date.from(Instant.ofEpochMilli(i.getWhen())));
+
+            Button b = new Button(ChatColor.YELLOW + String.valueOf(date), Material.PAPER, getParent());
             ItemMeta bM = b.getMeta();
             if (i.isActive()) { bM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot++; }
+            bM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             b.setItemMeta(bM);
 
             b.setLore(new String[]{"",
-                    org.bukkit.ChatColor.WHITE + "Staff: " + org.bukkit.ChatColor.YELLOW + i.getExecutor().getPlayerStr(),
-                    org.bukkit.ChatColor.WHITE + "Duration: " + org.bukkit.ChatColor.YELLOW
+                    org.bukkit.ChatColor.YELLOW + "ID: " + org.bukkit.ChatColor.WHITE + i.getID(),
+                    "",
+                    org.bukkit.ChatColor.YELLOW + "Staff: " + org.bukkit.ChatColor.WHITE + i.getExecutor().getPlayerStr(),
+                    org.bukkit.ChatColor.YELLOW + "Duration: " + org.bukkit.ChatColor.WHITE
                             + time,
-                    org.bukkit.ChatColor.WHITE + "Reason: " + org.bukkit.ChatColor.YELLOW + i.getReason(),
-                    org.bukkit.ChatColor.WHITE + "Active: " + org.bukkit.ChatColor.YELLOW + i.isActive()});
+                    org.bukkit.ChatColor.YELLOW + "Reason: " + org.bukkit.ChatColor.WHITE + i.getReason(),
+                    org.bukkit.ChatColor.YELLOW + "Active: " + org.bukkit.ChatColor.WHITE + i.isActive()});
 
             b.setOnClick(() -> {
                 if (i.isActive()) {

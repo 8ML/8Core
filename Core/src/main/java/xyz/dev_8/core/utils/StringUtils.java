@@ -54,6 +54,7 @@ public class StringUtils {
     public static String replaceMultiple(String str, String[] regex, String replacement) {
         String finalStr = str;
         for (String reg: regex) {
+            if (finalStr.equalsIgnoreCase(replacement)) continue;
             finalStr = finalStr.replaceAll(reg, replacement);
         }
         return finalStr;

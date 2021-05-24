@@ -51,6 +51,7 @@ public class SQL implements Listener {
                     ", `reason` VARCHAR(255) NOT NULL" +
                     ", `type` VARCHAR(100) NOT NULL" +
                     ", `active` BIT NOT NULL" +
+                    ", `permanent` BIT NOT NULL" +
                     ", `uid` VARCHAR(255) NOT NULL)");
             createTable("CREATE TABLE IF NOT EXISTS friends (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
                     ", `friendList` LONGTEXT NOT NULL" +

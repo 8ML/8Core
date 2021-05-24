@@ -11,6 +11,9 @@ import xyz.dev_8.core.ui.page.Page;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 public class HistoryWarnPage extends Page {
@@ -36,11 +39,16 @@ public class HistoryWarnPage extends Page {
 
             if (slot >= 44) continue;
 
-            Button b = new Button(ChatColor.YELLOW + String.valueOf(i.getID()), Material.PAPER, getParent());
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String date = format.format(Date.from(Instant.ofEpochMilli(i.getWhen())));
+
+            Button b = new Button(ChatColor.YELLOW + String.valueOf(date), Material.PAPER, getParent());
 
             b.setLore(new String[]{"",
-                    org.bukkit.ChatColor.WHITE + "Staff: " + org.bukkit.ChatColor.YELLOW + i.getExecutor().getPlayerStr(),
-                    org.bukkit.ChatColor.WHITE + "Reason: " + org.bukkit.ChatColor.YELLOW + i.getReason()});
+                    org.bukkit.ChatColor.YELLOW + "ID: " + org.bukkit.ChatColor.WHITE + i.getID(),
+                    "",
+                    org.bukkit.ChatColor.YELLOW + "Staff: " + org.bukkit.ChatColor.WHITE + i.getExecutor().getPlayerStr(),
+                    org.bukkit.ChatColor.YELLOW + "Reason: " + org.bukkit.ChatColor.WHITE + i.getReason()});
 
             addComponent(b, slot);
             slot++;

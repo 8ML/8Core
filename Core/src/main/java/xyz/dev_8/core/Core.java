@@ -21,6 +21,10 @@ import xyz.dev_8.core.events.FunEvent;
 import xyz.dev_8.core.events.common.JoinEvent;
 import xyz.dev_8.core.events.common.LeaveEvent;
 import xyz.dev_8.core.events.event.UpdateEvent;
+import xyz.dev_8.core.exceptions.ModuleNotFoundException;
+import xyz.dev_8.core.module.Module;
+import xyz.dev_8.core.module.game.GameModule;
+import xyz.dev_8.core.module.hub.HubModule;
 import xyz.dev_8.core.player.achievement.Achievement;
 import xyz.dev_8.core.player.achievement.achievements.ChatAchievement;
 import xyz.dev_8.core.storage.SQL;
@@ -134,6 +138,11 @@ public class Core extends JavaPlugin {
         CommandCenter.registerCommand(new PunishCMDTEST(), this);
     }
 
+    private void registerModules() {
+        Module.registerModule(new HubModule());
+        Module.registerModule(new GameModule());
+    }
+
     @Override
     public void onEnable() {
 
@@ -145,6 +154,7 @@ public class Core extends JavaPlugin {
         registerEvents();
         registerCommands();
         registerAchievements();
+        registerModules();
 
         this.pluginMessenger = new PluginMessenger(this);
         this.tabList = new TabList(this);
@@ -152,6 +162,16 @@ public class Core extends JavaPlugin {
 
         this.serverName = configYML.getString("serverName");
         this.mapExtractor = new MapExtract();
+
+
+        try {
+
+            Module.setModule(this, configYML.getString("module"));
+
+        } catch (ModuleNotFoundException e) {
+            e.printStackTrace();
+            this.getServer().shutdown();
+        }
 
     }
 

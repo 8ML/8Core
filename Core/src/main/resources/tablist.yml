@@ -1,0 +1,7 @@
+header: '&fYou are playing on &d&lPLAY.DEV-8.XYZ'
+footer: '&fCheck &9&lSTORE.DEV-8.XYZ &ffor cool perks!'
+
+#
+# Placeholders:
+# %playerRank%, %playerLevel%, %playerXP%, %playerCoins%, %onlineServer%, %onlineBungee%, :nl: (new line)
+#

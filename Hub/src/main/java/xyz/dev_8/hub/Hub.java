@@ -48,7 +48,6 @@ public class Hub extends JavaPlugin {
         Core.instance.tabList.setTabList(tabConf.getString("header"), tabConf.getString("footer"));
         Scoreboard.init();
 
-        World world;
         ServerConfig.spawnPoint = new Location(Bukkit.getWorld(worldName), spawnX, spawnY, spawnZ);
     }
 

@@ -28,6 +28,7 @@ public abstract class Module {
 
     public void disableModule() {
         onDisable();
+        enabledModule = null;
     }
 
     protected abstract void onEnable();
@@ -53,6 +54,15 @@ public abstract class Module {
 
     public static Module getEnabledModule() {
         return enabledModule;
+    }
+
+    public static Module getModule(Class<?> clazz) {
+        for (Module mod : modules) {
+            if (clazz.getSimpleName().equals(mod.getClass().getSimpleName())) {
+                return mod;
+            }
+        }
+        return null;
     }
 
 }

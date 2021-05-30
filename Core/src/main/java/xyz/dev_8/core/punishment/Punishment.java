@@ -21,7 +21,7 @@ public abstract class Punishment {
 
     public enum PunishType {
 
-        BAN, MUTE, WARN, KICK;
+        BAN, MUTE, WARN, KICK
 
     }
 

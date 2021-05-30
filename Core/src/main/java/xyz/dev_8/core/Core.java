@@ -178,5 +178,6 @@ public class Core extends JavaPlugin {
     @Override
     public void onDisable() {
         mapExtractor.load();
+        Module.getEnabledModule().disableModule();
     }
 }

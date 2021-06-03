@@ -50,7 +50,7 @@ public class HistoryBanPage extends Page {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             String date = format.format(Date.from(Instant.ofEpochMilli(i.getWhen())));
 
-            Button b = new Button(ChatColor.YELLOW + String.valueOf(date), Material.PAPER, getParent());
+            Button b = new Button(ChatColor.YELLOW + date, Material.PAPER, getParent());
             ItemMeta bM = b.getMeta();
             if (i.isActive()) { bM.addEnchant(Enchantment.DAMAGE_ALL, 1, true); activeSlot++; }
             bM.addItemFlags(ItemFlag.HIDE_ENCHANTS);

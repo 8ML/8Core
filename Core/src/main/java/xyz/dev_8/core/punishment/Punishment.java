@@ -6,6 +6,7 @@ Created by @8ML (https://github.com/8ML) on 4/27/2021
 import xyz.dev_8.core.Core;
 import xyz.dev_8.core.player.MPlayer;
 import xyz.dev_8.core.storage.SQL;
+import xyz.dev_8.core.utils.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -40,17 +41,7 @@ public abstract class Punishment {
 
         public String getFormatted() {
 
-            StringBuilder b = new StringBuilder();
-
-            char f = name().charAt(0);
-
-            b.append(Character.valueOf(f).toString().toUpperCase());
-
-            for (int i = 1; i < name().toCharArray().length; i++) {
-                b.append(Character.valueOf(name().toCharArray()[i]).toString().toLowerCase());
-            }
-
-            return b.toString();
+            return StringUtils.formatCapitalization(name());
 
         }
     }

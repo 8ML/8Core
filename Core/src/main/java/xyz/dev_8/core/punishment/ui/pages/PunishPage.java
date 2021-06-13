@@ -242,28 +242,12 @@ public class PunishPage extends Page {
     private void sendStaffMessage() {
 
         String t = "";
-        boolean ti = false;
-        switch (this.type) {
-            case BAN:
-                t = "banned";
-                ti = true;
-                break;
-            case MUTE:
-                t = "muted";
-                ti = true;
-                break;
-            case WARN:
-                t = "warned";
-                break;
-            case KICK:
-                t = "kicked";
-                break;
-        }
-
+        boolean time = (this.type.equals(Punishment.PunishType.BAN) || this.type.equals(Punishment.PunishType.MUTE));
+        String type = this.type.name().toLowerCase() + "ed";
         boolean np = (this.type.equals(Punishment.PunishType.KICK) || this.type.equals(Punishment.PunishType.WARN));
 
         StringBuilder msg = new StringBuilder(ChatColor.RED + t + " " + this.target.getPlayerStr());
-        if (ti && !this.time.getUnit()
+        if (time && !this.time.getUnit()
                 .equals(Punishment.TimeUnit.PERMANENT)) msg.append(" for ").append(this.time.getTimeLeft()).append(" ")
                 .append(this.time.getUnit().getFormatted());
         if (this.time.getUnit().equals(Punishment.TimeUnit.PERMANENT) && !np) msg.append(" permanently");

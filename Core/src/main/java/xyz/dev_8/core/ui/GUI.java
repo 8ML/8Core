@@ -18,29 +18,60 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class is to be extended by other classes.
+ * Its the parent of a gui.
+ * All GUI instances need at least one page to be able to show anything
+ */
 public abstract class GUI implements Listener {
 
     private final String session;
-
     private final MPlayer player;
-
     private final List<Page> pages = new ArrayList<>();
 
     private Page currentPage;
 
+
+    /**
+     *
+     * @param player Player to show this gui to
+     */
     public GUI(MPlayer player) {
 
         this.player = player;
         this.session = player.getUUID();
     }
 
+
+    /**
+     * Called on initialization
+     */
     public abstract void init();
 
+
+    /**
+     * Will add a page instance to this ui instance
+     * @param page The page instance to add
+     */
     protected void addPage(Page page) {
         page.setParent(this);
         pages.add(page);
     }
 
+
+    /**
+     * Will initialize the ui
+     */
+    protected void initialize() {
+        init();
+    }
+
+
+    /**
+     * Will open a page by its index
+     * @param index The index of the page
+     */
     public void openPage(int index) {
         player.getPlayer().closeInventory();
 
@@ -50,31 +81,55 @@ public abstract class GUI implements Listener {
         this.currentPage.open();
     }
 
-    protected void initialize() {
-        init();
-    }
 
+    /**
+     * Unregister Listener handlers
+     */
     public void unregisterHandlers() {
         HandlerList.unregisterAll(this);
     }
 
 
+    /**
+     *
+     * @return Get the session id
+     * (Just a safety so other gui instances does not interfere with another)
+     */
     public String getSession() {
         return session;
     }
 
+
+    /**
+     *
+     * @return The current open page
+     */
     public Page getCurrentPage() {
         return currentPage;
     }
 
+
+    /**
+     *
+     * @return List of all the pages in this GUI instance
+     */
     public List<Page> getPages() {
         return pages;
     }
 
+
+    /**
+     *
+     * @return The player who has opened the gui
+     */
     public MPlayer getPlayer() {
         return player;
     }
 
+
+    /**
+     * Event that handles all the gui interactions
+     */
     @EventHandler
     public void onClick(InventoryClickEvent e) {
 
@@ -106,6 +161,10 @@ public abstract class GUI implements Listener {
 
     }
 
+
+    /**
+     * Unregisters the listener handlers on close
+     */
     @EventHandler
     public void onInvClose(InventoryCloseEvent e) {
         if (e.getPlayer().getUniqueId().toString().equalsIgnoreCase(this.session)) {

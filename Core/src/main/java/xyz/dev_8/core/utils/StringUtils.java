@@ -10,13 +10,12 @@ import org.bukkit.ChatColor;
 
 public class StringUtils {
 
-    /**
-     *
-     * @param player - Player to get the placeholders from
-     * @param str - String to replace placeholders in
-     * @return - String with the placeholders replaced with player info and server info
-     */
 
+    /**
+     * @param player Player to get the placeholders from
+     * @param str    String to replace placeholders in
+     * @return String with the placeholders replaced with player info and server info
+     */
     public static String getWithPlaceholders(MPlayer player, String str) {
         return ChatColor.translateAlternateColorCodes('&', str
                 .replaceAll("%onlineServer%", String.valueOf(Core.onlinePlayers.size()))
@@ -30,12 +29,11 @@ public class StringUtils {
                 .replaceAll(":nl:", "\n"));
     }
 
-    /**
-     *
-     * @param str - String to format
-     * @return - Correctly capitalized text
-     */
 
+    /**
+     * @param str String to format
+     * @return Correctly capitalized text
+     */
     public static String formatCapitalization(String str) {
         String strLower = str.toLowerCase();
         String firstChar = String.valueOf(strLower.charAt(0));
@@ -43,17 +41,16 @@ public class StringUtils {
         return str;
     }
 
-    /**
-     *
-     * @param str - String to replace in
-     * @param regex - Array of objects to be replaced
-     * @param replacement - Replacement
-     * @return - String with all objects replaced
-     */
 
+    /**
+     * @param str         String to replace in
+     * @param regex       Array of objects to be replaced
+     * @param replacement Replacement
+     * @return String with all objects replaced
+     */
     public static String replaceMultiple(String str, String[] regex, String replacement) {
         String finalStr = str;
-        for (String reg: regex) {
+        for (String reg : regex) {
             if (finalStr.equalsIgnoreCase(replacement)) continue;
             finalStr = finalStr.replaceAll(reg, replacement);
         }

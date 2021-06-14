@@ -10,6 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+/**
+ * PunishInfo is used to reference the information of a punishment.
+ * All punishment references must return an instance of this class.
+ */
 public class PunishInfo {
 
     private final MPlayer player;
@@ -25,6 +30,15 @@ public class PunishInfo {
     private boolean active = true;
     private boolean permanent = false;
 
+
+    /**
+     * @param player     The punished player
+     * @param executor   The issuing player
+     * @param punishTime The time of the punishment
+     * @param type       The type of the punishment
+     * @param reason     The reason of the punishment
+     * @param uid        The unique id of the punishment
+     */
     public PunishInfo(MPlayer player, MPlayer executor, Punishment.PunishTime punishTime, Punishment.PunishType type, String reason, String uid) {
         this.player = player;
         this.executor = executor;
@@ -58,6 +72,10 @@ public class PunishInfo {
 
     }
 
+
+    /**
+     * Used to reference an empty punishment
+     */
     public PunishInfo() {
         this.player = null;
         this.executor = null;
@@ -68,30 +86,58 @@ public class PunishInfo {
         this.uid = null;
     }
 
+
+    /**
+     * @return The player who was issued the punishment
+     */
     public MPlayer getPlayer() {
         return player;
     }
 
+
+    /**
+     * @return The player who issued the punishment
+     */
     public MPlayer getExecutor() {
         return executor;
     }
 
+
+    /**
+     * @return The punish time instance (Stores the time left and formats it correctly)
+     */
     public Punishment.PunishTime getPunishTime() {
         return punishTime;
     }
 
+
+    /**
+     * @return The reason for the punishment
+     */
     public String getReason() {
         return reason;
     }
 
+
+    /**
+     * @return The punishment's unique id (Used to separate the punishments easier)
+     */
     public String getUid() {
         return uid;
     }
 
+
+    /**
+     * @return When punishment was issued in epoch milliseconds
+     */
     public long getWhen() {
         return this.when;
     }
 
+
+    /**
+     * @return The original time of the punishment (The total time the punishment was issued for)
+     */
     public Punishment.PunishTime getOriginalTime() {
 
         if (this.permanent) return new Punishment.PunishTime(0);
@@ -99,10 +145,18 @@ public class PunishInfo {
 
     }
 
+
+    /**
+     * @return The id of the punishment
+     */
     public int getID() {
         return this.id;
     }
 
+
+    /**
+     * @return Will return true if the punishment is active
+     */
     public boolean isActive() {
         if (!this.active) return false;
         if (this.permanent) return true;

@@ -131,6 +131,10 @@ public abstract class Cosmetic {
         onEquip();
     }
 
+    protected abstract void onEquip();
+
+    protected abstract void onUse(UseAction action);
+
     protected void setStackMeta(ItemMeta meta) {
         this.stackMeta = meta;
     }
@@ -139,9 +143,9 @@ public abstract class Cosmetic {
         this.coolDown = seconds * 1000;
     }
 
-    protected abstract void onEquip();
-
-    protected abstract void onUse(UseAction action);
+    protected ItemStack getStack() {
+        return stack;
+    }
 
     public String getName() {
         return name;
@@ -153,10 +157,6 @@ public abstract class Cosmetic {
 
     public Ranks getRank() {
         return rank;
-    }
-
-    public ItemStack getStack() {
-        return stack;
     }
 
     public ItemMeta getStackMeta() {

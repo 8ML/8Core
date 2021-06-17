@@ -17,73 +17,18 @@ import java.sql.SQLException;
 public class Level {
 
     private static final double multiplier = 14;
-
     private static final SQL sql = Core.instance.sql;
 
     public static void addXP(MPlayer player, int xp) {
-        try {
-
-            int currentXP = player.getXP();
-            int newXP = currentXP + xp;
-
-            PreparedStatement st = sql.preparedStatement("UPDATE users SET xp=? WHERE uuid=?");
-            st.setInt(1, newXP);
-            st.setString(2, player.getUUID());
-            try {
-                st.executeUpdate();
-            } finally {
-                sql.closeConnection(st);
-                player.update();
-            }
-
-            if (getLevelFromXP(currentXP, false) < getLevelFromXP(newXP, false)) {
-                levelUP(player);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        setXP(player, player.getXP() + xp);
     }
 
     public static void resetXP(MPlayer player) {
-        try {
-
-            PreparedStatement st = sql.preparedStatement("UPDATE users SET xp=? WHERE uuid=?");
-            st.setInt(1, 0);
-            st.setString(2, player.getUUID());
-            try {
-                st.executeUpdate();
-            } finally {
-                sql.closeConnection(st);
-                player.update();
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        setXP(player, 0);
     }
 
     public static void removeXP(MPlayer player, int xp) {
-        try {
-
-            int currentXP = player.getXP();
-            int newXP = currentXP + xp;
-
-            PreparedStatement st = sql.preparedStatement("UPDATE users SET xp=? WHERE uuid=?");
-            st.setInt(1, newXP);
-            st.setString(2, player.getUUID());
-
-            try {
-                st.executeUpdate();
-            } finally {
-                sql.closeConnection(st);
-                player.update();
-            }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        setXP(player, player.getXP() - xp);
     }
 
     public static void setXP(MPlayer player, int xp) {

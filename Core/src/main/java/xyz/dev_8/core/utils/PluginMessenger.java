@@ -39,10 +39,10 @@ public class PluginMessenger implements PluginMessageListener, Listener {
 
     /**
      *
-     * @param channel - Sub channel which the message is sent to
-     * @param hoverMessage - Message to display when hovering over the message
-     * @param objects - Object list to be sent with the message (Usually the player names of who is receiving it)
-     * @param message - The message
+     * @param channel Sub channel which the message is sent to
+     * @param hoverMessage Message to display when hovering over the message
+     * @param objects Object list to be sent with the message (Usually the player names of who is receiving it)
+     * @param message The message
      */
 
     public void sendPluginMessage(String channel, String hoverMessage, List<String> objects, String message) {

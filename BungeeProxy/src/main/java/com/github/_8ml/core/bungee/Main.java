@@ -30,7 +30,7 @@ public class Main extends Plugin implements Listener {
     public SQL sql;
 
     private void initSQL() {
-        this.sql = new SQL("monke", "monke", "localhost", "monke.4994", 3306);
+        this.sql = new SQL("monke", "monke", "localhost", "monke", 3306);
         if (this.sql.testConnection()) {
             this.getLogger().info("[SQL] Connection Established!");
         } else this.getLogger().severe("[SQL] Connection could not be established!");

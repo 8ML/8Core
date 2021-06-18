@@ -1,4 +1,4 @@
 name: Core
 version: 0.1
-main: xyz.dev_8.core.Core
+main: Core
 api-version: 1.16

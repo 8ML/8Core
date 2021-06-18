@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
-group 'xyz.dev_8'
+group 'com.github'
 version '0.1'
 
 

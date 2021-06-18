@@ -60,6 +60,14 @@ public class CosmeticManager implements Listener {
 
     }
 
+    public Map<Player, Cosmetic> getCosmeticMap() {
+        return this.cosmeticMap;
+    }
+
+    public Set<Cosmetic> getCosmetics() {
+        return this.cosmetics;
+    }
+
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
 

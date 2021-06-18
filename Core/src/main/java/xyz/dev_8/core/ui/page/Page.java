@@ -269,4 +269,13 @@ public abstract class Page {
     public List<Integer> getFrameSlots() {
         return frameSlots;
     }
+
+
+    /**
+     *
+     * @return Will return true if the page has a frame (Specified in constructor)
+     */
+    public boolean isFrame() {
+        return this.frame;
+    }
 }

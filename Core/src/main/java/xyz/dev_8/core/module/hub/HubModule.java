@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import xyz.dev_8.core.Core;
 import xyz.dev_8.core.config.ServerConfig;
 import xyz.dev_8.core.module.Module;
+import xyz.dev_8.core.module.hub.cosmetic.CosmeticManager;
 import xyz.dev_8.core.module.hub.events.InteractionEvent;
 import xyz.dev_8.core.module.hub.events.JoinEvent;
 import xyz.dev_8.core.module.hub.scoreboard.Scoreboard;
@@ -23,6 +24,8 @@ public class HubModule extends Module {
     private final double spawnZ = -3.301;
 
     private PluginFile tabYML;
+
+    public CosmeticManager cosmeticManager;
 
     public HubModule() {
         super("Hub");
@@ -53,6 +56,8 @@ public class HubModule extends Module {
         Scoreboard.init();
 
         ServerConfig.spawnPoint = new Location(Bukkit.getWorld(worldName), spawnX, spawnY, spawnZ);
+
+        this.cosmeticManager = new CosmeticManager();
     }
 
     @Override

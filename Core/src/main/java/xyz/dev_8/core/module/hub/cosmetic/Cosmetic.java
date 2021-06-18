@@ -159,6 +159,10 @@ public abstract class Cosmetic {
         return rank;
     }
 
+    public ItemStack getItem() {
+        return this.stack;
+    }
+
     public ItemMeta getStackMeta() {
         return stackMeta;
     }

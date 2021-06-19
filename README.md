@@ -1,4 +1,4 @@
-# 8CORE (Work-In-Progress)
+# 8Core (Work-In-Progress)
 
 ## Introduction
 8Core is a completely open-source spigot server codebase with core features, hub manager and game manager.

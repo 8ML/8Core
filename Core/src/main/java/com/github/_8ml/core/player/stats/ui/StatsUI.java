@@ -10,20 +10,20 @@ import com.github._8ml.core.player.stats.ui.pages.AchievementPage;
 
 public class StatsUI extends GUI {
 
-    private final MPlayer t;
+    private final MPlayer target;
 
-    public StatsUI(MPlayer player, MPlayer t) {
+    public StatsUI(MPlayer player, MPlayer target) {
         super(player);
 
-        this.t = t;
+        this.target = target;
 
         initialize();
     }
 
     @Override
     public void init() {
-        addPage(new StatsPage(t));
-        addPage(new AchievementPage(t));
+        addPage(new StatsPage(target));
+        addPage(new AchievementPage(target));
         openPage(0);
     }
 }

@@ -43,8 +43,8 @@ public abstract class Module {
     public static void setModule(Core plugin, String module) throws ModuleNotFoundException {
         for (Module mod : modules) {
             if (mod.name.equals(module)) {
-                mod.enableModule(plugin);
                 enabledModule = mod;
+                mod.enableModule(plugin);
             }
         }
         if (enabledModule == null) {

@@ -1,4 +1,4 @@
 name: Core
 version: 0.1
-main: Core
+main: com.github._8ml.core.Core
 api-version: 1.16

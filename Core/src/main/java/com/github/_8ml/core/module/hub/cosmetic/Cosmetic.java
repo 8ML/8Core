@@ -12,13 +12,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.Assert;
 import com.github._8ml.core.player.hierarchy.Ranks;
 
+import java.util.Collections;
+
 public abstract class Cosmetic {
 
     private final String name;
+    private final String description;
     private final int coins;
     private final Ranks rank;
     private final ItemStack stack;
     private final boolean item;
+    private final CosmeticType type;
 
     private ItemMeta stackMeta;
     private long coolDown;
@@ -93,23 +97,31 @@ public abstract class Cosmetic {
 
     }
 
-    public static enum UseActionType {
+    public enum UseActionType {
         UNSPECIFIED, LEFT_CLICK, RIGHT_CLICK, LEFT_CLICK_BLOCK, RIGHT_CLICK_BLOCK, RIGHT_CLICK_PLAYER, LEFT_CLICK_PLAYER
     }
 
-    public Cosmetic(String name, int coins, ItemStack stack, Ranks rank) {
+    public enum CosmeticType {
+        GADGET, OUTFIT, HAT, TITLE
+    }
+
+    public Cosmetic(String name, int coins, ItemStack stack, String description, CosmeticType type, Ranks rank) {
 
         this.name = name;
+        this.description = description;
         this.coins = coins;
         this.rank = rank;
         this.stack = stack;
         this.item = stack != null;
+        this.type = type;
 
         if (this.item) {
             ItemMeta meta = this.stack.getItemMeta();
             Assert.assertNotNull("Meta cannot be null (Cosmetic constructor)", meta);
             meta.setDisplayName(ChatColor.YELLOW + getName());
+            meta.setLore(Collections.singletonList(description));
             setStackMeta(meta);
+            this.stack.setItemMeta(meta);
         }
 
     }
@@ -141,6 +153,10 @@ public abstract class Cosmetic {
         return name;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
     public int getCoins() {
         return coins;
     }
@@ -165,4 +181,7 @@ public abstract class Cosmetic {
         return this.coolDown;
     }
 
+    public CosmeticType getType() {
+        return type;
+    }
 }

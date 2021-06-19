@@ -6,6 +6,7 @@ Created by @8ML (https://github.com/8ML) on 4/26/2021
 import com.github._8ml.core.bungee.events.JoinEvent;
 import com.github._8ml.core.bungee.events.QuitEvent;
 import com.github._8ml.core.bungee.storage.SQL;
+import com.github._8ml.core.bungee.storage.file.ConfigFile;
 import com.google.common.collect.Iterables;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -18,6 +19,9 @@ import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import net.md_5.bungee.event.EventHandler;
 
 import java.io.*;
@@ -28,9 +32,14 @@ public class Main extends Plugin implements Listener {
     public static Main instance;
 
     public SQL sql;
+    public Configuration config;
 
     private void initSQL() {
-        this.sql = new SQL("monke", "monke", "localhost", "monke", 3306);
+        this.sql = new SQL(config.getString("mysql.database"),
+                config.getString("mysql.username"),
+                config.getString("mysql.host"),
+                config.getString("mysql.password"),
+                config.getInt("mysql.port"));
         if (this.sql.testConnection()) {
             this.getLogger().info("[SQL] Connection Established!");
         } else this.getLogger().severe("[SQL] Connection could not be established!");
@@ -46,8 +55,16 @@ public class Main extends Plugin implements Listener {
 
         instance = this;
 
+        try {
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(
+                    ConfigFile.loadResource(this, "config.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         initSQL();
         registerEvents();
+
 
         this.getProxy().registerChannel("BungeeCord");
         this.getProxy().getPluginManager().registerListener(this, this);

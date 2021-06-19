@@ -5,6 +5,7 @@ Created by @8ML (https://github.com/8ML) on June 18 2021
 
 import com.github._8ml.core.ui.component.Component;
 import com.github._8ml.core.ui.component.components.Button;
+import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -27,6 +28,7 @@ public abstract class MultiplePage extends Page {
         super(title, size, frame);
 
         List<Component> componentList = onOpenMultiple();
+        DeveloperMode.log(componentList.size() + "");
         Map<Integer, Component> currentPageBuilderList = new HashMap<>();
         int pageBuilderIndex = 0;
 
@@ -36,7 +38,6 @@ public abstract class MultiplePage extends Page {
 
         for (Component component : componentList) {
 
-            slot = isFrame() && getFrameSlots().contains(slot + 1) ? slot + 2 : slot + 1;
             if (slot == LAST_SLOT + 1) {
 
                 pages.put(pageBuilderIndex, currentPageBuilderList);
@@ -48,6 +49,10 @@ public abstract class MultiplePage extends Page {
 
             } else {
                 currentPageBuilderList.put(slot, component);
+                if (componentList.indexOf(component) == componentList.size() - 1)
+                    pages.put(pageBuilderIndex, currentPageBuilderList);
+
+                slot = isFrame() && getFrameSlots().contains(slot + 1) ? slot + 2 : slot + 1;
             }
 
         }
@@ -58,8 +63,16 @@ public abstract class MultiplePage extends Page {
     @Override
     protected void onOpen() {
 
+        DeveloperMode.log("Yes");
+        DeveloperMode.log(pages.size() + "");
+        DeveloperMode.log(currentPageIndex + "");
+        DeveloperMode.log(pages.keySet() + "");
+
         if (!this.pages.containsKey(currentPageIndex)) return;
         Map<Integer, Component> page = this.pages.get(currentPageIndex);
+
+        DeveloperMode.log("Passed");
+        DeveloperMode.log(page.keySet() + "   " + page.get(0));
 
         for (int key : page.keySet()) {
 

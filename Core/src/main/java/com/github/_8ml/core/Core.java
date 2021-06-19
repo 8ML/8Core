@@ -11,8 +11,10 @@ import com.github._8ml.core.cmd.commands.social.MessageCMD;
 import com.github._8ml.core.cmd.commands.social.ReplyCMD;
 import com.github._8ml.core.cmd.commands.special.TitleCMD;
 import com.github._8ml.core.cmd.commands.staff.PunishCMD;
-import com.github._8ml.core.cmd.commands.staff.PunishCMDTEST;
+import com.github._8ml.core.cmd.commands.test.PunishCMDTEST;
 import com.github._8ml.core.cmd.commands.staff.StaffChatCMD;
+import com.github._8ml.core.cmd.commands.test.UpdateRankCMDTEST;
+import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.events.ChatEvent;
 import com.github._8ml.core.events.CommandEvent;
 import com.github._8ml.core.events.FunEvent;
@@ -131,9 +133,9 @@ public class Core extends JavaPlugin {
         CommandCenter.registerCommand(new PingCMD(), this);
 
 
-        //REMEMBER TO DISABLE THESE WHEN DEVELOPMENT IS DONE.
-        CommandCenter.registerCommand(new UpdateRankCMDTEST(), this);
-        CommandCenter.registerCommand(new PunishCMDTEST(), this);
+        //TEST COMMANDS (if development mode is on)
+        CommandCenter.registerTestCommand(new UpdateRankCMDTEST(), this);
+        CommandCenter.registerTestCommand(new PunishCMDTEST(), this);
     }
 
     private void registerModules() {
@@ -169,6 +171,14 @@ public class Core extends JavaPlugin {
         } catch (ModuleNotFoundException e) {
             e.printStackTrace();
             this.getServer().shutdown();
+        }
+
+
+        if (ServerConfig.developmentMode) {
+            for (int i = 0; i < 50; i++) {
+                this.getLogger().warning("DEVELOPMENT MODE IS SET TO TRUE! IF THIS IS RUNNING ON A LIVE SERVER" +
+                        "\nPLEASE SET developmentMode TO false IN ServerConfig class");
+            }
         }
 
     }

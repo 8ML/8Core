@@ -4,6 +4,7 @@ Created by @8ML (https://github.com/8ML) on 5/30/2021
 */
 
 import com.github._8ml.core.module.hub.cosmetic.Cosmetic;
+import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,15 +19,10 @@ import java.util.Arrays;
 public class StickCosmetic extends Cosmetic {
 
     public StickCosmetic() {
-        super("Stick", 100, new ItemStack(Material.STICK), Ranks.DEFAULT);
+        super("Stick", 100, new ItemStack(Material.STICK), ChatColor.GRAY
+                + "Slap some bi****", CosmeticType.GADGET, Ranks.DEFAULT);
 
         setCoolDown(10L);
-
-        ItemMeta meta = getStack().getItemMeta();
-        Assert.assertNotNull("Meta cannot be null (Stick cosmetic)", meta);
-        meta.setLore(Arrays.asList(
-                "",
-                ChatColor.GRAY + "Slap some bi****"));
     }
 
     @Override
@@ -36,7 +32,10 @@ public class StickCosmetic extends Cosmetic {
 
     @Override
     protected void onUse(UseAction action) {
+        DeveloperMode.log("OnUse Called (StickCosmetic)");
         if (action.getType().equals(UseActionType.LEFT_CLICK_PLAYER)) {
+
+            DeveloperMode.log("UseActionType Passed (StickCosmetic)");
 
             Player p = action.getPlayerInteractedAt();
 

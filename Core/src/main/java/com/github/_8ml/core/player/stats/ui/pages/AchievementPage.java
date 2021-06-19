@@ -46,7 +46,7 @@ public class AchievementPage extends Page {
 
         Button exit = new Button(ChatColor.RED + "Close", Material.BARRIER, getParent());
         exit.setOnClick(() -> {
-            player.getPlayer().closeInventory();
+            getParent().getPlayer().getPlayer().closeInventory();
             getParent().unregisterHandlers();
         });
 

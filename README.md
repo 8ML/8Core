@@ -5,7 +5,8 @@
 8Core is easy for developers to build on, as all classes are well documented and easy to use.
 
 ## Usage
-8Core is currently in development stages and is not ready for public use. Contributions are appreciated and will be credited.
+8Core is currently in development stages and is not ready for public use. 
+Contributions are appreciated and will be credited.
 
 ## Build
 To build this project, clone this repository.

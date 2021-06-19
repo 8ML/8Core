@@ -3,6 +3,7 @@ package com.github._8ml.core.module.hub.cosmetic;
 Created by @8ML (https://github.com/8ML) on 5/30/2021
 */
 
+import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +13,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.junit.Assert;
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
-import com.github._8ml.core.module.hub.cosmetic.cosmetics.StickCosmetic;
 
 import java.util.*;
 
@@ -24,14 +24,20 @@ public class CosmeticManager implements Listener {
 
     public CosmeticManager() {
         Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
+        registerCosmeticsFromEnum();
+        DeveloperMode.log("Cosmetics Set Size: " + cosmetics.size());
     }
 
-    private void registerCosmetics() {
-        registerCosmetic(new StickCosmetic());
-    }
-
-    private void registerCosmetic(Cosmetic cosmetic) {
+    public void registerCosmetic(Cosmetic cosmetic) {
         this.cosmetics.add(cosmetic);
+    }
+
+    private void registerCosmeticsFromEnum() {
+
+        for (Cosmetics cosmeticsEnumEntry : Cosmetics.values()) {
+            cosmeticsEnumEntry.register(this);
+        }
+
     }
 
     private void startCoolDown(Player player, Cosmetic cosmetic) {

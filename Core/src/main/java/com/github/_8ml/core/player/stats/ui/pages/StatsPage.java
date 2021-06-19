@@ -4,6 +4,7 @@ Created by @8ML (https://github.com/8ML) on 5/5/2021
 */
 
 import com.github._8ml.core.player.MPlayer;
+import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.level.Level;
 import com.github._8ml.core.ui.page.Page;
 import com.github._8ml.core.Core;
@@ -15,6 +16,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class StatsPage extends Page {
@@ -94,10 +98,29 @@ public class StatsPage extends Page {
                         + ChatColor.GRAY + Level.getXPFromLevel(iLevel + 1)});
 
         //Buttons
+        //-> Achievements
+
+        Set<Achievement> achievementClasses = Achievement.getAchievementClasses();
+        int achievementsCompleted = 0;
+        for (Achievement achievement : achievementClasses) {
+            if (achievement.hasAchievement(t)) achievementsCompleted++;
+        }
+
 
         Button achievements = new Button(ChatColor.YELLOW + "Achievements "
                 + ChatColor.GRAY + "(" + ChatColor.GREEN + "Click" + ChatColor.GRAY + ")",
                 Material.BOOK, getParent());
+
+        achievements.setLore(new String[]{"",
+                ChatColor.GRAY + "Track your progress and",
+                ChatColor.GRAY + "complete achievements",
+                ChatColor.GRAY + "for " + ChatColor.GOLD
+                        + "Coins " + ChatColor.GRAY + "and " + ChatColor.LIGHT_PURPLE
+                        + "XP" + ChatColor.GRAY + ".",
+                "",
+                ChatColor.GRAY + "Completed: " + ChatColor.LIGHT_PURPLE + achievementsCompleted
+                        + ChatColor.GRAY + "/" + achievementClasses.size()});
+
         achievements.setOnClick(() -> {
             getParent().openPage(1);
         });

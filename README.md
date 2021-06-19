@@ -3,14 +3,13 @@
 ## Introduction
 8Core is a completely free to use and open-source spigot server codebase with core features:
 
-- Ranks & Permissions
-- Profile System
+- Ranks and Permissions
+- Profile and Options Menu
 - Friends System
-- Options Menu
-- Command Manager
-- Cosmetics API
 - Modules System
 - Hub Manager
+- Command Manager
+- Cosmetics API
 - Minigame API
 
 8Core is easy for developers to build on, as all classes are well documented and easy to use.

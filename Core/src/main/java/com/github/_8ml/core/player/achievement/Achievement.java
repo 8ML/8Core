@@ -18,6 +18,21 @@ import java.util.*;
 
 public abstract class Achievement {
 
+    static {
+
+        try {
+
+            Core.instance.sql.createTable("CREATE TABLE IF NOT EXISTS achievements (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
+                    ", `type` VARCHAR(255) NOT NULL" +
+                    ", `description` LONGTEXT NOT NULL" +
+                    ", `when` BIGINT NOT NULL)");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private final static Set<Achievement> achievements = new HashSet<>();
     private final static Map<MPlayer, Set<String>> loadedPlayer = new HashMap<>();
 

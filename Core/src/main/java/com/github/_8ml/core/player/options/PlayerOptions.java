@@ -15,6 +15,20 @@ import java.util.Map;
 
 public class PlayerOptions {
 
+    static {
+
+        try {
+
+            Core.instance.sql.createTable("CREATE TABLE IF NOT EXISTS preferences (`uuid` VARCHAR(255) NOT NULL" +
+                    ", `key` VARCHAR(255) NOT NULL" +
+                    ", `value` VARCHAR(255) NOT NULL)");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public enum PrivateMessagePreference {
         FRIENDS_ONLY, ANYONE, OFF
     }

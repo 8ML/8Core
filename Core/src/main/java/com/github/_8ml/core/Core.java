@@ -26,6 +26,7 @@ import com.github._8ml.core.module.Module;
 import com.github._8ml.core.module.game.GameModule;
 import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.achievement.achievements.ChatAchievement;
+import com.github._8ml.core.security.OnlyProxyJoin;
 import com.github._8ml.core.storage.SQL;
 import com.github._8ml.core.storage.file.PluginFile;
 import com.github._8ml.core.utils.NameTag;
@@ -59,6 +60,8 @@ public class Core extends JavaPlugin {
     public String serverName;
     public MapExtract mapExtractor;
 
+    private OnlyProxyJoin proxyJoin;
+
 
 
     private void initSql() {
@@ -66,7 +69,7 @@ public class Core extends JavaPlugin {
                 sqlYML.getString("user"),
                 sqlYML.getString("host"), sqlYML.getString("password"),
                 sqlYML.getInt("port"));
-        if (this.sql.testConnection()) { this.getLogger().info("[SQL] Connection Established!"); this.sql.init(); }
+        if (this.sql.testConnection()) this.getLogger().info("[SQL] Connection Established!");
         else this.getLogger().severe("[SQL] Connection could not be established!");
     }
 
@@ -156,6 +159,8 @@ public class Core extends JavaPlugin {
         registerAchievements();
         registerModules();
 
+        this.proxyJoin = new OnlyProxyJoin();
+
         this.pluginMessenger = new PluginMessenger(this);
         this.tabList = new TabList(this);
         this.scoreBoard = new ScoreBoard(this);
@@ -175,7 +180,7 @@ public class Core extends JavaPlugin {
 
 
         if (ServerConfig.developmentMode) {
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 10; i++) {
                 this.getLogger().warning("DEVELOPMENT MODE IS SET TO TRUE! IF THIS IS RUNNING ON A LIVE SERVER" +
                         "\nPLEASE SET developmentMode TO false IN ServerConfig class");
             }

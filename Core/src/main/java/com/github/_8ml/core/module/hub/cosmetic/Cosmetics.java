@@ -3,11 +3,15 @@ package com.github._8ml.core.module.hub.cosmetic;
 Created by @8ML (https://github.com/8ML) on June 19 2021
 */
 
-import com.github._8ml.core.module.hub.cosmetic.cosmetics.StickCosmetic;
+import com.github._8ml.core.module.hub.cosmetic.cosmetics.gadgets.StickGadget;
+import com.github._8ml.core.module.hub.cosmetic.cosmetics.outfits.RainbowOutfit;
 
 public enum Cosmetics {
 
-    STICK(StickCosmetic.class);
+    //GADGETS
+    STICK_GADGET(StickGadget.class),
+    //OUTFITS
+    RAINBOW_OUTFIT(RainbowOutfit.class);
 
     private final Class<?> cosmeticClass;
     private Cosmetic cosmetic;

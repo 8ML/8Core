@@ -3,6 +3,8 @@ package com.github._8ml.core.module.hub.cosmetic;
 Created by @8ML (https://github.com/8ML) on 5/30/2021
 */
 
+import com.github._8ml.core.module.hub.HubModule;
+import com.github._8ml.core.player.MPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,6 +25,7 @@ public abstract class Cosmetic {
     private final ItemStack stack;
     private final boolean item;
     private final CosmeticType type;
+    private final ItemStack displayStack;
 
     private ItemMeta stackMeta;
     private long coolDown;
@@ -105,7 +108,7 @@ public abstract class Cosmetic {
         GADGET, OUTFIT, HAT, TITLE
     }
 
-    public Cosmetic(String name, int coins, ItemStack stack, String description, CosmeticType type, Ranks rank) {
+    public Cosmetic(String name, int coins, ItemStack displayStack, ItemStack stack, String description, CosmeticType type, Ranks rank) {
 
         this.name = name;
         this.description = description;
@@ -114,6 +117,7 @@ public abstract class Cosmetic {
         this.stack = stack;
         this.item = stack != null;
         this.type = type;
+        this.displayStack = displayStack;
 
         if (this.item) {
             ItemMeta meta = this.stack.getItemMeta();
@@ -126,16 +130,31 @@ public abstract class Cosmetic {
 
     }
 
-    public void equip(Player player) {
+    protected void setDisplayMeta(ItemMeta meta) {
+        this.displayStack.setItemMeta(meta);
+    }
+
+    void equip(Player player) {
         if (item) {
             player.getInventory().setItem(2, this.stack);
         }
-        onEquip();
+        onEquip(player);
     }
 
-    protected abstract void onEquip();
+    void unEquip(Player player) {
+        if (item) {
+            player.getInventory().clear(2);
+        }
+        onUnEquip(player);
+    }
 
-    protected abstract void onUse(UseAction action);
+    protected abstract void onEquip(Player player);
+
+    protected abstract void onUnEquip(Player player);
+
+    protected abstract boolean onUse(UseAction action);
+
+    protected abstract void onUpdate();
 
     protected void setStackMeta(ItemMeta meta) {
         this.stackMeta = meta;
@@ -173,6 +192,10 @@ public abstract class Cosmetic {
         return stackMeta;
     }
 
+    public ItemMeta getDisplayMeta() {
+        return this.displayStack.getItemMeta();
+    }
+
     public boolean isItem() {
         return item;
     }
@@ -183,5 +206,9 @@ public abstract class Cosmetic {
 
     public CosmeticType getType() {
         return type;
+    }
+
+    public ItemStack getDisplayStack() {
+        return this.displayStack;
     }
 }

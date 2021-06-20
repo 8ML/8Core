@@ -14,6 +14,7 @@ import com.github._8ml.core.player.social.friend.Friend;
 import com.github._8ml.core.punishment.PunishInfo;
 import com.github._8ml.core.punishment.Punishment;
 import com.github._8ml.core.punishment.type.Ban;
+import com.github._8ml.core.security.OnlyProxyJoin;
 import com.github._8ml.core.storage.SQL;
 import com.github._8ml.core.utils.BookUtil;
 import com.github._8ml.core.Core;
@@ -91,11 +92,6 @@ public class JoinEvent implements Listener {
     @EventHandler
     public void onConnect(PlayerLoginEvent e) {
 
-        if (!proxyCheck(e.getPlayer())) {
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, MessageColor.COLOR_ERROR + "Could not establish connection!\n\n" +
-                    "You have to connect using" + ChatColor.YELLOW + " dev-8.com" + MessageColor.COLOR_ERROR + "!");
-        }
-
         if (MPlayer.exists(e.getPlayer().getName())) {
             MPlayer p = MPlayer.getMPlayer(e.getPlayer().getName());
             PunishInfo info = Punishment.getActivePunishment(p, Punishment.PunishType.BAN);
@@ -108,30 +104,4 @@ public class JoinEvent implements Listener {
 
     }
 
-    private boolean proxyCheck(Player player) {
-
-        try {
-            PreparedStatement st = sql.preparedStatement("SELECT * FROM proxy WHERE proxyPlayer=?");
-            st.setString(1, player.getName());
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-
-                PreparedStatement del = sql.preparedStatement("DELETE FROM proxy WHERE proxyPlayer=?");
-                del.setString(1, player.getName());
-                del.execute();
-
-                sql.closeConnection(st);
-                sql.closeConnection(del);
-                return true;
-            }
-
-            sql.closeConnection(st);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-
-    }
 }

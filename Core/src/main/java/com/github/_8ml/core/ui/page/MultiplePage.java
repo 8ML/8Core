@@ -19,6 +19,8 @@ public abstract class MultiplePage extends Page {
     private int currentPageIndex = 0;
     private final Map<Integer, Map<Integer, Component>> pages = new HashMap<>();
 
+    private boolean initialized = false;
+
     /**
      * @param title The title of the page
      * @param size  The size of the page (9, 18, 27, 36, 45, 54)
@@ -26,36 +28,6 @@ public abstract class MultiplePage extends Page {
      */
     public MultiplePage(String title, int size, boolean frame) {
         super(title, size, frame);
-
-        List<Component> componentList = onOpenMultiple();
-        DeveloperMode.log(componentList.size() + "");
-        Map<Integer, Component> currentPageBuilderList = new HashMap<>();
-        int pageBuilderIndex = 0;
-
-        if (componentList.isEmpty()) return;
-
-        int slot = isFrame() ? 10 : 0;
-
-        for (Component component : componentList) {
-
-            if (slot == LAST_SLOT + 1) {
-
-                pages.put(pageBuilderIndex, currentPageBuilderList);
-
-                pageBuilderIndex++;
-                slot = isFrame() ? 10 : 0;
-
-                currentPageBuilderList = new HashMap<>();
-
-            } else {
-                currentPageBuilderList.put(slot, component);
-                if (componentList.indexOf(component) == componentList.size() - 1)
-                    pages.put(pageBuilderIndex, currentPageBuilderList);
-
-                slot = isFrame() && getFrameSlots().contains(slot + 1) ? slot + 2 : slot + 1;
-            }
-
-        }
     }
 
     protected abstract List<Component> onOpenMultiple();
@@ -63,16 +35,41 @@ public abstract class MultiplePage extends Page {
     @Override
     protected void onOpen() {
 
-        DeveloperMode.log("Yes");
-        DeveloperMode.log(pages.size() + "");
-        DeveloperMode.log(currentPageIndex + "");
-        DeveloperMode.log(pages.keySet() + "");
+        if (!initialized) {
+            initialized = true;
+
+            List<Component> componentList = onOpenMultiple();
+            Map<Integer, Component> currentPageBuilderList = new HashMap<>();
+            int pageBuilderIndex = 0;
+
+            if (componentList.isEmpty()) return;
+
+            int slot = isFrame() ? 10 : 0;
+
+            for (Component component : componentList) {
+
+                if (slot == LAST_SLOT + 1) {
+
+                    pages.put(pageBuilderIndex, currentPageBuilderList);
+
+                    pageBuilderIndex++;
+                    slot = isFrame() ? 10 : 0;
+
+                    currentPageBuilderList = new HashMap<>();
+
+                } else {
+                    currentPageBuilderList.put(slot, component);
+                    if (componentList.indexOf(component) == componentList.size() - 1)
+                        pages.put(pageBuilderIndex, currentPageBuilderList);
+
+                    slot = isFrame() && getFrameSlots().contains(slot + 1) ? slot + 2 : slot + 1;
+                }
+
+            }
+        }
 
         if (!this.pages.containsKey(currentPageIndex)) return;
         Map<Integer, Component> page = this.pages.get(currentPageIndex);
-
-        DeveloperMode.log("Passed");
-        DeveloperMode.log(page.keySet() + "   " + page.get(0));
 
         for (int key : page.keySet()) {
 

@@ -3,6 +3,8 @@ package com.github._8ml.core.module.hub.cosmetic;
 Created by @8ML (https://github.com/8ML) on 5/30/2021
 */
 
+import com.github._8ml.core.events.event.UpdateEvent;
+import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.junit.Assert;
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
@@ -25,11 +28,24 @@ public class CosmeticManager implements Listener {
     public CosmeticManager() {
         Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
         registerCosmeticsFromEnum();
-        DeveloperMode.log("Cosmetics Set Size: " + cosmetics.size());
     }
 
     public void registerCosmetic(Cosmetic cosmetic) {
         this.cosmetics.add(cosmetic);
+    }
+
+    public void equipCosmetic(Player player, Cosmetic cosmetic) {
+        cosmeticMap.put(player, cosmetic);
+        cosmetic.equip(player);
+    }
+
+    public void unEquipCosmetic(Player player, Cosmetic cosmetic) {
+        cosmeticMap.put(player, null);
+        cosmetic.unEquip(player);
+    }
+
+    public void addEntry(Player player) {
+        cosmeticMap.put(player, null);
     }
 
     private void registerCosmeticsFromEnum() {
@@ -56,12 +72,7 @@ public class CosmeticManager implements Listener {
         if (!coolDownMap.get(player).containsKey(cosmetic)) return true;
 
         long when = coolDownMap.get(player).get(cosmetic);
-        if (when + cosmetic.getCoolDown() > System.currentTimeMillis()) {
-            player.sendMessage(MessageColor.COLOR_ERROR + "Cosmetic is on cooldown!");
-            return false;
-        }
-
-        return true;
+        return when + cosmetic.getCoolDown() <= System.currentTimeMillis();
 
     }
 
@@ -79,35 +90,44 @@ public class CosmeticManager implements Listener {
         for (Cosmetic cosmetic : cosmetics) {
 
             if (!cosmeticMap.containsKey(e.getPlayer())) return;
+            if (cosmeticMap.get(e.getPlayer()) == null) return;
             if (!cosmeticMap.get(e.getPlayer()).equals(cosmetic)) continue;
+
 
             if (cosmetic.isItem()) {
 
-                if (Objects.requireNonNull(e.getItem()).getType().equals(cosmetic.getStack().getType())) {
+                ItemStack itemMainHand = e.getPlayer().getInventory().getItemInMainHand();
+
+                if (Objects.requireNonNull(itemMainHand).getType().equals(cosmetic.getStack().getType())) {
+
                     Assert.assertNotNull("Item Meta cannot be null (onInteract - CosmeticManager)", cosmetic.getStackMeta());
-                    if (Objects.requireNonNull(e.getItem().getItemMeta())
+                    if (Objects.requireNonNull(itemMainHand.getItemMeta())
                             .getDisplayName().equals(cosmetic.getStackMeta().getDisplayName())) {
 
                         if (!checkCoolDown(e.getPlayer(), cosmetic)) return;
 
+                        boolean result = false;
+
                         switch (e.getAction()) {
                             case LEFT_CLICK_AIR:
-                                cosmetic.onUse(new Cosmetic.UseAction(e.getPlayer(), Cosmetic.UseActionType.LEFT_CLICK));
+                                result = cosmetic.onUse(new Cosmetic.UseAction(e.getPlayer(), Cosmetic.UseActionType.LEFT_CLICK));
                                 break;
                             case LEFT_CLICK_BLOCK:
-                                cosmetic.onUse(new Cosmetic.UseAction(e.getPlayer(), Cosmetic.UseActionType.LEFT_CLICK_BLOCK,
+                                result = cosmetic.onUse(new Cosmetic.UseAction(e.getPlayer(), Cosmetic.UseActionType.LEFT_CLICK_BLOCK,
                                         Objects.requireNonNull(e.getClickedBlock())));
                                 break;
                             case RIGHT_CLICK_AIR:
-                                cosmetic.onUse(new Cosmetic.UseAction(e.getPlayer(), Cosmetic.UseActionType.RIGHT_CLICK));
+                                result = cosmetic.onUse(new Cosmetic.UseAction(e.getPlayer(), Cosmetic.UseActionType.RIGHT_CLICK));
                                 break;
                             case RIGHT_CLICK_BLOCK:
-                                cosmetic.onUse(new Cosmetic.UseAction(e.getPlayer(), Cosmetic.UseActionType.RIGHT_CLICK_BLOCK,
+                                result = cosmetic.onUse(new Cosmetic.UseAction(e.getPlayer(), Cosmetic.UseActionType.RIGHT_CLICK_BLOCK,
                                         Objects.requireNonNull(e.getClickedBlock())));
                                 break;
                         }
 
-                        startCoolDown(e.getPlayer(), cosmetic);
+                        if (result) {
+                            startCoolDown(e.getPlayer(), cosmetic);
+                        }
 
                     }
 
@@ -186,6 +206,13 @@ public class CosmeticManager implements Listener {
                 }
 
             }
+        }
+    }
+
+    @EventHandler
+    public void onUpdate(UpdateEvent e) {
+        for (Cosmetic cosmetic : cosmetics) {
+            cosmetic.onUpdate();
         }
     }
 

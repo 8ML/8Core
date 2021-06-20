@@ -5,6 +5,7 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 
 import com.github._8ml.core.Core;
 import com.github._8ml.core.events.event.UpdateEvent;
+import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -50,44 +51,6 @@ public class SQL implements Listener {
         Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
     }
 
-
-    /**
-     * This is called when the class is initialized.
-     * Create tables here
-     */
-    public void init() {
-        try {
-            createTable("CREATE TABLE IF NOT EXISTS users (`id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL" +
-                    ", `uuid` VARCHAR(255) NOT NULL, `playerName` VARCHAR(30) NOT NULL, `rank` VARCHAR(30) NOT NULL" +
-                    ", `xp` INT NOT NULL, `coins` INT NOT NULL, `firstJoin` BIGINT NOT NULL, `signature` MEDIUMTEXT)");
-            createTable("CREATE TABLE IF NOT EXISTS proxy (`proxyPlayer` VARCHAR(100) PRIMARY KEY NOT NULL)");
-            createTable("CREATE TABLE IF NOT EXISTS punishments (`id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL" +
-                    ", `uuid` VARCHAR(255) NOT NULL" +
-                    ", `playerName` VARCHAR(100) NOT NULL" +
-                    ", `executor` VARCHAR(100) NOT NULL" +
-                    ", `when` BIGINT NOT NULL" +
-                    ", `end` BIGINT NOT NULL" +
-                    ", `duration` BIGINT NOT NULL" +
-                    ", `reason` VARCHAR(255) NOT NULL" +
-                    ", `type` VARCHAR(100) NOT NULL" +
-                    ", `active` BIT NOT NULL" +
-                    ", `permanent` BIT NOT NULL" +
-                    ", `uid` VARCHAR(255) NOT NULL)");
-            createTable("CREATE TABLE IF NOT EXISTS friends (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
-                    ", `friendList` LONGTEXT NOT NULL" +
-                    ", `requests` LONGTEXT NOT NULL)");
-            createTable("CREATE TABLE IF NOT EXISTS preferences (`uuid` VARCHAR(255) NOT NULL" +
-                    ", `key` VARCHAR(255) NOT NULL" +
-                    ", `value` VARCHAR(255) NOT NULL)");
-            createTable("CREATE TABLE IF NOT EXISTS achievements (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
-                    ", `type` VARCHAR(255) NOT NULL" +
-                    ", `description` LONGTEXT NOT NULL" +
-                    ", `when` BIGINT NOT NULL)");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Used to test the connection when the class is first initialized
@@ -176,7 +139,7 @@ public class SQL implements Listener {
      * @param query The create table sql query
      * @throws SQLException Will throw a SQLException if something goes wrong on the mysql side
      */
-    private void createTable(String query) throws SQLException {
+    public void createTable(String query) throws SQLException {
         try {
             connect();
             PreparedStatement stmt = this.getConnection().prepareStatement(query);
@@ -210,7 +173,7 @@ public class SQL implements Listener {
             this.getConnection().close();
         }
 
-        Core.instance.getLogger().info("DEBUG [SQL]: " + statements.size() + " " + Arrays.toString(statements.toArray()));
+        DeveloperMode.log("[SQL]: " + statements.size() + " " + Arrays.toString(statements.toArray()));
 
     }
 

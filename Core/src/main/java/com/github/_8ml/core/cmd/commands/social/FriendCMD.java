@@ -145,8 +145,6 @@ public class FriendCMD extends CMD {
         StringBuilder pageBuilder = new StringBuilder();
         for (MPlayer pageEntry : page) {
 
-            Core.instance.getLogger().info("DEBUG YES: " + pageEntry);
-
             GameInfo gameInfo = GameInfo.getGameInfo(pageEntry);
             Core.instance.getLogger().info(String.valueOf(gameInfo));
             String info = pageEntry.isOffline() ? ChatColor.RED + "is Offline"

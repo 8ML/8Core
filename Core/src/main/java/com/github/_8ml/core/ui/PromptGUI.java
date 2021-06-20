@@ -7,7 +7,6 @@ import com.github._8ml.core.Core;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.ui.component.Component;
 import com.github._8ml.core.ui.component.components.Button;
-import com.github._8ml.core.ui.component.components.Label;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +15,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.junit.Assert;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -31,7 +31,8 @@ public abstract class PromptGUI implements Listener {
     private final Inventory inventory;
     private final Map<Integer, Component> content;
 
-    public PromptGUI(MPlayer player, String title) {
+
+    protected PromptGUI(MPlayer player, String title) {
 
         Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
 
@@ -44,9 +45,17 @@ public abstract class PromptGUI implements Listener {
 
         for (int key : content.keySet()) {
 
-            Component contentLabel = content.get(key);
+            Component contentComponent = content.get(key);
 
-            ItemStack contentStack = contentLabel.getStack();
+            ItemStack contentStack = contentComponent.getStack();
+            ItemMeta meta = contentStack.getItemMeta();
+
+            Assert.assertNotNull("Meta cannot be null (PromptGUI constructor)", meta);
+
+            meta.setDisplayName(contentComponent.getLabel());
+            meta.setLore(contentComponent.getLore());
+
+            contentStack.setItemMeta(meta);
 
             this.inventory.setItem(key, contentStack);
         }
@@ -54,7 +63,9 @@ public abstract class PromptGUI implements Listener {
         player.getPlayer().openInventory(this.inventory);
     }
 
+
     protected abstract Map<Integer, Component> content();
+
 
     public MPlayer getPlayer() {
         return player;
@@ -68,6 +79,7 @@ public abstract class PromptGUI implements Listener {
         return inventory;
     }
 
+
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         if (e.getView().getTitle().equals(this.title)) {
@@ -79,6 +91,8 @@ public abstract class PromptGUI implements Listener {
                     e.getWhoClicked().closeInventory();
 
                     for (int key : this.content.keySet()) {
+
+                        if (key != e.getSlot()) continue;
 
                         Component component = this.content.get(key);
                         if (component instanceof Button) {

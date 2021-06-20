@@ -20,7 +20,15 @@ public class Level {
     private static final SQL sql = Core.instance.sql;
 
     public static void addXP(MPlayer player, int xp) {
-        setXP(player, player.getXP() + xp);
+
+        int currentXP = player.getXP();
+        int newXP = currentXP + xp;
+
+        if (getLevelFromXP(newXP, false) > getLevelFromXP(currentXP, false)) {
+            levelUP(player);
+        }
+
+        setXP(player, newXP);
     }
 
     public static void resetXP(MPlayer player) {

@@ -24,6 +24,19 @@ import java.util.*;
 
 public class Friend {
 
+    static {
+
+        try {
+
+            Core.instance.sql.createTable("CREATE TABLE IF NOT EXISTS friends (`uuid` VARCHAR(255) PRIMARY KEY NOT NULL" +
+                    ", `friendList` LONGTEXT NOT NULL" +
+                    ", `requests` LONGTEXT NOT NULL)");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private final static Map<MPlayer, Friend> friendManager = new HashMap<>();
 
     private final String PREFIX = ChatColor.AQUA + "";
@@ -108,10 +121,8 @@ public class Friend {
                 List<MPlayer> requests = getList(rs.getString("requests"));
                 if (!requests.isEmpty()) {
                     for (MPlayer p : requests) {
-                        Core.instance.getLogger().info("DEBUG NAME: " + p.getPlayerStr() + " : " + player.getPlayerStr());
                         if (!p.getPlayerStr().equals(player.getPlayerStr())) continue;
                         result = true;
-                        Core.instance.getLogger().info("DEBUG SOMETHING ELSE: " + p.getPlayerStr());
 
                     }
 

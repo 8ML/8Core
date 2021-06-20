@@ -26,6 +26,27 @@ import java.util.UUID;
  */
 public abstract class Punishment {
 
+    static {
+
+        try {
+            Core.instance.sql.createTable("CREATE TABLE IF NOT EXISTS punishments (`id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL" +
+                    ", `uuid` VARCHAR(255) NOT NULL" +
+                    ", `playerName` VARCHAR(100) NOT NULL" +
+                    ", `executor` VARCHAR(100) NOT NULL" +
+                    ", `when` BIGINT NOT NULL" +
+                    ", `end` BIGINT NOT NULL" +
+                    ", `duration` BIGINT NOT NULL" +
+                    ", `reason` VARCHAR(255) NOT NULL" +
+                    ", `type` VARCHAR(100) NOT NULL" +
+                    ", `active` BIT NOT NULL" +
+                    ", `permanent` BIT NOT NULL" +
+                    ", `uid` VARCHAR(255) NOT NULL)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public enum PunishType {
 
         BAN, MUTE, WARN, KICK

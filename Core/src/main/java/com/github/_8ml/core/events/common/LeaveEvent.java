@@ -28,8 +28,6 @@ public class LeaveEvent implements Listener {
 
         Core.instance.tabList.removeTabList(e.getPlayer());
 
-        NameTag.removeTitle(e.getPlayer());
-
         Core.onlinePlayers.remove(e.getPlayer());
 
     }

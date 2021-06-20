@@ -21,6 +21,25 @@ import java.util.*;
 @SuppressWarnings("deprecation")
 public class MPlayer {
 
+    static {
+
+        try {
+
+            Core.instance.sql.createTable("CREATE TABLE IF NOT EXISTS users (`id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL" +
+                    ", `uuid` VARCHAR(255) NOT NULL" +
+                    ", `playerName` VARCHAR(30) NOT NULL" +
+                    ", `rank` VARCHAR(30) NOT NULL" +
+                    ", `xp` INT NOT NULL" +
+                    ", `coins` INT NOT NULL" +
+                    ", `firstJoin` BIGINT NOT NULL" +
+                    ", `signature` MEDIUMTEXT)");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private static final Map<String, MPlayer> playerMap = new HashMap<>();
 
     private final String player;

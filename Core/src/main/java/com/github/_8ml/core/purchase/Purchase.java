@@ -13,7 +13,11 @@ import com.github._8ml.core.ui.component.components.Button;
 import com.github._8ml.core.ui.component.components.Label;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +25,22 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Purchase {
+public class Purchase implements Listener {
+
+    static {
+
+        try {
+
+            Core.instance.sql.createTable("CREATE TABLE IF NOT EXISTS purchases (`id` BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL" +
+                    ", `uuid` VARCHAR(255) NOT NULL" +
+                    ", `key` VARCHAR(255) NOT NULL" +
+                    ", `price` INT NOT NULL)");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private final String name;
     private final String key;
@@ -37,6 +56,9 @@ public class Purchase {
         this.price = price;
         this.player = player;
 
+        Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
+
+        confirm();
     }
 
     private void confirm() {
@@ -65,6 +87,8 @@ public class Purchase {
 
                         Coin.removeCoins(player, price);
                         player.getPlayer().sendMessage(ChatColor.GREEN + "Successfully purchased " + ChatColor.GRAY + name);
+                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
+
                         updateDatabase();
 
                     } else {
@@ -76,7 +100,7 @@ public class Purchase {
                 //Cancel
 
                 Button cancelButton = new Button(ChatColor.RED + "Cancel", Material.RED_WOOL, null);
-                cancelButton.setLore(new String[]{"Click to cancel purchase"});
+                cancelButton.setLore(new String[]{ChatColor.GRAY + "Click to cancel purchase"});
                 cancelButton.setOnClick(() -> {
                     player.getPlayer().closeInventory();
                     HandlerList.unregisterAll(this);
@@ -98,6 +122,8 @@ public class Purchase {
 
     private void error(String message) {
 
+        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1f, 6f);
+
         new PromptGUI(player, "Purchase Failed") {
 
             @Override
@@ -107,7 +133,7 @@ public class Purchase {
                 Label error = new Label(ChatColor.RED + "Purchase Failed", Material.RED_WOOL, null);
                 error.setLore(new String[]{ChatColor.GRAY + message});
 
-                for (int i = 0; i < getInventory().getSize() - 1; i ++) {
+                for (int i = 0; i < getInventory().getSize(); i ++) {
                     componentMap.put(i, error);
                 }
 
@@ -121,7 +147,7 @@ public class Purchase {
     private void updateDatabase() {
         try {
 
-            PreparedStatement st = sql.preparedStatement("INSERT INTO purchases (uuid, key, price) VALUES (?,?,?)");
+            PreparedStatement st = sql.preparedStatement("INSERT INTO purchases (`uuid`, `key`, `price`) VALUES (?,?,?)");
             st.setString(1, player.getUUID());
             st.setString(2, key);
             st.setInt(3, price);
@@ -177,5 +203,14 @@ public class Purchase {
 
         return false;
 
+    }
+
+    @EventHandler
+    public void onCloseInventory(InventoryCloseEvent e) {
+        if (e.getPlayer().equals(this.player.getPlayer())) {
+
+            HandlerList.unregisterAll(this);
+
+        }
     }
 }

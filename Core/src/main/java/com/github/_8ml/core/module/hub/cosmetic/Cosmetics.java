@@ -4,6 +4,9 @@ Created by @8ML (https://github.com/8ML) on June 19 2021
 */
 
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.gadgets.StickGadget;
+import com.github._8ml.core.module.hub.cosmetic.cosmetics.hats.FishBowlHat;
+import com.github._8ml.core.module.hub.cosmetic.cosmetics.hats.GrassHat;
+import com.github._8ml.core.module.hub.cosmetic.cosmetics.hats.LeatherHat;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.outfits.RainbowOutfit;
 
 public enum Cosmetics {
@@ -11,7 +14,12 @@ public enum Cosmetics {
     //GADGETS
     STICK_GADGET(StickGadget.class),
     //OUTFITS
-    RAINBOW_OUTFIT(RainbowOutfit.class);
+    RAINBOW_OUTFIT(RainbowOutfit.class),
+    //HATS
+    LEATHER_HAT(LeatherHat.class),
+    GRASS_HAT(GrassHat.class),
+    FISH_BOWL_HAT(FishBowlHat.class);
+
 
     private final Class<?> cosmeticClass;
     private Cosmetic cosmetic;

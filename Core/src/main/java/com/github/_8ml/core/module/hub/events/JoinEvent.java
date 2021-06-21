@@ -6,6 +6,7 @@ Created by @8ML (https://github.com/8ML) on 5/8/2021
 import com.github._8ml.core.Core;
 import com.github._8ml.core.events.event.UpdateEvent;
 import com.github._8ml.core.module.hub.HubModule;
+import com.github._8ml.core.module.hub.item.JoinItems;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.hierarchy.Ranks;
 import com.github._8ml.core.utils.NameTag;
@@ -26,8 +27,7 @@ public class JoinEvent implements Listener {
         MPlayer pl = MPlayer.getMPlayer(e.getPlayer().getName());
         changeTag(pl);
         setScoreboard(pl);
-
-        HubModule.instance.cosmeticManager.addEntry(e.getPlayer());
+        JoinItems.giveItems(e.getPlayer());
     }
 
     private int timer = 0;

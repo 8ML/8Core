@@ -158,6 +158,7 @@ public abstract class Cosmetic {
 
     protected void setStackMeta(ItemMeta meta) {
         this.stackMeta = meta;
+        this.stack.setItemMeta(meta);
     }
 
     protected void setCoolDown(long seconds) {

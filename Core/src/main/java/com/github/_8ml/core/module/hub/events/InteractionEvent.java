@@ -9,9 +9,11 @@ import com.github._8ml.core.player.hierarchy.Ranks;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -53,6 +55,13 @@ public class InteractionEvent implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
+        if (e.getEntityType().equals(EntityType.PLAYER)) {
+            if (!e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) e.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onDamageByPlayer(EntityDamageByEntityEvent e) {
         if (e.getEntityType().equals(EntityType.PLAYER)) {
             e.setCancelled(true);
         }

@@ -54,7 +54,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 1);
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("muted");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -67,7 +67,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 7);
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("muted");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -80,7 +80,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 30);
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("muted");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -93,7 +93,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 60);
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("muted");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -106,7 +106,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime();
             new Mute(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("muted");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -121,7 +121,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 7);
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("banned");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -134,7 +134,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 30);
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("banned");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -147,7 +147,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 60);
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("banned");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -160,7 +160,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 90);
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("banned");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -173,7 +173,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime();
             new Ban(this.target, this.executor, this.time,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("banned");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -188,7 +188,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime();
             new Warn(this.target, this.executor,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("warned");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -201,7 +201,7 @@ public class PunishPage extends Page {
             this.time = new Punishment.PunishTime();
             new Kick(this.target, this.executor,
                     this.reason).execute();
-            sendStaffMessage();
+            sendStaffMessage("kicked");
 
             executor.getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -239,18 +239,16 @@ public class PunishPage extends Page {
         getParent().openPage(1);
     }
 
-    private void sendStaffMessage() {
+    private void sendStaffMessage(String str) {
 
-        String t = "";
-        boolean time = (this.type.equals(Punishment.PunishType.BAN) || this.type.equals(Punishment.PunishType.MUTE));
-        String type = this.type.name().toLowerCase() + "ed";
-        boolean np = (this.type.equals(Punishment.PunishType.KICK) || this.type.equals(Punishment.PunishType.WARN));
+        StringBuilder msg = new StringBuilder(ChatColor.RED + str + " " + this.target.getPlayerStr());
+        if (!this.type.equals(Punishment.PunishType.WARN)
+                && !this.type.equals(Punishment.PunishType.KICK)) {
 
-        StringBuilder msg = new StringBuilder(ChatColor.RED + t + " " + this.target.getPlayerStr());
-        if (time && !this.time.getUnit()
-                .equals(Punishment.TimeUnit.PERMANENT)) msg.append(" for ").append(this.time.getTimeLeft()).append(" ")
-                .append(this.time.getUnit().getFormatted());
-        if (this.time.getUnit().equals(Punishment.TimeUnit.PERMANENT) && !np) msg.append(" permanently");
+            msg.append(" for ").append(this.time.getUnit().equals(Punishment.TimeUnit.PERMANENT) ? "Permanent"
+                    : this.time.getTimeLeft() + " " + this.time.getUnit().getFormatted());
+
+        }
 
         StaffMSG.sendStaffMessage(msg.toString(), executor);
 

@@ -18,6 +18,7 @@ public class StringUtils {
      */
     public static String getWithPlaceholders(MPlayer player, String str) {
         return ChatColor.translateAlternateColorCodes('&', str
+                .replaceAll("%player%", player.getPlayerStr())
                 .replaceAll("%onlineServer%", String.valueOf(Core.onlinePlayers.size()))
                 .replaceAll("%onlineBungee%", String.valueOf(Core.instance.pluginMessenger.getBungeeCount()))
                 .replaceAll("%playerRank%", player.getRankEnum().getRank().isDefaultRank() ? "Default" : player.getRankEnum().getRank().getLabel())

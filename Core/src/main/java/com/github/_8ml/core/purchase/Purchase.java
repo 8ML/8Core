@@ -204,13 +204,4 @@ public class Purchase implements Listener {
         return false;
 
     }
-
-    @EventHandler
-    public void onCloseInventory(InventoryCloseEvent e) {
-        if (e.getPlayer().equals(this.player.getPlayer())) {
-
-            HandlerList.unregisterAll(this);
-
-        }
-    }
 }

@@ -10,6 +10,8 @@ import com.github._8ml.core.module.Module;
 import com.github._8ml.core.module.hub.commands.CosmeticCMD;
 import com.github._8ml.core.module.hub.cosmetic.CosmeticManager;
 import com.github._8ml.core.module.hub.events.InteractionEvent;
+import com.github._8ml.core.module.hub.events.QuitEvent;
+import com.github._8ml.core.module.hub.item.JoinItems;
 import com.github._8ml.core.module.hub.scoreboard.Scoreboard;
 import com.github._8ml.core.storage.file.PluginFile;
 import org.bukkit.Bukkit;
@@ -39,7 +41,10 @@ public class HubModule extends Module {
 
     private void registerEvents() {
         new JoinEvent(mainInstance);
+        new QuitEvent(mainInstance);
         new InteractionEvent(mainInstance);
+
+        new JoinItems();
     }
 
     @Override

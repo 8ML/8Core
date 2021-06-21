@@ -5,7 +5,7 @@ Created by @8ML (https://github.com/8ML) on June 18 2021
 
 import com.github._8ml.core.module.hub.cosmetic.Cosmetic;
 import com.github._8ml.core.module.hub.cosmetic.CosmeticManager;
-import com.github._8ml.core.module.hub.cosmetic.cosmetics.ui.CosmeticGUI;
+import com.github._8ml.core.module.hub.cosmetic.cosmetics.ui.CosmeticUI;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.purchase.Purchase;
 import com.github._8ml.core.ui.component.Component;
@@ -36,9 +36,9 @@ public class CosmeticPage extends MultiplePage {
 
         List<Component> components = new ArrayList<>();
         CosmeticManager manager = HubModule.instance.cosmeticManager;
-        Map<Player, Cosmetic> cosmeticMap = manager.getCosmeticMap();
+        Map<Player, List<Cosmetic>> cosmeticMap = manager.getCosmeticMap();
 
-        Cosmetic.CosmeticType type = ((CosmeticGUI) getParent()).cosmeticMenuSelected;
+        Cosmetic.CosmeticType type = ((CosmeticUI) getParent()).cosmeticMenuSelected;
 
         for (Cosmetic cosmetic : manager.getCosmetics()) {
 
@@ -50,7 +50,7 @@ public class CosmeticPage extends MultiplePage {
             boolean owning = Purchase.hasPurchased(player, purchaseKey);
             boolean equipped = owning
                     && (cosmeticMap.containsKey(player.getPlayer())
-                    && cosmeticMap.get(player.getPlayer()) == cosmetic);
+                    && cosmeticMap.get(player.getPlayer()).contains(cosmetic));
 
             Button entry = new Button(ChatColor.YELLOW + cosmetic.getName(), cosmetic.getDisplayStack().getType(), getParent());
 

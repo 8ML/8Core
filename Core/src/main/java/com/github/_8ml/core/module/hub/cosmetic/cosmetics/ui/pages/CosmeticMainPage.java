@@ -9,6 +9,8 @@ import com.github._8ml.core.ui.component.components.Button;
 import com.github._8ml.core.ui.page.Page;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class CosmeticMainPage extends Page {
 
@@ -26,6 +28,11 @@ public class CosmeticMainPage extends Page {
         });
 
         Button outfits = new Button(ChatColor.YELLOW + "Outfits", Material.LEATHER_CHESTPLATE, getParent());
+
+        ItemMeta meta = outfits.getMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        outfits.setItemMeta(meta);
+
         outfits.setOnClick(() -> {
             ((CosmeticGUI) getParent()).cosmeticMenuSelected = Cosmetic.CosmeticType.OUTFIT;
             getParent().openPage(1);

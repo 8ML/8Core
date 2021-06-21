@@ -62,12 +62,15 @@ public class CosmeticPage extends MultiplePage {
                             : ChatColor.GRAY + "Price: " + ChatColor.GOLD + cosmetic.getCoins()
             });
 
+            ItemMeta meta = entry.getMeta();
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
             if (equipped) {
-                ItemMeta meta = entry.getMeta();
                 meta.addEnchant(Enchantment.DAMAGE_ALL, 1,  true);
-                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                entry.setItemMeta(meta);
             }
+
+            entry.setItemMeta(meta);
 
             entry.setOnClick(() -> {
 

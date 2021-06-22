@@ -4,6 +4,7 @@ Created by @8ML (https://github.com/8ML) on June 19 2021
 */
 
 import com.github._8ml.core.Core;
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.currency.Coin;
 import com.github._8ml.core.storage.SQL;
@@ -71,7 +72,7 @@ public class Purchase implements Listener {
 
                 //Info
 
-                Label purchaseInfo = new Label(ChatColor.YELLOW + name, Material.BOOK, null);
+                Label purchaseInfo = new Label(MessageColor.COLOR_HIGHLIGHT + name, Material.BOOK, null);
                 purchaseInfo.setLore(new String[]{
                         "",
                         ChatColor.WHITE + "Price: " + ChatColor.GOLD + price
@@ -79,14 +80,14 @@ public class Purchase implements Listener {
 
                 //Confirm
 
-                Button confirmButton = new Button(ChatColor.GREEN + "Confirm", Material.GREEN_WOOL, null);
-                confirmButton.setLore(new String[]{ChatColor.GRAY + "Click to confirm purchase"});
+                Button confirmButton = new Button(MessageColor.COLOR_SUCCESS + "Confirm", Material.GREEN_WOOL, null);
+                confirmButton.setLore(new String[]{MessageColor.COLOR_MAIN + "Click to confirm purchase"});
                 confirmButton.setOnClick(() -> {
 
                     if (player.getCoins() >= price) {
 
                         Coin.removeCoins(player, price);
-                        player.getPlayer().sendMessage(ChatColor.GREEN + "Successfully purchased " + ChatColor.GRAY + name);
+                        player.getPlayer().sendMessage(MessageColor.COLOR_SUCCESS + "Successfully purchased " + MessageColor.COLOR_MAIN + name);
                         player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
 
                         updateDatabase();
@@ -99,8 +100,8 @@ public class Purchase implements Listener {
 
                 //Cancel
 
-                Button cancelButton = new Button(ChatColor.RED + "Cancel", Material.RED_WOOL, null);
-                cancelButton.setLore(new String[]{ChatColor.GRAY + "Click to cancel purchase"});
+                Button cancelButton = new Button(MessageColor.COLOR_ERROR + "Cancel", Material.RED_WOOL, null);
+                cancelButton.setLore(new String[]{MessageColor.COLOR_MAIN + "Click to cancel purchase"});
                 cancelButton.setOnClick(() -> {
                     player.getPlayer().closeInventory();
                     HandlerList.unregisterAll(this);
@@ -130,8 +131,8 @@ public class Purchase implements Listener {
             protected Map<Integer, Component> content() {
                 Map<Integer, Component> componentMap = new HashMap<>();
 
-                Label error = new Label(ChatColor.RED + "Purchase Failed", Material.RED_WOOL, null);
-                error.setLore(new String[]{ChatColor.GRAY + message});
+                Label error = new Label(MessageColor.COLOR_ERROR + "Purchase Failed", Material.RED_WOOL, null);
+                error.setLore(new String[]{MessageColor.COLOR_MAIN + message});
 
                 for (int i = 0; i < getInventory().getSize(); i ++) {
                     componentMap.put(i, error);

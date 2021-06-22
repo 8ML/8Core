@@ -3,6 +3,7 @@ package com.github._8ml.core.player.stats.ui.pages;
 Created by @8ML (https://github.com/8ML) on 5/5/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.level.Level;
@@ -35,8 +36,8 @@ public class StatsPage extends Page {
     @Override
     public void onOpen() {
 
-        String status = this.t.isOffline() ? ChatColor.WHITE + "Status: " + ChatColor.RED + "Offline" : ChatColor.WHITE
-                + "Status: " + ChatColor.GREEN + "Online" +ChatColor.GRAY + " ("
+        String status = this.t.isOffline() ? ChatColor.WHITE + "Status: " + MessageColor.COLOR_ERROR + "Offline" : ChatColor.WHITE
+                + "Status: " + MessageColor.COLOR_SUCCESS + "Online" +MessageColor.COLOR_MAIN + " ("
                 + Core.instance.pluginMessenger.getServer(t.getPlayerStr()) + ")";
 
         String rank = this.t.getRankEnum().equals(Ranks.DEFAULT)
@@ -57,7 +58,7 @@ public class StatsPage extends Page {
                 builder.append(ChatColor.DARK_GRAY).append("-");
                 continue;
             }
-            if (i <= percentage10) builder.append(ChatColor.GREEN).append("-");
+            if (i <= percentage10) builder.append(MessageColor.COLOR_SUCCESS).append("-");
             else builder.append(ChatColor.DARK_GRAY).append("-");
         }
 
@@ -69,7 +70,7 @@ public class StatsPage extends Page {
 
         //Labels
 
-        Label profile = new Label(ChatColor.YELLOW + t.getPlayerStr() + "'s Profile", Material.PLAYER_HEAD, getParent());
+        Label profile = new Label(MessageColor.COLOR_HIGHLIGHT + t.getPlayerStr() + "'s Profile", Material.PLAYER_HEAD, getParent());
         SkullMeta meta = (SkullMeta) profile.getMeta();
         meta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(t.getUUID())));
         profile.setItemMeta(meta);
@@ -78,24 +79,24 @@ public class StatsPage extends Page {
                 ChatColor.WHITE + "Level: " + ChatColor.AQUA + ((int) Level.getLevelFromXP(this.t.getXP(), false)),
                 "",
                 ChatColor.WHITE + "First Login: " +
-                ChatColor.GRAY + this.t.firstJoin(),
+                MessageColor.COLOR_MAIN + this.t.firstJoin(),
                 "",
                 status});
 
-        Label leveling = new Label(ChatColor.YELLOW + "8Core Leveling", Material.ENCHANTED_BOOK, getParent());
+        Label leveling = new Label(MessageColor.COLOR_HIGHLIGHT + "8Core Leveling", Material.ENCHANTED_BOOK, getParent());
         leveling.setLore(new String[]{"",
-                ChatColor.GRAY + "Playing games will reward",
-                ChatColor.GRAY + "you with " + ChatColor.LIGHT_PURPLE + "Experience" + ChatColor.GRAY + ", which",
-                ChatColor.GRAY + "is required to level up.",
+                MessageColor.COLOR_MAIN + "Playing games will reward",
+                MessageColor.COLOR_MAIN + "you with " + ChatColor.LIGHT_PURPLE + "Experience" + MessageColor.COLOR_MAIN + ", which",
+                MessageColor.COLOR_MAIN + "is required to level up.",
                 "",
                 ChatColor.WHITE + "Progress: " + ChatColor.GOLD + ((int) percentage) + "%",
-                ChatColor.GRAY + "Level " + ChatColor.GREEN + iLevel
-                        + ChatColor.GRAY + " [" + builder + ChatColor.GRAY + "] "
-                        + ChatColor.GRAY + (iLevel + 1),
+                MessageColor.COLOR_MAIN + "Level " + MessageColor.COLOR_SUCCESS + iLevel
+                        + MessageColor.COLOR_MAIN + " [" + builder + MessageColor.COLOR_MAIN + "] "
+                        + MessageColor.COLOR_MAIN + (iLevel + 1),
                 "",
-                ChatColor.WHITE + "Required XP: " + ChatColor.GRAY + this.t.getXP() +
+                ChatColor.WHITE + "Required XP: " + MessageColor.COLOR_MAIN + this.t.getXP() +
                         ChatColor.DARK_GRAY + "/"
-                        + ChatColor.GRAY + Level.getXPFromLevel(iLevel + 1)});
+                        + MessageColor.COLOR_MAIN + Level.getXPFromLevel(iLevel + 1)});
 
         //Buttons
         //-> Achievements
@@ -107,25 +108,25 @@ public class StatsPage extends Page {
         }
 
 
-        Button achievements = new Button(ChatColor.YELLOW + "Achievements "
-                + ChatColor.GRAY + "(" + ChatColor.GREEN + "Click" + ChatColor.GRAY + ")",
+        Button achievements = new Button(MessageColor.COLOR_HIGHLIGHT + "Achievements "
+                + MessageColor.COLOR_MAIN + "(" + MessageColor.COLOR_SUCCESS + "Click" + MessageColor.COLOR_MAIN + ")",
                 Material.BOOK, getParent());
 
         achievements.setLore(new String[]{"",
-                ChatColor.GRAY + "Track your progress and",
-                ChatColor.GRAY + "complete achievements",
-                ChatColor.GRAY + "for " + ChatColor.GOLD
-                        + "Coins " + ChatColor.GRAY + "and " + ChatColor.LIGHT_PURPLE
-                        + "XP" + ChatColor.GRAY + ".",
+                MessageColor.COLOR_MAIN + "Track your progress and",
+                MessageColor.COLOR_MAIN + "complete achievements",
+                MessageColor.COLOR_MAIN + "for " + ChatColor.GOLD
+                        + "Coins " + MessageColor.COLOR_MAIN + "and " + ChatColor.LIGHT_PURPLE
+                        + "XP" + MessageColor.COLOR_MAIN + ".",
                 "",
-                ChatColor.GRAY + "Completed: " + ChatColor.LIGHT_PURPLE + achievementsCompleted
-                        + ChatColor.GRAY + "/" + achievementClasses.size()});
+                MessageColor.COLOR_MAIN + "Completed: " + ChatColor.LIGHT_PURPLE + achievementsCompleted
+                        + MessageColor.COLOR_MAIN + "/" + achievementClasses.size()});
 
         achievements.setOnClick(() -> {
             getParent().openPage(1);
         });
 
-        Button exit = new Button(ChatColor.RED + "Close", Material.BARRIER, getParent());
+        Button exit = new Button(MessageColor.COLOR_ERROR + "Close", Material.BARRIER, getParent());
         exit.setOnClick(() -> {
             getParent().getPlayer().getPlayer().closeInventory();
             getParent().unregisterHandlers();

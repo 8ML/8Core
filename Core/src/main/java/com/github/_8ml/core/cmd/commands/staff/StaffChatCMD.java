@@ -4,6 +4,7 @@ Created by @8ML (https://github.com/8ML) on 5/6/2021
 */
 
 import com.github._8ml.core.cmd.CMD;
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.hierarchy.Ranks;
 import com.github._8ml.core.utils.StaffMSG;

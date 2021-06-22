@@ -3,6 +3,7 @@ package com.github._8ml.core.ui.page;
 Created by @8ML (https://github.com/8ML) on June 18 2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.ui.component.Component;
 import com.github._8ml.core.ui.component.components.Button;
 import com.github._8ml.core.utils.DeveloperMode;
@@ -77,8 +78,8 @@ public abstract class MultiplePage extends Page {
 
         }
 
-        Button backButton = new Button(ChatColor.GRAY + "Page " + currentPageIndex + 1, Material.ARROW, getParent());
-        Button nextButton = new Button(ChatColor.GRAY + "Page" + currentPageIndex + 2, Material.ARROW, getParent());
+        Button backButton = new Button(MessageColor.COLOR_MAIN + "Page " + currentPageIndex + 1, Material.ARROW, getParent());
+        Button nextButton = new Button(MessageColor.COLOR_MAIN + "Page" + currentPageIndex + 2, Material.ARROW, getParent());
 
         backButton.setOnClick(() -> {
 

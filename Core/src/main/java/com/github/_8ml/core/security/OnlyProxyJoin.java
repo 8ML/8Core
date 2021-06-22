@@ -68,7 +68,7 @@ public class OnlyProxyJoin implements Listener {
 
         if (!proxyCheck(e.getPlayer())) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, MessageColor.COLOR_ERROR + "Could not establish connection!\n\n" +
-                    "You have to connect using" + ChatColor.YELLOW + " dev-8.com" + MessageColor.COLOR_ERROR + "!");
+                    "You have to connect using" + MessageColor.COLOR_HIGHLIGHT + " dev-8.com" + MessageColor.COLOR_ERROR + "!");
         }
 
     }

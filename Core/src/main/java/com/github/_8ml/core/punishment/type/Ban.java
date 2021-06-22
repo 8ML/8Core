@@ -3,6 +3,8 @@ package com.github._8ml.core.punishment.type;
 Created by @8ML (https://github.com/8ML) on 4/28/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
+import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.punishment.PunishInfo;
 import com.github._8ml.core.punishment.Punishment;
@@ -45,12 +47,12 @@ public class Ban extends Punishment {
 
         String msg;
 
-        msg = this.punishTime.getUnit().equals(TimeUnit.PERMANENT) ? ChatColor.RED + "You are permanently banned! \n"
-                + ChatColor.WHITE + "Reason: " + ChatColor.GRAY + this.reason
+        msg = this.punishTime.getUnit().equals(TimeUnit.PERMANENT) ? MessageColor.COLOR_ERROR + "You are permanently banned! \n"
+                + ChatColor.WHITE + "Reason: " + MessageColor.COLOR_MAIN + this.reason
                 + "\n\nAppeal at " + ChatColor.GOLD + "" + ChatColor.LIGHT_PURPLE + "dev-8.com/appeal" :
-                ChatColor.RED + "You are banned for " + this.punishTime.getTimeLeft() + " " + this.punishTime.getUnit().getFormatted() + "! \n"
-                        + ChatColor.WHITE + "Reason: " + ChatColor.GRAY + this.reason
-                        + "\n\nAppeal at " + ChatColor.LIGHT_PURPLE + "" + ChatColor.UNDERLINE + "dev-8.com/appeal";
+                MessageColor.COLOR_ERROR + "You are banned for " + this.punishTime.getTimeLeft() + " " + this.punishTime.getUnit().getFormatted() + "! \n"
+                        + ChatColor.WHITE + "Reason: " + MessageColor.COLOR_MAIN + this.reason
+                        + "\n\nAppeal at " + ChatColor.LIGHT_PURPLE + "" + ChatColor.UNDERLINE + ServerConfig.serverAppealDomain;
 
 
         return msg;

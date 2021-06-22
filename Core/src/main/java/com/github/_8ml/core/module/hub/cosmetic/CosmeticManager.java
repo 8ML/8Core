@@ -78,7 +78,7 @@ public class CosmeticManager implements Listener {
     }
 
     public void unEquipCosmetic(Player player, Cosmetic cosmetic) {
-        player.sendMessage(ChatColor.RED + "Unequipped " + cosmetic.getName());
+        player.sendMessage(MessageColor.COLOR_ERROR + "Unequipped " + cosmetic.getName());
         if (cosmeticMap.containsKey(player)) {
             if (cosmeticMap.get(player) != null) {
                 List<Cosmetic> cosmetics = cosmeticMap.get(player);
@@ -93,7 +93,7 @@ public class CosmeticManager implements Listener {
     }
 
     public void unEquipCosmetic(Player player) {
-        player.sendMessage(ChatColor.RED + "Unequipped all cosmetics");
+        player.sendMessage(MessageColor.COLOR_ERROR + "Unequipped all cosmetics");
         if (!cosmeticMap.containsKey(player) || cosmeticMap.get(player) == null) return;
         for (Cosmetic cosmetic : cosmeticMap.get(player)) {
             cosmetic.unEquip(player);

@@ -52,6 +52,7 @@ public class Core extends JavaPlugin {
     public PluginFile sqlYML;
     public PluginFile configYML;
     public PluginFile messagesYML;
+    public PluginFile serverYML;
 
     public PluginMessenger pluginMessenger;
     public TabList tabList;
@@ -74,15 +75,21 @@ public class Core extends JavaPlugin {
     }
 
     private void initFiles() {
-        this.sqlYML = new PluginFile(this, "sql.yml", "sql.yml");
+        this.sqlYML = new PluginFile(this, null, "sql.yml", "sql.yml");
         this.sqlYML.options().copyDefaults(true);
         this.sqlYML.save();
-        this.configYML = new PluginFile(this, "config.yml", "config.yml");
+
+        this.configYML = new PluginFile(this, null, "config.yml", "config.yml");
         this.configYML.options().copyDefaults(true);
         this.configYML.save();
-        this.messagesYML = new PluginFile(this, "messages.yml", "messages.yml");
+
+        this.messagesYML = new PluginFile(this, null, "messages.yml", "messages.yml");
         this.messagesYML.options().copyDefaults(true);
         this.messagesYML.save();
+
+        this.serverYML = new PluginFile(this, null, "server.yml", "server.yml");
+        this.serverYML.options().copyDefaults(true);
+        this.serverYML.save();
     }
 
     private void registerEvents() {
@@ -165,13 +172,13 @@ public class Core extends JavaPlugin {
         this.tabList = new TabList(this);
         this.scoreBoard = new ScoreBoard(this);
 
-        this.serverName = configYML.getString("serverName");
+        this.serverName = serverYML.getString("serverName");
         this.mapExtractor = new MapExtract();
 
 
         try {
 
-            Module.setModule(this, configYML.getString("module"));
+            Module.setModule(this, serverYML.getString("module"));
 
         } catch (ModuleNotFoundException e) {
             e.printStackTrace();
@@ -191,6 +198,7 @@ public class Core extends JavaPlugin {
     @Override
     public void onDisable() {
         mapExtractor.load();
-        Module.getEnabledModule().disableModule();
+        if (Module.getEnabledModule() != null)
+            Module.getEnabledModule().disableModule();
     }
 }

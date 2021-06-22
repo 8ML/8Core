@@ -4,10 +4,12 @@ Created by @8ML (https://github.com/8ML) on June 21 2021
 */
 
 import com.github._8ml.core.Core;
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.ui.CosmeticUI;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.options.ui.OptionsUI;
 import com.github._8ml.core.player.stats.ui.StatsUI;
+import com.github._8ml.core.utils.BookUtil;
 import com.github._8ml.core.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,16 +36,17 @@ public class JoinItems implements Listener {
 
     public enum Items {
 
-        STATS("Stats", new ItemStack(Material.PLAYER_HEAD), 8, "%player%'s stats", player -> {
+        STATS("Stats", new ItemStack(Material.PLAYER_HEAD), 7, "%player%'s stats", player -> {
             MPlayer pl = MPlayer.getMPlayer(player.getName());
             new StatsUI(pl, pl);
         }),
-        PREFERENCES("Preferences", new ItemStack(Material.BREWING_STAND), 0, "%player%'s preferences", player -> {
+        PREFERENCES("Preferences", new ItemStack(Material.BREWING_STAND), 8, "%player%'s preferences", player -> {
             new OptionsUI(MPlayer.getMPlayer(player.getName()));
         }),
         COSMETICS("Cosmetics", new ItemStack(Material.CHEST), 4, "Cosmetics menu full of things you might not need", player -> {
             new CosmeticUI(MPlayer.getMPlayer(player.getName()));
-        });
+        }),
+        HELP_BOOK("Help", new ItemStack(Material.BOOK), 0, "Help me", BookUtil::displayHelpBook);
 
         private final ItemStack stack;
         private final int slot;
@@ -67,9 +70,9 @@ public class JoinItems implements Listener {
                 ((SkullMeta) meta).setOwningPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()));
             }
 
-            meta.setDisplayName(ChatColor.YELLOW + this.displayName);
+            meta.setDisplayName(MessageColor.COLOR_HIGHLIGHT + this.displayName);
 
-            meta.setLore(Collections.singletonList(ChatColor.GRAY + StringUtils
+            meta.setLore(Collections.singletonList(MessageColor.COLOR_MAIN + StringUtils
                     .getWithPlaceholders(MPlayer.getMPlayer(player.getName()), description)));
 
             this.stack.setItemMeta(meta);

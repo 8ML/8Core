@@ -25,35 +25,35 @@ public class HistoryMenuPage extends Page {
     @Override
     public void onOpen() {
 
-        Button bans = new Button(MessageColor.COLOR_MAIN + "Bans", Material.IRON_DOOR, getParent());
+        Button bans = new Button(MessageColor.COLOR_HIGHLIGHT + "Bans", Material.IRON_DOOR, getParent());
         bans.setLore(new String[]{"",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " bans"});
+                MessageColor.COLOR_MAIN + "Click to view all of " + MessageColor.COLOR_HIGHLIGHT + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " bans"});
         bans.setOnClick(() -> {
             getParent().openPage(2);
         });
 
-        Button mutes = new Button(MessageColor.COLOR_MAIN + "Mutes", Material.WRITABLE_BOOK, getParent());
+        Button mutes = new Button(MessageColor.COLOR_HIGHLIGHT + "Mutes", Material.WRITABLE_BOOK, getParent());
         mutes.setLore(new String[]{"",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " mutes"});
+                MessageColor.COLOR_MAIN + "Click to view all of " + MessageColor.COLOR_HIGHLIGHT + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " mutes"});
         mutes.setOnClick(() -> {
             getParent().openPage(3);
         });
 
-        Button warns = new Button(MessageColor.COLOR_MAIN + "Warns", Material.PAPER, getParent());
+        Button warns = new Button(MessageColor.COLOR_HIGHLIGHT + "Warns", Material.PAPER, getParent());
         warns.setLore(new String[]{"",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr()  + "'s" + MessageColor.COLOR_MAIN + " warns"});
+                MessageColor.COLOR_MAIN + "Click to view all of " + MessageColor.COLOR_HIGHLIGHT + this.target.getPlayerStr()  + "'s" + MessageColor.COLOR_MAIN + " warns"});
         warns.setOnClick(() -> {
             getParent().openPage(4);
         });
 
-        Button kicks = new Button(MessageColor.COLOR_MAIN + "Kicks", Material.STICK, getParent());
+        Button kicks = new Button(MessageColor.COLOR_HIGHLIGHT + "Kicks", Material.STICK, getParent());
         kicks.setLore(new String[]{"",
-                MessageColor.COLOR_MAIN + "Click to view all of " + ChatColor.YELLOW + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " kicks"});
+                MessageColor.COLOR_MAIN + "Click to view all of " + MessageColor.COLOR_HIGHLIGHT + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " kicks"});
         kicks.setOnClick(() -> {
             getParent().openPage(5);
         });
 
-        Button exit = new Button(ChatColor.RED + "Go Back", Material.ARROW, getParent());
+        Button exit = new Button(MessageColor.COLOR_ERROR + "Go Back", Material.ARROW, getParent());
         exit.setLore(new String[]{"",
                 MessageColor.COLOR_MAIN + "Return to main menu"});
         exit.setOnClick(() -> {

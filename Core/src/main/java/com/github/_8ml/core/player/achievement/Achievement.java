@@ -3,6 +3,7 @@ package com.github._8ml.core.player.achievement;
 Created by @8ML (https://github.com/8ML) on 5/20/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.currency.Coin;
 import com.github._8ml.core.player.level.Level;
@@ -85,11 +86,11 @@ public abstract class Achievement {
                     Player p = player.getPlayer();
 
                     p.sendMessage(" ");
-                    p.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD
+                    p.sendMessage(MessageColor.COLOR_SUCCESS + "" + ChatColor.BOLD
                             + "ACHIEVEMENT GET!   " + ChatColor.DARK_GREEN + this.name + "\n"
                             + ChatColor.GOLD + "   +" + this.rewardCoins + " Coins" + "\n"
                             + ChatColor.AQUA + "   +" + this.rewardXP + " XP");
-                    p.sendMessage(ChatColor.GRAY + this.description);
+                    p.sendMessage(MessageColor.COLOR_MAIN + this.description);
                     p.sendMessage(" ");
                 }
 

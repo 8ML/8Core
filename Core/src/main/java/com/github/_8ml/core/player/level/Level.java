@@ -24,11 +24,11 @@ public class Level {
         int currentXP = player.getXP();
         int newXP = currentXP + xp;
 
+        setXP(player, newXP);
+
         if (getLevelFromXP(newXP, false) > getLevelFromXP(currentXP, false)) {
             levelUP(player);
         }
-
-        setXP(player, newXP);
     }
 
     public static void resetXP(MPlayer player) {

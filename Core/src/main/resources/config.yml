@@ -1,2 +1,6 @@
-module: "-"
-serverName: "Lobby"
+options:
+  servername: "8Core"
+  serverDomain: "example.com"
+  serverStoreDomain: "example.com/store"
+  serverAppealDomain: "example.com/appeal"
+  serverDiscordLink: "example.com/discord"

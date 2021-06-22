@@ -3,8 +3,10 @@ package com.github._8ml.core.module.hub.cosmetic.cosmetics.outfits;
 Created by @8ML (https://github.com/8ML) on June 20 2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.module.hub.cosmetic.Cosmetic;
 import com.github._8ml.core.player.hierarchy.Ranks;
+import com.github._8ml.core.utils.ArmorUtils;
 import net.minecraft.server.v1_16_R3.Vector3f;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -15,6 +17,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.junit.Assert;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -26,8 +29,8 @@ public class RainbowOutfit extends Cosmetic {
     public RainbowOutfit() {
         super("Rainbow Outfit", 10000,
                 new ItemStack(Material.LEATHER_CHESTPLATE), null, ChatColor.BLUE
-                        + "This is " + ChatColor.RED
-                        + "definitely" + ChatColor.GREEN
+                        + "This is " + MessageColor.COLOR_ERROR
+                        + "definitely" + MessageColor.COLOR_SUCCESS
                         + " to many " + ChatColor.GOLD + "colors",
                 CosmeticType.OUTFIT, Ranks.DEFAULT);
 
@@ -93,34 +96,9 @@ public class RainbowOutfit extends Cosmetic {
 
     private void updateArmor(Player player, Color color) {
 
-        ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
-        ItemStack chestPlate = new ItemStack(Material.LEATHER_CHESTPLATE);
-        ItemStack pants = new ItemStack(Material.LEATHER_LEGGINGS);
-        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+        List<ItemStack> armor = ArmorUtils.createLeatherArmor(color);
 
-        LeatherArmorMeta helmetMeta = (LeatherArmorMeta) helmet.getItemMeta();
-        LeatherArmorMeta chestPlateMeta = (LeatherArmorMeta) chestPlate.getItemMeta();
-        LeatherArmorMeta pantsMeta = (LeatherArmorMeta) pants.getItemMeta();
-        LeatherArmorMeta bootsMeta = (LeatherArmorMeta) boots.getItemMeta();
-
-        Assert.assertNotNull("Helmet Meta cannot be null (UpdateArmor) (Rainbow Outfit)", helmetMeta);
-        Assert.assertNotNull("ChestPlate Meta cannot be null (UpdateArmor) (Rainbow Outfit)", chestPlateMeta);
-        Assert.assertNotNull("Pants Meta cannot be null (UpdateArmor) (Rainbow Outfit)", pantsMeta);
-        Assert.assertNotNull("Boots Meta cannot be null (UpdateArmor) (Rainbow Outfit)", bootsMeta);
-
-        helmetMeta.setColor(color);
-        chestPlateMeta.setColor(color);
-        pantsMeta.setColor(color);
-        bootsMeta.setColor(color);
-
-        helmet.setItemMeta(helmetMeta);
-        chestPlate.setItemMeta(chestPlateMeta);
-        pants.setItemMeta(pantsMeta);
-        boots.setItemMeta(bootsMeta);
-
-        player.getInventory().setArmorContents(new ItemStack[]{
-                boots, pants, chestPlate, helmet
-        });
+        player.getInventory().setArmorContents(armor.toArray(new ItemStack[armor.size() -1]));
 
     }
 }

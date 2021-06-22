@@ -4,6 +4,7 @@ Created by @8ML (https://github.com/8ML) on 5/16/2021
 */
 
 import com.github._8ml.core.Core;
+import com.github._8ml.core.config.MessageColor;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,7 +36,7 @@ public class MapExtract {
         final Date now = new Date();
         final SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy");
         for (Player player : Core.onlinePlayers) {
-            player.kickPlayer(ChatColor.RED + "Server is restarting...\n\n" + ChatColor.WHITE + "Server shutdown at " + format.format(now));
+            player.kickPlayer(MessageColor.COLOR_ERROR + "Server is restarting...\n\n" + ChatColor.WHITE + "Server shutdown at " + format.format(now));
         }
         if (maps.size() <= 0) {
             Core.instance.getLogger().info("No maps where initalized, no maps where loaded");

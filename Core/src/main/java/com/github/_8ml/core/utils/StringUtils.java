@@ -3,6 +3,8 @@ package com.github._8ml.core.utils;
 Created by @8ML (https://github.com/8ML) on 5/15/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
+import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.level.Level;
 import com.github._8ml.core.Core;
@@ -18,11 +20,16 @@ public class StringUtils {
      */
     public static String getWithPlaceholders(MPlayer player, String str) {
         return ChatColor.translateAlternateColorCodes('&', str
+                .replaceAll("%networkName%", ServerConfig.serverName)
+                .replaceAll("%networkDomain%", ServerConfig.serverDomain)
+                .replaceAll("%networkStoreDomain%", ServerConfig.serverStoreDomain)
+                .replaceAll("%networkAppealDomain%", ServerConfig.serverAppealDomain)
+                .replaceAll("%discordLink%", ServerConfig.serverDiscordLink)
                 .replaceAll("%player%", player.getPlayerStr())
                 .replaceAll("%onlineServer%", String.valueOf(Core.onlinePlayers.size()))
                 .replaceAll("%onlineBungee%", String.valueOf(Core.instance.pluginMessenger.getBungeeCount()))
                 .replaceAll("%playerRank%", player.getRankEnum().getRank().isDefaultRank() ? "Default" : player.getRankEnum().getRank().getLabel())
-                .replaceAll("%playerRankWithColor%", player.getRankEnum().getRank().isDefaultRank() ? ChatColor.GRAY + "Default"
+                .replaceAll("%playerRankWithColor%", player.getRankEnum().getRank().isDefaultRank() ? MessageColor.COLOR_MAIN + "Default"
                         : player.getRankEnum().getRank().getNameColor() + player.getRankEnum().getRank().getLabel())
                 .replaceAll("%playerCoins%", String.valueOf(player.getCoins()))
                 .replaceAll("%playerLevel%", String.valueOf((int) Level.getLevelFromXP(player.getXP(), false)))

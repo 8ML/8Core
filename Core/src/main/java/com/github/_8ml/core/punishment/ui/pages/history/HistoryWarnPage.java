@@ -3,6 +3,7 @@ package com.github._8ml.core.punishment.ui.pages.history;
 Created by @8ML (https://github.com/8ML) on 5/4/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.punishment.PunishInfo;
 import com.github._8ml.core.punishment.Punishment;
@@ -42,13 +43,13 @@ public class HistoryWarnPage extends Page {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             String date = format.format(Date.from(Instant.ofEpochMilli(i.getWhen())));
 
-            Button b = new Button(ChatColor.YELLOW + String.valueOf(date), Material.PAPER, getParent());
+            Button b = new Button(MessageColor.COLOR_HIGHLIGHT + String.valueOf(date), Material.PAPER, getParent());
 
             b.setLore(new String[]{"",
-                    org.bukkit.ChatColor.YELLOW + "ID: " + org.bukkit.ChatColor.WHITE + i.getID(),
+                    MessageColor.COLOR_HIGHLIGHT + "ID: " + org.bukkit.ChatColor.WHITE + i.getID(),
                     "",
-                    org.bukkit.ChatColor.YELLOW + "Staff: " + org.bukkit.ChatColor.WHITE + i.getExecutor().getPlayerStr(),
-                    org.bukkit.ChatColor.YELLOW + "Reason: " + org.bukkit.ChatColor.WHITE + i.getReason()});
+                    MessageColor.COLOR_HIGHLIGHT + "Staff: " + org.bukkit.ChatColor.WHITE + i.getExecutor().getPlayerStr(),
+                    MessageColor.COLOR_HIGHLIGHT + "Reason: " + org.bukkit.ChatColor.WHITE + i.getReason()});
 
             addComponent(b, slot);
             slot++;

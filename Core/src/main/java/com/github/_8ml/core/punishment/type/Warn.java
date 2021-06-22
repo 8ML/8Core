@@ -3,6 +3,7 @@ package com.github._8ml.core.punishment.type;
 Created by @8ML (https://github.com/8ML) on 4/29/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.punishment.Punishment;
 import org.bukkit.ChatColor;
@@ -38,6 +39,6 @@ public class Warn extends Punishment {
         if (!this.player.isOffline())
             this.player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_CAT_HISS, 1f, 1f);
 
-        return ChatColor.RED + "You were warned by " + this.executor.getPlayerStr() + " for " + ChatColor.GRAY + this.reason;
+        return MessageColor.COLOR_ERROR + "You were warned by " + this.executor.getPlayerStr() + " for " + MessageColor.COLOR_MAIN + this.reason;
     }
 }

@@ -3,6 +3,7 @@ package com.github._8ml.core.player.hierarchy.ranks;
 Created by @8ML (https://github.com/8ML) on 4/24/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.hierarchy.Rank;
 import org.bukkit.ChatColor;
 

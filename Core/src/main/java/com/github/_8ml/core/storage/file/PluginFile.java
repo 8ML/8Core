@@ -22,24 +22,25 @@ public class PluginFile extends YamlConfiguration {
     /**
      * Creates new PluginFile, without defaults
      *
-     * @param plugin   - Your plugin
-     * @param fileName - Name of the file
+     * @param plugin   Your plugin
+     * @param fileName Name of the file
      */
     public PluginFile(JavaPlugin plugin, String fileName) {
-        this(plugin, fileName, null);
+        this(plugin, null, fileName, null);
     }
 
     /**
      * Creates new PluginFile, with defaults
      *
-     * @param plugin       - Your plugin
-     * @param fileName     - Name of the file
-     * @param defaultsName - Name of the defaults
+     * @param plugin       Your plugin
+     * @param folder       Folder where the file should be stored
+     * @param fileName     Name of the file
+     * @param defaultsName Name of the defaults
      */
-    public PluginFile(JavaPlugin plugin, String fileName, String defaultsName) {
+    public PluginFile(JavaPlugin plugin, String folder, String fileName, String defaultsName) {
         this.plugin = plugin;
         this.defaults = defaultsName;
-        this.file = new File(plugin.getDataFolder(), fileName);
+        this.file = new File(plugin.getDataFolder() + (folder == null ? "" : "/" + folder), fileName);
         reload();
     }
 

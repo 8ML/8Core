@@ -3,6 +3,7 @@ package com.github._8ml.core.module.hub.cosmetic.cosmetics.gadgets;
 Created by @8ML (https://github.com/8ML) on 5/30/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.module.hub.cosmetic.Cosmetic;
 import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.ChatColor;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 public class StickGadget extends Cosmetic {
 
     public StickGadget() {
-        super("Stick", 100, new ItemStack(Material.STICK), new ItemStack(Material.STICK), ChatColor.GRAY
+        super("Stick", 100, new ItemStack(Material.STICK), new ItemStack(Material.STICK), MessageColor.COLOR_MAIN
                 + "Slap some bi****", CosmeticType.GADGET, Ranks.DEFAULT);
 
         setCoolDown(10L);

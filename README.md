@@ -8,7 +8,7 @@
 - Friends System
 - Preferences System
 - Command Manager
-- Plugin Messaging (Staff Messages, DM's, Party chat, Friend requests)
+- Plugin Messaging (Staff and Direct Messages, Party Chat, Friend Requests)
 - Report System
 - Module System:
    - Hub Module:

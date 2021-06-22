@@ -4,6 +4,7 @@ Created by @8ML (https://github.com/8ML) on 5/10/2021
 */
 
 import com.github._8ml.core.cmd.CMD;
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.hierarchy.Ranks;
 import com.github._8ml.core.config.Messages;
 import org.bukkit.ChatColor;
@@ -22,6 +23,6 @@ public class EACMD extends CMD {
 
         ea = !ea;
         Messages.sendSuccessMessage(paramPlayer);
-        paramPlayer.sendMessage(ChatColor.GRAY + "Explosive Arrows is now set to " + ChatColor.AQUA + String.valueOf(ea));
+        paramPlayer.sendMessage(MessageColor.COLOR_MAIN + "Explosive Arrows is now set to " + ChatColor.AQUA + String.valueOf(ea));
     }
 }

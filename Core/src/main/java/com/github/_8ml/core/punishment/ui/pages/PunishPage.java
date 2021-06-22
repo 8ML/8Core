@@ -38,8 +38,8 @@ public class PunishPage extends Page {
         this.executor = executor;
         this.reason = reason;
 
-        setFrameLabel(ChatColor.WHITE + "Reason: " + ChatColor.GRAY + reason);
-        setFrameLore(new String[]{"", ChatColor.GREEN + "Click to view history"});
+        setFrameLabel(ChatColor.WHITE + "Reason: " + MessageColor.COLOR_MAIN + reason);
+        setFrameLore(new String[]{"", MessageColor.COLOR_SUCCESS + "Click to view history"});
     }
 
     @Override
@@ -47,9 +47,13 @@ public class PunishPage extends Page {
 
         //MUTE
 
-        Button muteOne = new Button(MessageColor.COLOR_MAIN + "1 Day", Material.LIME_DYE, getParent());
-        muteOne.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "1.0 Days"});
+        Button muteOne = new Button(MessageColor.COLOR_HIGHLIGHT + "1 Day", Material.LIME_DYE, getParent());
+        muteOne.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute for " + MessageColor.COLOR_HIGHLIGHT + "1.0 Days"});
         muteOne.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.MUTE;
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 1);
             new Mute(this.target, this.executor, this.time,
@@ -60,9 +64,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button muteTwo = new Button(MessageColor.COLOR_MAIN + "7 Days", Material.YELLOW_DYE, getParent());
-        muteTwo.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "7.0 Days"});
+        Button muteTwo = new Button(MessageColor.COLOR_HIGHLIGHT + "7 Days", Material.YELLOW_DYE, getParent());
+        muteTwo.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute for " + MessageColor.COLOR_HIGHLIGHT + "7.0 Days"});
         muteTwo.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.MUTE;
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 7);
             new Mute(this.target, this.executor, this.time,
@@ -73,9 +81,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button muteThree = new Button(MessageColor.COLOR_MAIN + "30 Days", Material.ORANGE_DYE, getParent());
-        muteThree.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "30.0 Days"});
+        Button muteThree = new Button(MessageColor.COLOR_HIGHLIGHT + "30 Days", Material.ORANGE_DYE, getParent());
+        muteThree.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute for " + MessageColor.COLOR_HIGHLIGHT + "30.0 Days"});
         muteThree.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.MUTE;
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 30);
             new Mute(this.target, this.executor, this.time,
@@ -86,9 +98,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button muteFour = new Button(MessageColor.COLOR_MAIN + "60 Days", Material.RED_DYE, getParent());
-        muteFour.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute for " + ChatColor.YELLOW + "60.0 Days"});
+        Button muteFour = new Button(MessageColor.COLOR_HIGHLIGHT + "60 Days", Material.RED_DYE, getParent());
+        muteFour.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute for " + MessageColor.COLOR_HIGHLIGHT + "60.0 Days"});
         muteFour.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.MUTE;
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 60);
             new Mute(this.target, this.executor, this.time,
@@ -99,9 +115,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button mutePerm = new Button(ChatColor.RED + "Permanent", Material.REDSTONE, getParent());
-        mutePerm.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute " + ChatColor.YELLOW + "Permanently"});
+        Button mutePerm = new Button(MessageColor.COLOR_ERROR + "Permanent", Material.REDSTONE, getParent());
+        mutePerm.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to mute " + MessageColor.COLOR_HIGHLIGHT + "Permanently"});
         mutePerm.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.MUTE;
             this.time = new Punishment.PunishTime();
             new Mute(this.target, this.executor, this.time,
@@ -114,9 +134,13 @@ public class PunishPage extends Page {
 
         //BAN
 
-        Button banOne = new Button(MessageColor.COLOR_MAIN + "7 Days", Material.LIME_DYE, getParent());
-        banOne.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "7.0 Days"});
+        Button banOne = new Button(MessageColor.COLOR_HIGHLIGHT + "7 Days", Material.LIME_DYE, getParent());
+        banOne.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban for " + MessageColor.COLOR_HIGHLIGHT + "7.0 Days"});
         banOne.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.BAN;
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 7);
             new Ban(this.target, this.executor, this.time,
@@ -127,9 +151,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button banTwo = new Button(MessageColor.COLOR_MAIN + "30 Days", Material.GREEN_DYE, getParent());
-        banTwo.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "30.0 Days"});
+        Button banTwo = new Button(MessageColor.COLOR_HIGHLIGHT + "30 Days", Material.GREEN_DYE, getParent());
+        banTwo.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban for " + MessageColor.COLOR_HIGHLIGHT + "30.0 Days"});
         banTwo.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.BAN;
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 30);
             new Ban(this.target, this.executor, this.time,
@@ -140,9 +168,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button banThree = new Button(MessageColor.COLOR_MAIN + "60 Days", Material.ORANGE_DYE, getParent());
-        banThree.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "60.0 Days"});
+        Button banThree = new Button(MessageColor.COLOR_HIGHLIGHT + "60 Days", Material.ORANGE_DYE, getParent());
+        banThree.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban for " + MessageColor.COLOR_HIGHLIGHT + "60.0 Days"});
         banThree.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.BAN;
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 60);
             new Ban(this.target, this.executor, this.time,
@@ -153,9 +185,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button banFour = new Button(MessageColor.COLOR_MAIN + "90 Days", Material.RED_DYE, getParent());
-        banFour.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban for " + ChatColor.YELLOW + "90.0 Days"});
+        Button banFour = new Button(MessageColor.COLOR_HIGHLIGHT + "90 Days", Material.RED_DYE, getParent());
+        banFour.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban for " + MessageColor.COLOR_HIGHLIGHT + "90.0 Days"});
         banFour.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.BAN;
             this.time = new Punishment.PunishTime(Punishment.TimeUnit.DAYS, 90);
             new Ban(this.target, this.executor, this.time,
@@ -166,9 +202,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button banPerm = new Button(ChatColor.RED + "Permanent", Material.REDSTONE, getParent());
-        banPerm.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban " + ChatColor.YELLOW + "Permanently"});
+        Button banPerm = new Button(MessageColor.COLOR_ERROR + "Permanent", Material.REDSTONE, getParent());
+        banPerm.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to ban " + MessageColor.COLOR_HIGHLIGHT + "Permanently"});
         banPerm.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.BAN;
             this.time = new Punishment.PunishTime();
             new Ban(this.target, this.executor, this.time,
@@ -181,9 +221,13 @@ public class PunishPage extends Page {
 
         //OTHER
 
-        Button warn = new Button(MessageColor.COLOR_MAIN + "Warn", Material.PAPER, getParent());
+        Button warn = new Button(MessageColor.COLOR_HIGHLIGHT + "Warn", Material.PAPER, getParent());
         warn.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to warn"});
         warn.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.WARN;
             this.time = new Punishment.PunishTime();
             new Warn(this.target, this.executor,
@@ -194,9 +238,13 @@ public class PunishPage extends Page {
             getParent().unregisterHandlers();
         });
 
-        Button kick = new Button(MessageColor.COLOR_MAIN + "Kick", Material.STICK, getParent());
+        Button kick = new Button(MessageColor.COLOR_HIGHLIGHT + "Kick", Material.STICK, getParent());
         kick.setLore(new String[]{"", MessageColor.COLOR_MAIN + "Click to kick"});
         kick.setOnClick(() -> {
+            if (this.executor.getPlayerStr().equals(this.target.getPlayerStr())) {
+                this.executor.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You can not punish yourself");
+                return;
+            }
             this.type = Punishment.PunishType.KICK;
             this.time = new Punishment.PunishTime();
             new Kick(this.target, this.executor,
@@ -209,10 +257,10 @@ public class PunishPage extends Page {
 
         //CATEGORY
 
-        Label muteCat = new Label(ChatColor.GREEN + "Mute", Material.WRITABLE_BOOK, getParent());
+        Label muteCat = new Label(MessageColor.COLOR_SUCCESS + "Mute", Material.WRITABLE_BOOK, getParent());
         muteCat.setLore(new String[]{"", MessageColor.COLOR_MAIN + "List of all the mutes"});
 
-        Label banCat = new Label(ChatColor.GREEN + "Ban", Material.IRON_DOOR, getParent());
+        Label banCat = new Label(MessageColor.COLOR_SUCCESS + "Ban", Material.IRON_DOOR, getParent());
         banCat.setLore(new String[]{"", MessageColor.COLOR_MAIN + "List of all the bans"});
 
         addComponent(banCat, 10);
@@ -241,7 +289,7 @@ public class PunishPage extends Page {
 
     private void sendStaffMessage(String str) {
 
-        StringBuilder msg = new StringBuilder(ChatColor.RED + str + " " + this.target.getPlayerStr());
+        StringBuilder msg = new StringBuilder(MessageColor.COLOR_ERROR + str + " " + this.target.getPlayerStr());
         if (!this.type.equals(Punishment.PunishType.WARN)
                 && !this.type.equals(Punishment.PunishType.KICK)) {
 

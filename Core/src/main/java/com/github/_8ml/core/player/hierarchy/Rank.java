@@ -3,6 +3,7 @@ package com.github._8ml.core.player.hierarchy;
 Created by @8ML (https://github.com/8ML) on 4/23/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;

@@ -3,6 +3,7 @@ package com.github._8ml.core.player.stats.ui.pages;
 Created by @8ML (https://github.com/8ML) on 5/20/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.ui.page.Page;
 import org.bukkit.ChatColor;
@@ -30,12 +31,12 @@ public class AchievementPage extends Page {
             if (num >= 25) continue;
 
             Label ach = new Label(Material.BOOK, getParent());
-            ach.setLabel(ChatColor.GREEN + achievement.getName());
+            ach.setLabel(MessageColor.COLOR_SUCCESS + achievement.getName());
             ach.setLore(new String[]{
-                    ChatColor.GRAY + achievement.getDescription(),
+                    MessageColor.COLOR_MAIN + achievement.getDescription(),
                     "",
-                    achievement.hasAchievement(player) ? ChatColor.GREEN + "Completed!"
-                            : ChatColor.RED + "Not Completed!"
+                    achievement.hasAchievement(player) ? MessageColor.COLOR_SUCCESS + "Completed!"
+                            : MessageColor.COLOR_ERROR + "Not Completed!"
             });
 
             addComponent(ach, num);
@@ -44,7 +45,7 @@ public class AchievementPage extends Page {
 
         }
 
-        Button exit = new Button(ChatColor.RED + "Close", Material.BARRIER, getParent());
+        Button exit = new Button(MessageColor.COLOR_ERROR + "Close", Material.BARRIER, getParent());
         exit.setOnClick(() -> {
             getParent().getPlayer().getPlayer().closeInventory();
             getParent().unregisterHandlers();

@@ -3,6 +3,7 @@ package com.github._8ml.core.utils;
 Created by @8ML (https://github.com/8ML) on 5/6/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.hierarchy.Ranks;
 import com.github._8ml.core.Core;
@@ -175,7 +176,7 @@ public class PluginMessenger implements PluginMessageListener, Listener {
                         if (MPlayer.exists(playerName)) {
                             MPlayer pl = MPlayer.getMPlayer(playerName);
                             if (pl.isPermissible(Ranks.BUILD_TEAM, false)) {
-                                StaffMSG.sendStaffMessage(ChatColor.YELLOW + "joined.", pl);
+                                StaffMSG.sendStaffMessage(ChatColor.GREEN + "joined.", pl);
                             }
                             plugin.getServer().getPluginManager().callEvent(new ProxyJoinEvent(pl.getPlayer()));
                         }
@@ -189,7 +190,7 @@ public class PluginMessenger implements PluginMessageListener, Listener {
                         MPlayer pl2 = MPlayer.getMPlayer(playerName2);
 
                         if (pl2.isPermissible(Ranks.BUILD_TEAM, false)) {
-                            StaffMSG.sendStaffMessage(ChatColor.YELLOW + "quit.", pl2);
+                            StaffMSG.sendStaffMessage(ChatColor.RED + "quit.", pl2);
                         }
                         break;
                     case "PROXY_RESPONSE":

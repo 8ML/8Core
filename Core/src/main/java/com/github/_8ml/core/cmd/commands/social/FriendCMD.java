@@ -147,9 +147,9 @@ public class FriendCMD extends CMD {
 
             GameInfo gameInfo = GameInfo.getGameInfo(pageEntry);
             Core.instance.getLogger().info(String.valueOf(gameInfo));
-            String info = pageEntry.isOffline() ? ChatColor.RED + "is Offline"
-                    : gameInfo.getGame().equals("") ? ChatColor.YELLOW + "is in a Lobby"
-                    : ChatColor.YELLOW + "is playing " + gameInfo.getGame();
+            String info = pageEntry.isOffline() ? MessageColor.COLOR_ERROR + "is Offline"
+                    : gameInfo.getGame().equals("") ? MessageColor.COLOR_HIGHLIGHT + "is in a Lobby"
+                    : MessageColor.COLOR_HIGHLIGHT + "is playing " + gameInfo.getGame();
 
             pageBuilder.append(pageEntry.getRankEnum().getRank().getFullPrefixWithSpace())
                     .append(pageEntry.getRankEnum().getRank().getNameColor())

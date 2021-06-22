@@ -3,6 +3,7 @@ package com.github._8ml.core.module.hub.cosmetic.cosmetics.hats;
 Created by @8ML (https://github.com/8ML) on June 21 2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.module.hub.cosmetic.Cosmetic;
 import com.github._8ml.core.player.hierarchy.Ranks;
 import org.bukkit.ChatColor;
@@ -13,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 public class FishBowlHat extends Cosmetic {
 
     public FishBowlHat() {
-        super("Fish Bowl Hat", 500, new ItemStack(Material.GLASS), null, ChatColor.GRAY
+        super("Fish Bowl Hat", 500, new ItemStack(Material.GLASS), null, MessageColor.COLOR_MAIN
                 + "Well, at least I can see wearing this", CosmeticType.HAT, Ranks.DEFAULT);
     }
 

@@ -3,6 +3,7 @@ package com.github._8ml.core.punishment.type;
 Created by @8ML (https://github.com/8ML) on 4/28/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.punishment.PunishInfo;
 import com.github._8ml.core.punishment.Punishment;
@@ -41,10 +42,10 @@ public class Mute extends Punishment {
     public String getPunishMessage() {
 
         String msg;
-        msg = this.time.getUnit().equals(TimeUnit.PERMANENT) ? ChatColor.RED + "You are permanently muted for "
-                + ChatColor.GRAY + this.reason : ChatColor.RED + "You are muted for " + time.getTimeLeft() + " " + time.getUnit().getFormatted()
+        msg = this.time.getUnit().equals(TimeUnit.PERMANENT) ? MessageColor.COLOR_ERROR + "You are permanently muted for "
+                + MessageColor.COLOR_MAIN + this.reason : MessageColor.COLOR_ERROR + "You are muted for " + time.getTimeLeft() + " " + time.getUnit().getFormatted()
                 + " for "
-                + ChatColor.GRAY + this.reason;
+                + MessageColor.COLOR_MAIN + this.reason;
 
         if (!this.player.isOffline())
             this.player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);

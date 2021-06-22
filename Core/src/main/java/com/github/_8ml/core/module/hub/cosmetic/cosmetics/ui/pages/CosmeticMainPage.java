@@ -3,6 +3,7 @@ package com.github._8ml.core.module.hub.cosmetic.cosmetics.ui.pages;
 Created by @8ML (https://github.com/8ML) on June 20 2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.module.hub.HubModule;
 import com.github._8ml.core.module.hub.cosmetic.Cosmetic;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.ui.CosmeticUI;
@@ -22,10 +23,10 @@ public class CosmeticMainPage extends Page {
     @Override
     protected void onOpen() {
 
-        Button gadgets = new Button(ChatColor.YELLOW + "Gadgets", Material.GOLDEN_HORSE_ARMOR, getParent());
+        Button gadgets = new Button(MessageColor.COLOR_HIGHLIGHT + "Gadgets", Material.GOLDEN_HORSE_ARMOR, getParent());
 
         gadgets.setLore(new String[]{
-                ChatColor.GRAY + "Big collection of toys!"
+                MessageColor.COLOR_MAIN + "Big collection of toys!"
         });
 
         gadgets.setOnClick(() -> {
@@ -33,14 +34,14 @@ public class CosmeticMainPage extends Page {
             getParent().openPage(1);
         });
 
-        Button outfits = new Button(ChatColor.YELLOW + "Outfits", Material.LEATHER_CHESTPLATE, getParent());
+        Button outfits = new Button(MessageColor.COLOR_HIGHLIGHT + "Outfits", Material.LEATHER_CHESTPLATE, getParent());
 
         ItemMeta outfitsMeta = outfits.getMeta();
         outfitsMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         outfits.setItemMeta(outfitsMeta);
 
         outfits.setLore(new String[]{
-                ChatColor.GRAY + "Spice up your looks!"
+                MessageColor.COLOR_MAIN + "Spice up your looks!"
         });
 
         outfits.setOnClick(() -> {
@@ -48,15 +49,15 @@ public class CosmeticMainPage extends Page {
             getParent().openPage(1);
         });
 
-        Button hats = new Button(ChatColor.YELLOW + "Hats", Material.LEATHER_HELMET, getParent());
+        Button hats = new Button(MessageColor.COLOR_HIGHLIGHT + "Hats", Material.LEATHER_HELMET, getParent());
 
         ItemMeta hatsMeta = hats.getMeta();
         hatsMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         hats.setItemMeta(hatsMeta);
 
         hats.setLore(new String[]{
-                ChatColor.GRAY + "Put something on your head! Might look a bit stupid",
-                ChatColor.GRAY + "but you are cooler than everyone else! Right?"
+                MessageColor.COLOR_MAIN + "Put something on your head! Might look a bit stupid",
+                MessageColor.COLOR_MAIN + "but you are cooler than everyone else! Right?"
         });
 
         hats.setOnClick(() -> {
@@ -64,8 +65,8 @@ public class CosmeticMainPage extends Page {
             getParent().openPage(1);
         });
 
-        Button clearCosmetics = new Button(ChatColor.YELLOW + "Clear Cosmetics", Material.BARRIER, getParent());
-        clearCosmetics.setLore(new String[]{ChatColor.RED + "Clear all equipped cosmetics"});
+        Button clearCosmetics = new Button(MessageColor.COLOR_HIGHLIGHT + "Clear Cosmetics", Material.BARRIER, getParent());
+        clearCosmetics.setLore(new String[]{MessageColor.COLOR_ERROR + "Clear all equipped cosmetics"});
 
         clearCosmetics.setOnClick(() -> {
             HubModule.instance.cosmeticManager.unEquipCosmetic(getParent().getPlayer().getPlayer());

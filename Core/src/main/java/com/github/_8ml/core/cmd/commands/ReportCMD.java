@@ -35,12 +35,12 @@ public class ReportCMD extends CMD {
             }
 
             paramPlayer.sendMessage(MessageColor.COLOR_SUCCESS + "You reported "
-                    + paramArrayOfString[0] + " for " + ChatColor.GRAY + reason.toString());
+                    + paramArrayOfString[0] + " for " + MessageColor.COLOR_MAIN + reason.toString());
 
             StaffMSG.sendStaffMessage(ChatColor.WHITE + paramPlayer.getName()
                     + " reported " + paramArrayOfString[0]
-                    + " in " + ChatColor.GRAY + Core.instance.pluginMessenger.getServer(player.getPlayerStr())
-                    + ChatColor.WHITE + " for " + ChatColor.GRAY
+                    + " in " + MessageColor.COLOR_MAIN + Core.instance.pluginMessenger.getServer(player.getPlayerStr())
+                    + ChatColor.WHITE + " for " + MessageColor.COLOR_MAIN
                     + reason.toString(), "");
 
         } else {

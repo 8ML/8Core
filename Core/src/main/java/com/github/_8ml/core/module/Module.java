@@ -5,6 +5,7 @@ Created by @8ML (https://github.com/8ML) on 5/24/2021
 
 import com.github._8ml.core.exceptions.ModuleNotFoundException;
 import com.github._8ml.core.Core;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -3,6 +3,7 @@ package com.github._8ml.core.module.hub.cosmetic;
 Created by @8ML (https://github.com/8ML) on 5/30/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.module.hub.HubModule;
 import com.github._8ml.core.player.MPlayer;
 import org.bukkit.ChatColor;
@@ -122,7 +123,7 @@ public abstract class Cosmetic {
         if (this.item) {
             ItemMeta meta = this.stack.getItemMeta();
             Assert.assertNotNull("Meta cannot be null (Cosmetic constructor)", meta);
-            meta.setDisplayName(ChatColor.YELLOW + getName());
+            meta.setDisplayName(MessageColor.COLOR_HIGHLIGHT + getName());
             meta.setLore(Collections.singletonList(description));
             setStackMeta(meta);
             this.stack.setItemMeta(meta);

@@ -3,6 +3,7 @@ package com.github._8ml.core.player.options.ui.pages;
 Created by @8ML (https://github.com/8ML) on 5/16/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.options.PlayerOptions;
 import com.github._8ml.core.ui.component.components.Button;
@@ -32,7 +33,7 @@ public class OptionsPage extends Page {
         initPrivateMessage();
         initFriendRequest();
 
-        Button exit = new Button(ChatColor.RED + "Close", Material.BARRIER, getParent());
+        Button exit = new Button(MessageColor.COLOR_ERROR + "Close", Material.BARRIER, getParent());
         exit.setOnClick(() -> {
             getParent().getPlayer().getPlayer().closeInventory();
             getParent().unregisterHandlers();
@@ -55,9 +56,9 @@ public class OptionsPage extends Page {
                         .valueOf(PlayerOptions.preferences.get(getParent().getPlayer()).get("PRIVATE_MESSAGE"));
 
         privateMessagePreference = new Button(Material.PAPER, getParent());
-        privateMessagePreference.setLabel(ChatColor.GREEN + "Private Messages");
+        privateMessagePreference.setLabel(MessageColor.COLOR_HIGHLIGHT + "Private Messages");
         privateMessagePreference.setLore(new String[]{"",
-                ChatColor.GRAY + "Current Preference: " + ChatColor.AQUA
+                MessageColor.COLOR_MAIN + "Current Preference: " + ChatColor.AQUA
                         + StringUtils.formatCapitalization(currentPrivateMessagePreference.toString().replaceAll("_", " "))});
 
         privateMessagePreference.setOnClick(() -> {
@@ -88,9 +89,9 @@ public class OptionsPage extends Page {
                         .valueOf(PlayerOptions.preferences.get(getParent().getPlayer()).get("FRIEND_REQUEST"));
 
         friendRequestPreference = new Button(Material.POPPY, getParent());
-        friendRequestPreference.setLabel(ChatColor.GREEN + "Friend Requests");
+        friendRequestPreference.setLabel(MessageColor.COLOR_HIGHLIGHT + "Friend Requests");
         friendRequestPreference.setLore(new String[]{"",
-                ChatColor.GRAY + "Current Preference: " + ChatColor.AQUA
+                MessageColor.COLOR_MAIN + "Current Preference: " + ChatColor.AQUA
                         + StringUtils.formatCapitalization(currentFriendRequestPreference.toString().replaceAll("_", " "))});
 
         friendRequestPreference.setOnClick(() -> {

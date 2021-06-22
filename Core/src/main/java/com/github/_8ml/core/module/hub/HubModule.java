@@ -54,7 +54,7 @@ public class HubModule extends Module {
 
         Core.instance.mapExtractor.addMap(worldName);
 
-        tabYML = new PluginFile(mainInstance, "tablist.yml", "tablist.yml");
+        tabYML = new PluginFile(mainInstance, "hub", "tablist.yml", "tablist.yml");
 
         registerCommands();
         registerEvents();

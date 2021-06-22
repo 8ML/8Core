@@ -3,6 +3,7 @@ package com.github._8ml.core.module.hub.cosmetic.cosmetics.ui.pages;
 Created by @8ML (https://github.com/8ML) on June 18 2021
 */
 
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.module.hub.cosmetic.Cosmetic;
 import com.github._8ml.core.module.hub.cosmetic.CosmeticManager;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.ui.CosmeticUI;
@@ -52,14 +53,14 @@ public class CosmeticPage extends MultiplePage {
                     && (cosmeticMap.containsKey(player.getPlayer())
                     && cosmeticMap.get(player.getPlayer()).contains(cosmetic));
 
-            Button entry = new Button(ChatColor.YELLOW + cosmetic.getName(), cosmetic.getDisplayStack().getType(), getParent());
+            Button entry = new Button(MessageColor.COLOR_HIGHLIGHT + cosmetic.getName(), cosmetic.getDisplayStack().getType(), getParent());
 
             entry.setLore(new String[]{
                     cosmetic.getDescription(),
                     "",
-                    equipped ? ChatColor.GREEN + "Equipped"
-                            : owning ? ChatColor.GREEN + "Owned"
-                            : ChatColor.GRAY + "Price: " + ChatColor.GOLD + cosmetic.getCoins()
+                    equipped ? MessageColor.COLOR_SUCCESS + "Equipped"
+                            : owning ? MessageColor.COLOR_SUCCESS + "Owned"
+                            : MessageColor.COLOR_MAIN + "Price: " + ChatColor.GOLD + cosmetic.getCoins()
             });
 
             ItemMeta meta = entry.getMeta();
@@ -87,7 +88,7 @@ public class CosmeticPage extends MultiplePage {
                 }
 
                 manager.equipCosmetic(this.player.getPlayer(), cosmetic);
-                this.player.getPlayer().sendMessage(ChatColor.GREEN + "Equipped " + cosmetic.getName());
+                this.player.getPlayer().sendMessage(MessageColor.COLOR_SUCCESS + "Equipped " + cosmetic.getName());
                 this.player.getPlayer().closeInventory();
             });
 

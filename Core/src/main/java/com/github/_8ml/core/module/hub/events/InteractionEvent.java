@@ -76,10 +76,8 @@ public class InteractionEvent implements Listener {
     public void onInventoryUse(InventoryClickEvent e) {
         MPlayer player = MPlayer.getMPlayer(e.getWhoClicked().getName());
 
-        if (!player.isPermissible(Ranks.ADMIN, false)) {
-
+        if (!player.isPermissible(Ranks.ADMIN, false) || player.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
             e.setCancelled(true);
-
         }
     }
 
@@ -88,10 +86,8 @@ public class InteractionEvent implements Listener {
 
         MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
 
-        if (!player.isPermissible(Ranks.ADMIN, false)) {
-
+        if (!player.isPermissible(Ranks.ADMIN, false) || player.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
             e.setCancelled(true);
-
         }
 
     }

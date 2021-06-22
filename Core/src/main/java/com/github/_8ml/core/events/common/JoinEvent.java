@@ -55,11 +55,11 @@ public class JoinEvent implements Listener {
             BookUtil.displayHelpBook(e.getPlayer());
 
             e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&r\n" +
-                    "&fWelcome to the &68Core Network&f!" +
+                    "&fWelcome to the &6" + ServerConfig.serverName + " Network&f!" +
                     "\n\n" +
                     "&fJoin our &adiscord &ffor news and announcements!" +
                     "\n" +
-                    "&ddev-8.com/discord" +
+                    "&d" + ServerConfig.serverDiscordLink +
                     "\n\n" +
                     "&7You received &e+50 coins &7for joining the first time!"));
 

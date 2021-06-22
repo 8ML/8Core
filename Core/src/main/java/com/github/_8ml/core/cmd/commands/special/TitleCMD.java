@@ -23,7 +23,7 @@ public class TitleCMD extends CMD {
 
         if (paramArrayOfString.length == 0) {
             player.setTitle("");
-            paramPlayer.sendMessage(ChatColor.RED + "Removed your previous title!");
+            paramPlayer.sendMessage(MessageColor.COLOR_ERROR + "Removed your previous title!");
         } else {
 
             StringBuilder args = new StringBuilder(paramArrayOfString[0]);

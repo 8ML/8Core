@@ -3,6 +3,8 @@ package com.github._8ml.core.events;
 Created by @8ML (https://github.com/8ML) on 4/24/2021
 */
 
+import com.github._8ml.core.Core;
+import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.achievement.achievements.ChatAchievement;
@@ -16,11 +18,14 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ChatEvent implements Listener {
@@ -58,12 +63,28 @@ public class ChatEvent implements Listener {
                 .append(level.create())
                 .append(player.getRankEnum().getRank().getFullPrefixComponent())
                 .append(player.getRankEnum().getRank().getNameColor() + player.getPlayer().getName())
-                .append(": ").color(player.getRankEnum().getRank().isDefaultRank() ? ChatColor.GRAY : ChatColor.WHITE)
-                .append(player.getRankEnum().getRank().getChatColor() + e.getMessage());
+                .append(": ").color(player.getRankEnum().getRank().isDefaultRank() ? ChatColor.GRAY : ChatColor.WHITE);
 
-        BaseComponent[] message = componentBuilder.create();
+        for (Player p : Core.onlinePlayers) {
 
-        Bukkit.spigot().broadcast(message);
+            String messageString = e.getMessage();
+
+            if (e.getMessage().contains("@" + p.getName())
+                    && !p.getName().equals(player.getPlayerStr())) {
+
+                messageString = messageString.replaceAll("@" + p.getName(), ChatColor.YELLOW + p.getName());
+
+                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
+
+            }
+
+            componentBuilder.append(player.getRankEnum().getRank().getChatColor() + messageString);
+
+            p.spigot().sendMessage(componentBuilder.create());
+
+            List<BaseComponent> parts = componentBuilder.getParts();
+            componentBuilder.removeComponent(parts.indexOf(parts.get(parts.size() -1)));
+        }
 
         Objects.requireNonNull(Achievement.getAchievement(ChatAchievement.class)).complete(player);
     }

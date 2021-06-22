@@ -7,6 +7,7 @@ import com.github._8ml.core.module.hub.cosmetic.cosmetics.gadgets.StickGadget;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.hats.FishBowlHat;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.hats.GrassHat;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.hats.LeatherHat;
+import com.github._8ml.core.module.hub.cosmetic.cosmetics.outfits.AstronautOutfit;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.outfits.RainbowOutfit;
 
 public enum Cosmetics {
@@ -14,6 +15,7 @@ public enum Cosmetics {
     //GADGETS
     STICK_GADGET(StickGadget.class),
     //OUTFITS
+    ASTRONAUT_OUTFIT(AstronautOutfit.class),
     RAINBOW_OUTFIT(RainbowOutfit.class),
     //HATS
     LEATHER_HAT(LeatherHat.class),

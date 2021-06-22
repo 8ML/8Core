@@ -56,7 +56,7 @@ public abstract class CMD extends BukkitCommand {
     }
 
     public String getUsage() {
-        return ChatColor.RED + this.usage;
+        return MessageColor.COLOR_ERROR + this.usage;
     }
 
     public void setAliasUsed(String alias) {

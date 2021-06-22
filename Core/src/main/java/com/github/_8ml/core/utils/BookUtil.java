@@ -3,6 +3,8 @@ package com.github._8ml.core.utils;
 Created by @8ML (https://github.com/8ML) on 4/25/2021
 */
 
+import com.github._8ml.core.config.MessageColor;
+import com.github._8ml.core.config.ServerConfig;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -34,7 +36,7 @@ public class BookUtil {
         assert bookMeta != null;
 
         BaseComponent[] cb = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "\n&0Welcome to\n" +
-                "&d8Core Games&0!\n" +
+                "&d8" + ServerConfig.serverName + "&0!\n" +
                 "\n" +
                 "&0To start playing\n" +
                 "&0games, click on an NPC\n" +
@@ -44,7 +46,7 @@ public class BookUtil {
                 "&0news, updates, and\n" +
                 "&0announcements!\n\n")).create();
         BaseComponent[] cl = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&r     &r&d&l&nCLICK HERE&r"))
-                .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.io/Dev8"))
+                .event(new ClickEvent(ClickEvent.Action.OPEN_URL, ServerConfig.serverDiscordLink))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Click for link!").create())).create();
 
         BaseComponent[] comp = new ComponentBuilder().append(cb).append(cl).create();

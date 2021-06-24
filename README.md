@@ -14,7 +14,7 @@
    - Hub Module:
       - CosmeticsAPI
       - Join Items
-   - Game Module:
+   - Game Module (TODO):
       - Minigame API
       - Map System
 

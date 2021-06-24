@@ -11,6 +11,7 @@ import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.purchase.Purchase;
 import com.github._8ml.core.ui.component.Component;
 import com.github._8ml.core.ui.component.components.Button;
+import com.github._8ml.core.utils.StringUtils;
 import org.bukkit.ChatColor;
 import com.github._8ml.core.module.hub.HubModule;
 import com.github._8ml.core.ui.page.MultiplePage;
@@ -28,7 +29,7 @@ public class CosmeticPage extends MultiplePage {
     private final MPlayer player;
 
     public CosmeticPage(MPlayer player) {
-        super("Gadgets", 54, true);
+        super("", true);
         this.player = player;
     }
 
@@ -39,7 +40,7 @@ public class CosmeticPage extends MultiplePage {
         CosmeticManager manager = HubModule.instance.cosmeticManager;
         Map<Player, List<Cosmetic>> cosmeticMap = manager.getCosmeticMap();
 
-        Cosmetic.CosmeticType type = ((CosmeticUI) getParent()).cosmeticMenuSelected;
+        Cosmetic.CosmeticType type = CosmeticUI.cosmeticMenuSelected;
 
         for (Cosmetic cosmetic : manager.getCosmetics()) {
 
@@ -68,7 +69,7 @@ public class CosmeticPage extends MultiplePage {
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
             if (equipped) {
-                meta.addEnchant(Enchantment.DAMAGE_ALL, 1,  true);
+                meta.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
             }
 
             entry.setItemMeta(meta);
@@ -97,6 +98,15 @@ public class CosmeticPage extends MultiplePage {
         }
 
         return components;
+    }
+
+    @Override
+    protected void onPreOpen() {
+
+        Cosmetic.CosmeticType type = CosmeticUI.cosmeticMenuSelected;
+
+        setTitle(StringUtils.formatCapitalization(type.name() + "s"));
+
     }
 
     @Override

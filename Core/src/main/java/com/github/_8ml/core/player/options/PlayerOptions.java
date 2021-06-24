@@ -6,12 +6,15 @@ Created by @8ML (https://github.com/8ML) on 5/16/2021
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.Core;
 import com.github._8ml.core.storage.SQL;
+import org.bukkit.Material;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class PlayerOptions {
 
@@ -29,15 +32,68 @@ public class PlayerOptions {
 
     }
 
-    public enum PrivateMessagePreference {
-        FRIENDS_ONLY, ANYONE, OFF
+    public enum Preference {
+
+        /**
+         * Contains all the preference types with its values
+         * <p>
+         * Values in index 1 will be the default value
+         */
+
+        PRIVATE_MESSAGE(new String[]{
+                "FRIENDS_ONLY",
+                "ANYONE",
+                "OFF"
+        }, Material.PAPER, 15),
+        FRIEND_REQUEST(new String[]{
+                "ANYONE",
+                "OFF"
+        }, Material.POPPY, 11),
+        MENTION(new String[]{
+                "ANYONE",
+                "FRIENDS_ONLY",
+                "OFF"
+        }, Material.NOTE_BLOCK, 13);
+
+        private final String[] values;
+        private final Material uiMaterial;
+        private final int uiSlot;
+
+
+        /**
+         *
+         * @param values The values of the preference
+         * @param uiMaterial The material to display in Preferences UI
+         * @param uiSlot The slot to display it in Preferences UI
+         */
+        Preference(String[] values, Material uiMaterial, int uiSlot) {
+            this.values = values;
+            this.uiMaterial = uiMaterial;
+            this.uiSlot = uiSlot;
+        }
+
+        public String[] getValues() {
+            return values;
+        }
+
+        public Material getUiMaterial() {
+            return uiMaterial;
+        }
+
+        public int getUiSlot() {
+            return uiSlot;
+        }
     }
 
-    public enum FriendRequestPreference {
-        ANYONE, OFF
-    }
+    private static final Map<MPlayer, Map<Preference, String>> preferences = new HashMap<>();
 
-    public static void updatePreference(MPlayer player, String preference, String value) {
+
+    /**
+     * @param player     Player to update preference for
+     * @param preference Preference to update
+     * @param value      New preference value
+     */
+    public static void updatePreference(MPlayer player, Preference preference, String value) {
 
         SQL sql = Core.instance.sql;
 
@@ -45,13 +101,13 @@ public class PlayerOptions {
 
             PreparedStatement exists = sql.preparedStatement("SELECT * FROM preferences WHERE `uuid`=? AND `key`=?");
             exists.setString(1, player.getUUID());
-            exists.setString(2, preference);
+            exists.setString(2, preference.name());
             ResultSet rs = exists.executeQuery();
             if (rs.next()) {
                 PreparedStatement st = sql.preparedStatement("UPDATE preferences SET `value`=? WHERE `uuid`=? AND `key`=?");
                 st.setString(1, value);
                 st.setString(2, player.getUUID());
-                st.setString(3, preference);
+                st.setString(3, preference.name());
                 try {
                     st.executeUpdate();
                 } finally {
@@ -61,7 +117,7 @@ public class PlayerOptions {
 
                 PreparedStatement st = sql.preparedStatement("INSERT INTO preferences (`uuid`, `key`, `value`) VALUES (?,?,?)");
                 st.setString(1, player.getUUID());
-                st.setString(2, preference);
+                st.setString(2, preference.name());
                 st.setString(3, value);
 
                 try {
@@ -74,10 +130,9 @@ public class PlayerOptions {
 
             sql.closeConnection(exists);
 
-            Map<String, String> preferencesMap = preferences.get(player);
+            Map<Preference, String> preferencesMap = preferences.get(player);
             preferencesMap.put(preference, value);
             preferences.put(player, preferencesMap);
-
 
 
         } catch (SQLException e) {
@@ -86,12 +141,16 @@ public class PlayerOptions {
 
     }
 
+
+    /**
+     * @param player Player to fetch preferences from
+     */
     public static void fetchPreferences(MPlayer player) {
         try {
 
             SQL sql = Core.instance.sql;
 
-            Map<String, String> preferencesMap = new HashMap<>();
+            Map<Preference, String> preferencesMap;
 
             if (!preferences.containsKey(player)) {
                 preferencesMap = new HashMap<>();
@@ -104,12 +163,7 @@ public class PlayerOptions {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
-                found = true;
-                preferencesMap.put(rs.getString("key"), rs.getString("value"));
-
-            }
-
-            if (!found) {
+                preferencesMap.put(Preference.valueOf(rs.getString("key")), rs.getString("value"));
 
             }
 
@@ -117,21 +171,72 @@ public class PlayerOptions {
 
             sql.closeConnection(st);
 
+            for (Preference pref : Preference.values()) {
+
+                if (!check(player, pref)) {
+                    updatePreference(player, pref, pref.getValues()[0]);
+                }
+
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean check(MPlayer player, String key) {
-        if (!PlayerOptions.preferences.containsKey(player)) {
-            PlayerOptions.fetchPreferences(player);
-            if (!PlayerOptions.preferences.get(player).containsKey(key)) {
+
+    /**
+     * @param player     Player to check preference
+     * @param preference Preference to check
+     * @return Will return true if the preference is found in the database for the specified player
+     */
+    private static boolean check(MPlayer player, Preference preference) {
+        try {
+
+            SQL sql = Core.instance.sql;
+
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM preferences WHERE `uuid`=? AND `key`=?");
+            st.setString(1, player.getUUID());
+            st.setString(2, preference.name());
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                sql.closeConnection(st);
                 return true;
             }
+
+            sql.closeConnection(st);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        return !PlayerOptions.preferences.get(player).containsKey(key);
+        return false;
     }
 
-    public static final Map<MPlayer, Map<String, String>> preferences = new HashMap<>();
+
+    /**
+     * @param player     Player to get preference from
+     * @param preference Preference to get
+     * @return Returns the preference value
+     */
+    public static String getPreference(MPlayer player, Preference preference) {
+        if (preferences.containsKey(player)) {
+
+            Map<Preference, String> enumMap = preferences.get(player);
+            if (enumMap.containsKey(preference)) {
+                String enumKey = enumMap.get(preference);
+
+                String[] values = preference.getValues();
+                for (String value : values) {
+                    if (enumKey.equals(value)) {
+                        return value;
+                    }
+                }
+            }
+
+        }
+
+        return preference.getValues()[0];
+    }
 }

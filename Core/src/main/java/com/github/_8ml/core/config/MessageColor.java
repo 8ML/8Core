@@ -32,4 +32,8 @@ public class MessageColor {
         return new Color(rgb[0], rgb[1], rgb[2]);
     }
 
+    public static void refreshColors() {
+
+    }
+
 }

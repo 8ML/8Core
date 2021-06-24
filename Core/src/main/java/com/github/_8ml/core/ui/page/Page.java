@@ -52,6 +52,7 @@ public abstract class Page {
      * Open the page
      */
     public void open() {
+        onPreOpen();
         this.inventory = Bukkit.createInventory(null, size, title);
         initializeFrame();
         onOpen();
@@ -144,6 +145,11 @@ public abstract class Page {
 
         }
     }
+
+    /**
+     * Called before onOpen()
+     */
+    protected abstract void onPreOpen();
 
 
     /**

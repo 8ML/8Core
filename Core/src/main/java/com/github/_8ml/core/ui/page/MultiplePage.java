@@ -16,7 +16,8 @@ import java.util.Map;
 
 public abstract class MultiplePage extends Page {
 
-    private final int LAST_SLOT = 34;
+    private final static int LAST_SLOT = 34;
+
     private int currentPageIndex = 0;
     private final Map<Integer, Map<Integer, Component>> pages = new HashMap<>();
 
@@ -24,11 +25,10 @@ public abstract class MultiplePage extends Page {
 
     /**
      * @param title The title of the page
-     * @param size  The size of the page (9, 18, 27, 36, 45, 54)
      * @param frame Set to true if you want a frame
      */
-    public MultiplePage(String title, int size, boolean frame) {
-        super(title, size, frame);
+    public MultiplePage(String title, boolean frame) {
+        super(title, 54, frame);
     }
 
     protected abstract List<Component> onOpenMultiple();

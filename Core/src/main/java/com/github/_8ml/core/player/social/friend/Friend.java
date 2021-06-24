@@ -64,15 +64,9 @@ public class Friend {
             return;
         }
 
-        if (PlayerOptions.check(player, "FRIEND_REQUEST")) {
-            PlayerOptions.updatePreference(player, "FRIEND_REQUEST",
-                    PlayerOptions.FriendRequestPreference.ANYONE.toString());
-        }
+        String preference = PlayerOptions.getPreference(player, PlayerOptions.Preference.FRIEND_REQUEST);
 
-        PlayerOptions.fetchPreferences(player);
-
-        if (PlayerOptions.FriendRequestPreference.valueOf(PlayerOptions.preferences.get(player).get("FRIEND_REQUEST"))
-                .equals(PlayerOptions.FriendRequestPreference.OFF)) {
+        if (preference.equals("OFF")) {
             this.player.getPlayer().sendMessage(MessageColor.COLOR_ERROR + player.getPlayerStr() + " has friend requests disabled!");
             return;
         }
@@ -374,28 +368,22 @@ public class Friend {
             return;
         }
 
-        if (PlayerOptions.check(receiver, "PRIVATE_MESSAGE")) {
-            PlayerOptions.updatePreference(player, "PRIVATE_MESSAGE",
-                    PlayerOptions.PrivateMessagePreference.FRIENDS_ONLY.toString());
-        }
+        String preferenceSender = PlayerOptions.getPreference(MPlayer.getMPlayer(sender.getName()), PlayerOptions.Preference.PRIVATE_MESSAGE);
+        String preferenceReceiver = PlayerOptions.getPreference(receiver, PlayerOptions.Preference.PRIVATE_MESSAGE);
 
-        if (PlayerOptions.PrivateMessagePreference.valueOf(PlayerOptions.preferences.get(MPlayer.getMPlayer(sender.getName())).get("PRIVATE_MESSAGE"))
-                .equals(PlayerOptions.PrivateMessagePreference.OFF)) {
-            Objects.requireNonNull(sender.getPlayer()).sendMessage(MessageColor.COLOR_ERROR + "You have private messaging disabled");
+
+        if (preferenceSender.equals("OFF")) {
+            sender.sendMessage(MessageColor.COLOR_ERROR + "You have private messaging disabled");
             return;
         }
 
-        PlayerOptions.PrivateMessagePreference preference =
-                PlayerOptions.PrivateMessagePreference
-                        .valueOf(PlayerOptions.preferences.get(receiver).get("PRIVATE_MESSAGE"));
 
+        if (preferenceReceiver.equals("OFF")) {
+            sender.sendMessage(MessageColor.COLOR_ERROR + receiver.getPlayerStr() + " has private messaging disabled!");
+            return;
+        }
 
-            if (preference.equals(PlayerOptions.PrivateMessagePreference.OFF)) {
-                sender.sendMessage(MessageColor.COLOR_ERROR + receiver.getPlayerStr() + " has private messaging disabled!");
-                return;
-            }
-
-        if (preference.equals(PlayerOptions.PrivateMessagePreference.FRIENDS_ONLY)) {
+        if (preferenceReceiver.equals("FRIENDS_ONLY")) {
             if (!getFriends().contains(receiver)) {
                 sender.sendMessage(MessageColor.COLOR_ERROR + "Only " + receiver.getPlayerStr() + "'s friends can message them");
                 return;

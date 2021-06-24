@@ -21,6 +21,11 @@ public class CosmeticMainPage extends Page {
     }
 
     @Override
+    protected void onPreOpen() {
+
+    }
+
+    @Override
     protected void onOpen() {
 
         Button gadgets = new Button(MessageColor.COLOR_HIGHLIGHT + "Gadgets", Material.GOLDEN_HORSE_ARMOR, getParent());
@@ -30,7 +35,7 @@ public class CosmeticMainPage extends Page {
         });
 
         gadgets.setOnClick(() -> {
-            ((CosmeticUI) getParent()).cosmeticMenuSelected = Cosmetic.CosmeticType.GADGET;
+            CosmeticUI.cosmeticMenuSelected = Cosmetic.CosmeticType.GADGET;
             getParent().openPage(1);
         });
 
@@ -45,7 +50,7 @@ public class CosmeticMainPage extends Page {
         });
 
         outfits.setOnClick(() -> {
-            ((CosmeticUI) getParent()).cosmeticMenuSelected = Cosmetic.CosmeticType.OUTFIT;
+            CosmeticUI.cosmeticMenuSelected = Cosmetic.CosmeticType.OUTFIT;
             getParent().openPage(1);
         });
 
@@ -61,7 +66,7 @@ public class CosmeticMainPage extends Page {
         });
 
         hats.setOnClick(() -> {
-            ((CosmeticUI) getParent()).cosmeticMenuSelected = Cosmetic.CosmeticType.HAT;
+            CosmeticUI.cosmeticMenuSelected = Cosmetic.CosmeticType.HAT;
             getParent().openPage(1);
         });
 

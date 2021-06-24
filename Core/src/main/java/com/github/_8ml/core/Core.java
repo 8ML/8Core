@@ -14,6 +14,7 @@ import com.github._8ml.core.cmd.commands.staff.PunishCMD;
 import com.github._8ml.core.cmd.commands.test.PunishCMDTEST;
 import com.github._8ml.core.cmd.commands.staff.StaffChatCMD;
 import com.github._8ml.core.cmd.commands.test.UpdateRankCMDTEST;
+import com.github._8ml.core.config.ConfigurationReload;
 import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.events.ChatEvent;
 import com.github._8ml.core.events.CommandEvent;
@@ -29,10 +30,7 @@ import com.github._8ml.core.player.achievement.achievements.ChatAchievement;
 import com.github._8ml.core.security.OnlyProxyJoin;
 import com.github._8ml.core.storage.SQL;
 import com.github._8ml.core.storage.file.PluginFile;
-import com.github._8ml.core.utils.NameTag;
-import com.github._8ml.core.utils.PluginMessenger;
-import com.github._8ml.core.utils.ScoreBoard;
-import com.github._8ml.core.utils.TabList;
+import com.github._8ml.core.utils.*;
 import com.github._8ml.core.world.MapExtract;
 import com.github._8ml.core.module.hub.HubModule;
 import org.bukkit.entity.Player;
@@ -42,7 +40,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Core extends JavaPlugin {
+public class Core extends JavaPlugin implements ConfigurationReload {
 
     public static Core instance;
     public static final Set<Player> onlinePlayers = new HashSet<>();
@@ -76,20 +74,12 @@ public class Core extends JavaPlugin {
 
     private void initFiles() {
         this.sqlYML = new PluginFile(this, null, "sql.yml", "sql.yml");
-        this.sqlYML.options().copyDefaults(true);
-        this.sqlYML.save();
 
         this.configYML = new PluginFile(this, null, "config.yml", "config.yml");
-        this.configYML.options().copyDefaults(true);
-        this.configYML.save();
 
         this.messagesYML = new PluginFile(this, null, "messages.yml", "messages.yml");
-        this.messagesYML.options().copyDefaults(true);
-        this.messagesYML.save();
 
         this.serverYML = new PluginFile(this, null, "server.yml", "server.yml");
-        this.serverYML.options().copyDefaults(true);
-        this.serverYML.save();
     }
 
     private void registerEvents() {
@@ -100,6 +90,7 @@ public class Core extends JavaPlugin {
         new FunEvent(this);
 
         new NameTag(this);
+        new BossBar(this);
     }
 
     private void registerAchievements() {
@@ -200,5 +191,10 @@ public class Core extends JavaPlugin {
         mapExtractor.load();
         if (Module.getEnabledModule() != null)
             Module.getEnabledModule().disableModule();
+    }
+
+    @Override
+    public void reloadConfigs() {
+
     }
 }

@@ -34,6 +34,11 @@ public class StatsPage extends Page {
     }
 
     @Override
+    protected void onPreOpen() {
+
+    }
+
+    @Override
     public void onOpen() {
 
         String status = this.t.isOffline() ? ChatColor.WHITE + "Status: " + MessageColor.COLOR_ERROR + "Offline" : ChatColor.WHITE
@@ -74,26 +79,26 @@ public class StatsPage extends Page {
         SkullMeta meta = (SkullMeta) profile.getMeta();
         meta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(t.getUUID())));
         profile.setItemMeta(meta);
-        profile.setLore(new String[]{"", ChatColor.WHITE + "Rank: " + rank,
+        profile.setLore(new String[]{" ", ChatColor.WHITE + "Rank: " + rank,
                 ChatColor.WHITE + "Coins: " + ChatColor.GOLD + this.t.getCoins(),
                 ChatColor.WHITE + "Level: " + ChatColor.AQUA + ((int) Level.getLevelFromXP(this.t.getXP(), false)),
-                "",
+                " ",
                 ChatColor.WHITE + "First Login: " +
                 MessageColor.COLOR_MAIN + this.t.firstJoin(),
-                "",
+                " ",
                 status});
 
         Label leveling = new Label(MessageColor.COLOR_HIGHLIGHT + "8Core Leveling", Material.ENCHANTED_BOOK, getParent());
-        leveling.setLore(new String[]{"",
+        leveling.setLore(new String[]{" ",
                 MessageColor.COLOR_MAIN + "Playing games will reward",
                 MessageColor.COLOR_MAIN + "you with " + ChatColor.LIGHT_PURPLE + "Experience" + MessageColor.COLOR_MAIN + ", which",
                 MessageColor.COLOR_MAIN + "is required to level up.",
-                "",
+                " ",
                 ChatColor.WHITE + "Progress: " + ChatColor.GOLD + ((int) percentage) + "%",
                 MessageColor.COLOR_MAIN + "Level " + MessageColor.COLOR_SUCCESS + iLevel
                         + MessageColor.COLOR_MAIN + " [" + builder + MessageColor.COLOR_MAIN + "] "
                         + MessageColor.COLOR_MAIN + (iLevel + 1),
-                "",
+                " ",
                 ChatColor.WHITE + "Required XP: " + MessageColor.COLOR_MAIN + this.t.getXP() +
                         ChatColor.DARK_GRAY + "/"
                         + MessageColor.COLOR_MAIN + Level.getXPFromLevel(iLevel + 1)});
@@ -112,13 +117,13 @@ public class StatsPage extends Page {
                 + MessageColor.COLOR_MAIN + "(" + MessageColor.COLOR_SUCCESS + "Click" + MessageColor.COLOR_MAIN + ")",
                 Material.BOOK, getParent());
 
-        achievements.setLore(new String[]{"",
+        achievements.setLore(new String[]{" ",
                 MessageColor.COLOR_MAIN + "Track your progress and",
                 MessageColor.COLOR_MAIN + "complete achievements",
                 MessageColor.COLOR_MAIN + "for " + ChatColor.GOLD
                         + "Coins " + MessageColor.COLOR_MAIN + "and " + ChatColor.LIGHT_PURPLE
                         + "XP" + MessageColor.COLOR_MAIN + ".",
-                "",
+                " ",
                 MessageColor.COLOR_MAIN + "Completed: " + ChatColor.LIGHT_PURPLE + achievementsCompleted
                         + MessageColor.COLOR_MAIN + "/" + achievementClasses.size()});
 

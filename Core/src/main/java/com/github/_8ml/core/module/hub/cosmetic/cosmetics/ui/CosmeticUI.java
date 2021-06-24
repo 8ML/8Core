@@ -11,7 +11,7 @@ import com.github._8ml.core.module.hub.cosmetic.cosmetics.ui.pages.CosmeticPage;
 
 public class CosmeticUI extends GUI {
 
-    public Cosmetic.CosmeticType cosmeticMenuSelected = null;
+    public static Cosmetic.CosmeticType cosmeticMenuSelected = null;
 
     /**
      * @param player Player to show this gui to

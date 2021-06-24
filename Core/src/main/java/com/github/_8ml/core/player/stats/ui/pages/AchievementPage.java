@@ -22,6 +22,11 @@ public class AchievementPage extends Page {
     }
 
     @Override
+    protected void onPreOpen() {
+
+    }
+
+    @Override
     public void onOpen() {
 
         int num = 10;
@@ -34,7 +39,7 @@ public class AchievementPage extends Page {
             ach.setLabel(MessageColor.COLOR_SUCCESS + achievement.getName());
             ach.setLore(new String[]{
                     MessageColor.COLOR_MAIN + achievement.getDescription(),
-                    "",
+                    " ",
                     achievement.hasAchievement(player) ? MessageColor.COLOR_SUCCESS + "Completed!"
                             : MessageColor.COLOR_ERROR + "Not Completed!"
             });

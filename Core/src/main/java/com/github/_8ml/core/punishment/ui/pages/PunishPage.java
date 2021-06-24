@@ -43,6 +43,11 @@ public class PunishPage extends Page {
     }
 
     @Override
+    protected void onPreOpen() {
+
+    }
+
+    @Override
     public void onOpen() {
 
         //MUTE

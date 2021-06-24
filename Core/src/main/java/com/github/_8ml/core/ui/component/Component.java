@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -73,7 +74,18 @@ public abstract class Component {
      *             (e.g. new String[]{"This is one line", "This is another"})
      */
     public void setLore(String[] lore) {
-        this.lore = Arrays.asList(lore);
+        this.lore = new LinkedList<>(Arrays.asList(lore));
+        List<String> toRemove = new ArrayList<>();
+        for (String l : this.lore) {
+
+            if (l.equals("")) {
+                toRemove.add(l);
+            }
+
+        }
+        for (String remove : toRemove) {
+            this.lore.remove(remove);
+        }
     }
 
 

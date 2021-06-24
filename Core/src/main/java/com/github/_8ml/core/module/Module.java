@@ -3,6 +3,7 @@ package com.github._8ml.core.module;
 Created by @8ML (https://github.com/8ML) on 5/24/2021
 */
 
+import com.github._8ml.core.config.ConfigurationReload;
 import com.github._8ml.core.exceptions.ModuleNotFoundException;
 import com.github._8ml.core.Core;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -10,7 +11,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Module {
+public abstract class Module implements ConfigurationReload {
 
     private static final Set<Module> modules = new HashSet<>();
     public static Module enabledModule;
@@ -23,6 +24,7 @@ public abstract class Module {
     }
 
     public void enableModule(Core plugin) {
+        ConfigurationReload.registerClass(this);
         mainInstance = plugin;
         onEnable();
     }

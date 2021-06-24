@@ -20,4 +20,9 @@ public class GameModule extends Module {
     protected void onDisable() {
 
     }
+
+    @Override
+    public void reloadConfigs() {
+
+    }
 }

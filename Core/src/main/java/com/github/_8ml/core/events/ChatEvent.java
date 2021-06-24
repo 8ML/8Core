@@ -9,6 +9,8 @@ import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.achievement.achievements.ChatAchievement;
 import com.github._8ml.core.player.level.Level;
+import com.github._8ml.core.player.options.PlayerOptions;
+import com.github._8ml.core.player.social.friend.Friend;
 import com.github._8ml.core.punishment.PunishInfo;
 import com.github._8ml.core.punishment.Punishment;
 import com.github._8ml.core.punishment.type.Mute;
@@ -49,6 +51,7 @@ public class ChatEvent implements Listener {
 
         }
 
+        //Building the Chat message
         int playerXP = player.getXP();
         int nextLevelXP = Level.getXPFromLevel(((int) Level.getLevelFromXP(playerXP, false)) + 1);
 
@@ -65,6 +68,8 @@ public class ChatEvent implements Listener {
                 .append(player.getRankEnum().getRank().getNameColor() + player.getPlayer().getName())
                 .append(": ").color(player.getRankEnum().getRank().isDefaultRank() ? ChatColor.GRAY : ChatColor.WHITE);
 
+
+        //Player Mentioning && Message send
         for (Player p : Core.onlinePlayers) {
 
             String messageString = e.getMessage();
@@ -72,7 +77,21 @@ public class ChatEvent implements Listener {
             if (e.getMessage().contains("@" + p.getName())
                     && !p.getName().equals(player.getPlayerStr())) {
 
-                messageString = messageString.replaceAll("@" + p.getName(), ChatColor.YELLOW + p.getName());
+                MPlayer pl = MPlayer.getMPlayer(p.getName());
+                Friend friendManager = Friend.getFriendManager(pl);
+
+                String mentionPreference = PlayerOptions.getPreference(pl, PlayerOptions.Preference.MENTION);
+
+                if (mentionPreference.equals("FRIENDS_ONLY")) {
+                    if (!friendManager.getFriends().contains(player)) continue;
+                }
+                if (mentionPreference.equals("OFF")) {
+                    continue;
+                }
+
+
+                messageString = messageString.replaceAll("@" + p.getName(), ChatColor.YELLOW + p.getName()
+                        + MPlayer.getMPlayer(p.getName()).getRankEnum().getRank().getChatColor());
 
                 p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
 
@@ -82,10 +101,17 @@ public class ChatEvent implements Listener {
 
             p.spigot().sendMessage(componentBuilder.create());
 
+
+            /*
+            Remove the "typed message" part from the componentBuilder so the
+            message can be updated again for a different player scenario.
+            This prevents the message from sending multiple times to some players.
+            */
             List<BaseComponent> parts = componentBuilder.getParts();
-            componentBuilder.removeComponent(parts.indexOf(parts.get(parts.size() -1)));
+            componentBuilder.removeComponent(parts.size() - 1);
         }
 
+        //Complete Chat Achievement
         Objects.requireNonNull(Achievement.getAchievement(ChatAchievement.class)).complete(player);
     }
 }

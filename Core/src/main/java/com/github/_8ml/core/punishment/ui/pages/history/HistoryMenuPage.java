@@ -4,6 +4,8 @@ Created by @8ML (https://github.com/8ML) on 5/4/2021
 */
 
 import com.github._8ml.core.player.MPlayer;
+import com.github._8ml.core.punishment.Punishment;
+import com.github._8ml.core.punishment.ui.PunishUI;
 import com.github._8ml.core.ui.component.components.Button;
 import com.github._8ml.core.ui.page.Page;
 import com.github._8ml.core.config.MessageColor;
@@ -11,6 +13,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 public class HistoryMenuPage extends Page {
+
+    static Punishment.PunishType selectedHistoryPage = null;
 
     private final MPlayer target;
 
@@ -23,12 +27,18 @@ public class HistoryMenuPage extends Page {
     }
 
     @Override
+    protected void onPreOpen() {
+
+    }
+
+    @Override
     public void onOpen() {
 
         Button bans = new Button(MessageColor.COLOR_HIGHLIGHT + "Bans", Material.IRON_DOOR, getParent());
         bans.setLore(new String[]{"",
                 MessageColor.COLOR_MAIN + "Click to view all of " + MessageColor.COLOR_HIGHLIGHT + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " bans"});
         bans.setOnClick(() -> {
+            selectedHistoryPage = Punishment.PunishType.BAN;
             getParent().openPage(2);
         });
 
@@ -36,29 +46,30 @@ public class HistoryMenuPage extends Page {
         mutes.setLore(new String[]{"",
                 MessageColor.COLOR_MAIN + "Click to view all of " + MessageColor.COLOR_HIGHLIGHT + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " mutes"});
         mutes.setOnClick(() -> {
-            getParent().openPage(3);
+            selectedHistoryPage = Punishment.PunishType.MUTE;
+            getParent().openPage(2);
         });
 
         Button warns = new Button(MessageColor.COLOR_HIGHLIGHT + "Warns", Material.PAPER, getParent());
         warns.setLore(new String[]{"",
                 MessageColor.COLOR_MAIN + "Click to view all of " + MessageColor.COLOR_HIGHLIGHT + this.target.getPlayerStr()  + "'s" + MessageColor.COLOR_MAIN + " warns"});
         warns.setOnClick(() -> {
-            getParent().openPage(4);
+            selectedHistoryPage = Punishment.PunishType.WARN;
+            getParent().openPage(2);
         });
 
         Button kicks = new Button(MessageColor.COLOR_HIGHLIGHT + "Kicks", Material.STICK, getParent());
         kicks.setLore(new String[]{"",
                 MessageColor.COLOR_MAIN + "Click to view all of " + MessageColor.COLOR_HIGHLIGHT + this.target.getPlayerStr() + "'s" + MessageColor.COLOR_MAIN + " kicks"});
         kicks.setOnClick(() -> {
-            getParent().openPage(5);
+            selectedHistoryPage = Punishment.PunishType.KICK;
+            getParent().openPage(2);
         });
 
         Button exit = new Button(MessageColor.COLOR_ERROR + "Go Back", Material.ARROW, getParent());
         exit.setLore(new String[]{"",
                 MessageColor.COLOR_MAIN + "Return to main menu"});
-        exit.setOnClick(() -> {
-            getParent().openPage(0);
-        });
+        exit.setOnClick(() -> getParent().openPage(0));
 
         addComponent(bans, 19);
         addComponent(mutes, 21);

@@ -32,4 +32,14 @@ public class ServerConfig {
 
     public static String serverDiscordLink = config.getString("options.serverDiscordLink");
 
+    public static void refreshValues() {
+
+    }
+
+    public static void reloadAllConfigs() {
+        for (ConfigurationReload classToReload : ConfigurationReload.classes) {
+            classToReload.reloadConfigs();
+        }
+    }
+
 }

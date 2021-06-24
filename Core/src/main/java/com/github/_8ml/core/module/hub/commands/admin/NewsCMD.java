@@ -9,6 +9,7 @@ import com.github._8ml.core.config.Messages;
 import com.github._8ml.core.module.hub.HubModule;
 import com.github._8ml.core.module.hub.news.News;
 import com.github._8ml.core.player.hierarchy.Ranks;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class NewsCMD extends CMD {
 
     public NewsCMD() {
-        super("news", new String[0], "", "/news <add,remove, list> <news,id>", Ranks.ADMIN);
+        super("news", new String[0], "", "/news <add,remove,list> <news,id>", Ranks.ADMIN);
     }
 
     @Override
@@ -24,39 +25,52 @@ public class NewsCMD extends CMD {
 
         News newsManager = HubModule.instance.newsManager;
 
-        if (paramArrayOfString.length <= 2) {
+        if (paramArrayOfString.length < 2) {
 
-            if (paramArrayOfString[0].equalsIgnoreCase("list")) {
+            if (paramArrayOfString.length == 1) {
+                if (paramArrayOfString[0].equalsIgnoreCase("list")) {
 
-                List<String> news = newsManager.getNews();
-                if (news.isEmpty()) {
-                    paramPlayer.sendMessage(MessageColor.COLOR_ERROR + "There are no news!");
+                    List<String> news = newsManager.getNews();
+                    if (news.isEmpty()) {
+                        paramPlayer.sendMessage(MessageColor.COLOR_ERROR + "There are no news!");
+                        return;
+                    }
+
+                    StringBuilder builder = new StringBuilder();
+                    for (String str : news) {
+
+                        builder.append("\n").append(MessageColor.COLOR_HIGHLIGHT)
+                                .append(newsManager.getID(str))
+                                .append(" ")
+                                .append(MessageColor.COLOR_MAIN)
+                                .append(str);
+
+                    }
+
+                    paramPlayer.sendMessage(builder.toString());
+
                     return;
-                }
-
-                StringBuilder builder = new StringBuilder();
-                for (String str : news) {
-
-                    builder.append("\n").append(MessageColor.COLOR_HIGHLIGHT)
-                            .append(newsManager.getID(str))
-                            .append(MessageColor.COLOR_MAIN)
-                            .append(str);
 
                 }
-
-                paramPlayer.sendMessage(builder.toString());
-
-                return;
-
             }
 
             paramPlayer.sendMessage(getUsage());
             return;
         }
 
+        StringBuilder argsBuilder = new StringBuilder();
+        for (int i = 1; i < paramArrayOfString.length; i++) {
+
+            argsBuilder.append(paramArrayOfString[i]).append(" ");
+
+        }
+
+        String contentArgs = ChatColor.translateAlternateColorCodes('&',
+                argsBuilder.toString());
+
         if (paramArrayOfString[0].equalsIgnoreCase("add")) {
 
-            newsManager.addNews(paramArrayOfString[1]);
+            newsManager.addNews(contentArgs);
             Messages.sendSuccessMessage(paramPlayer);
             return;
         }
@@ -75,7 +89,7 @@ public class NewsCMD extends CMD {
         } catch (NumberFormatException e) {
 
             String str = paramArrayOfString[1];
-            newsManager.removeNews(str);
+            newsManager.removeNews(contentArgs);
             Messages.sendSuccessMessage(paramPlayer);
 
         }

@@ -14,9 +14,7 @@ import org.bukkit.event.Listener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class News implements Listener {
 
@@ -33,11 +31,20 @@ public class News implements Listener {
 
     }
 
-    private SQL sql = Core.instance.sql;
+    private final SQL sql = Core.instance.sql;
+
+    private List<String> newsList = new ArrayList<>();
 
     public News() {
 
         Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
+        update();
+
+    }
+
+    public void update() {
+
+        this.newsList = getNews();
 
     }
 
@@ -55,6 +62,7 @@ public class News implements Listener {
                 sql.closeConnection(st);
             }
 
+            update();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,6 +85,8 @@ public class News implements Listener {
             } finally {
                 sql.closeConnection(st);
             }
+
+            update();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,6 +130,8 @@ public class News implements Listener {
 
             }
 
+            sql.closeConnection(st);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,11 +149,12 @@ public class News implements Listener {
 
             if (counter >= 10) {
 
-                List<String> news = getNews();
-                BossBar.sendMessage(news.get(newsIndex), counter % 10 == 0 ? BarColor.WHITE : BarColor.PURPLE);
+                if (!newsList.isEmpty()) {
+                    newsIndex = newsIndex >= newsList.size() -1 ? 0 : newsIndex + 1;
 
+                    BossBar.sendMessage(newsList.get(newsIndex), newsIndex % 10 == 0 ? BarColor.WHITE : BarColor.PURPLE);
+                }
                 counter = 0;
-                newsIndex = newsIndex == news.size() - 1 ? 0 : newsIndex + 1;
             }
 
             counter++;

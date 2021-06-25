@@ -52,7 +52,7 @@ public class Ban extends Punishment {
                 + "\n\nAppeal at " + ChatColor.GOLD + "" + ChatColor.LIGHT_PURPLE + "dev-8.com/appeal" :
                 MessageColor.COLOR_ERROR + "You are banned for " + this.punishTime.getTimeLeft() + " " + this.punishTime.getUnit().getFormatted() + "! \n"
                         + ChatColor.WHITE + "Reason: " + MessageColor.COLOR_MAIN + this.reason
-                        + "\n\nAppeal at " + ChatColor.LIGHT_PURPLE + "" + ChatColor.UNDERLINE + ServerConfig.serverAppealDomain;
+                        + "\n\nAppeal at " + ChatColor.LIGHT_PURPLE + "" + ChatColor.UNDERLINE + ServerConfig.SERVER_APPEAL_DOMAIN;
 
 
         return msg;

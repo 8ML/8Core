@@ -19,6 +19,7 @@ import com.github._8ml.core.storage.SQL;
 import com.github._8ml.core.utils.BookUtil;
 import com.github._8ml.core.Core;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,12 +41,12 @@ public class JoinEvent implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
 
-        boolean tp = ServerConfig.spawnPoint != null;
+        boolean tp = ServerConfig.SPAWN_POINT.getValue() != null;
 
         if (!e.getPlayer().hasPlayedBefore()) {
-            if (tp) e.getPlayer().teleport(ServerConfig.spawnPoint);
+            if (tp) e.getPlayer().teleport((Location) ServerConfig.SPAWN_POINT.getValue());
         }
-        if (tp) e.getPlayer().teleport(ServerConfig.spawnPoint);
+        if (tp) e.getPlayer().teleport((Location) ServerConfig.SPAWN_POINT.getValue());
 
         Core.onlinePlayers.add(e.getPlayer());
 
@@ -55,11 +56,11 @@ public class JoinEvent implements Listener {
             BookUtil.displayHelpBook(e.getPlayer());
 
             e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&r\n" +
-                    "&fWelcome to the &6" + ServerConfig.serverName + " Network&f!" +
+                    "&fWelcome to the &6" + ServerConfig.SERVER_NAME + " Network&f!" +
                     "\n\n" +
                     "&fJoin our &adiscord &ffor news and announcements!" +
                     "\n" +
-                    "&d" + ServerConfig.serverDiscordLink +
+                    "&d" + ServerConfig.SERVER_DISCORD_LINK +
                     "\n\n" +
                     "&7You received &e+50 coins &7for joining the first time!"));
 

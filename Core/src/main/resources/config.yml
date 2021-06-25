@@ -1,6 +1,6 @@
 options:
-  servername: "8Core"
-  serverDomain: "example.com"
-  serverStoreDomain: "example.com/store"
-  serverAppealDomain: "example.com/appeal"
-  serverDiscordLink: "example.com/discord"
+  SERVER_NAME: "8Core"
+  SERVER_DOMAIN: "example.com"
+  SERVER_STORE_DOMAIN: "example.com/store"
+  SERVER_APPEAL_DOMAIN: "example.com/appeal"
+  SERVER_DISCORD_LINK: "example.com/discord"

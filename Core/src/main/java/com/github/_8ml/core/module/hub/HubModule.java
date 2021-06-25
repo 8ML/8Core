@@ -79,7 +79,7 @@ public class HubModule extends Module {
         float yaw = (float) confYML.getDouble("spawnpoint.yaw");
         float pitch = (float) confYML.getDouble("spawnpoint.pitch");
 
-        ServerConfig.spawnPoint = new Location(Bukkit.getWorld(WORLD_NAME), x, y, z, yaw, pitch);
+        ServerConfig.SPAWN_POINT.setValue(new Location(Bukkit.getWorld(WORLD_NAME), x, y, z, yaw, pitch));
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.Core;
 import com.github._8ml.core.events.event.UpdateEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -107,6 +108,35 @@ public class ScoreBoard implements Listener {
         Objective objective = board.getObjective("8Core");
         Assert.assertNotNull("Objective cannot be null! (updateScoreboard)", objective);
         objective.setDisplayName(frame);
+
+    }
+
+    public static String[] animateString(String str) {
+        int[] frames = new int[2];
+        List<String> framesList = new ArrayList<>();
+
+        for (int i = 0; i < 50; i++) {
+
+            frames[0]++;
+            if (frames[0] > 10) {
+                frames[0] = 0;
+                frames[1]++;
+            }
+
+            ChatColor color;
+
+            try {
+                color = frames[0] % frames[1] == 3 ? ChatColor.LIGHT_PURPLE
+                        : ChatColor.WHITE;
+            } catch (ArithmeticException e) {
+                color = ChatColor.LIGHT_PURPLE;
+            }
+
+            framesList.add(color + "" + ChatColor.BOLD +  str.toUpperCase());
+
+        }
+
+        return framesList.toArray(new String[framesList.size() - 1]);
 
     }
 

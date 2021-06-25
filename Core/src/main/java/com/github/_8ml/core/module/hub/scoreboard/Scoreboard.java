@@ -4,6 +4,8 @@ Created by @8ML (https://github.com/8ML) on 5/24/2021
 */
 
 import com.github._8ml.core.config.MessageColor;
+import com.github._8ml.core.config.ServerConfig;
+import com.github._8ml.core.utils.ScoreBoard;
 import org.bukkit.ChatColor;
 import com.github._8ml.core.Core;
 
@@ -11,52 +13,7 @@ public class Scoreboard {
 
     public static void init() {
 
-        String[] frames = new String[]{ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-
-                ChatColor.WHITE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.WHITE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.WHITE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.WHITE + "" + ChatColor.BOLD + "8CORE",
-
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-
-                ChatColor.WHITE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.WHITE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.WHITE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.WHITE + "" + ChatColor.BOLD + "8CORE",
-
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-                ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "8CORE",
-        };
+        String[] frames = ScoreBoard.animateString(ServerConfig.SERVER_NAME.toString());
 
         Core.instance.scoreBoard.setScoreboard(frames,
                 new String[]{

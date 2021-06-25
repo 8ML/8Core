@@ -20,11 +20,11 @@ public class StringUtils {
      */
     public static String getWithPlaceholders(MPlayer player, String str) {
         return ChatColor.translateAlternateColorCodes('&', str
-                .replaceAll("%networkName%", ServerConfig.serverName)
-                .replaceAll("%networkDomain%", ServerConfig.serverDomain)
-                .replaceAll("%networkStoreDomain%", ServerConfig.serverStoreDomain)
-                .replaceAll("%networkAppealDomain%", ServerConfig.serverAppealDomain)
-                .replaceAll("%discordLink%", ServerConfig.serverDiscordLink)
+                .replaceAll("%networkName%", ServerConfig.SERVER_NAME.toString())
+                .replaceAll("%networkDomain%", ServerConfig.SERVER_DOMAIN.toString())
+                .replaceAll("%networkStoreDomain%", ServerConfig.SERVER_STORE_DOMAIN.toString())
+                .replaceAll("%networkAppealDomain%", ServerConfig.SERVER_APPEAL_DOMAIN.toString())
+                .replaceAll("%discordLink%", ServerConfig.SERVER_DISCORD_LINK.toString())
                 .replaceAll("%player%", player.getPlayerStr())
                 .replaceAll("%onlineServer%", String.valueOf(Core.onlinePlayers.size()))
                 .replaceAll("%onlineBungee%", String.valueOf(Core.instance.pluginMessenger.getBungeeCount()))

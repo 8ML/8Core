@@ -23,6 +23,6 @@ public class EACMD extends CMD {
 
         ea = !ea;
         Messages.sendSuccessMessage(paramPlayer);
-        paramPlayer.sendMessage(MessageColor.COLOR_MAIN + "Explosive Arrows is now set to " + ChatColor.AQUA + String.valueOf(ea));
+        paramPlayer.sendMessage(MessageColor.COLOR_MAIN + "Explosive Arrows is now set to " + ChatColor.AQUA + ea);
     }
 }

@@ -12,7 +12,7 @@ public class Owner extends Rank {
     public Owner() {
         super("Owner", "Owner", 100.0D);
         setColor(ChatColor.DARK_RED, ChatColor.DARK_RED);
-        setDescription("Owners are the founders of " + ServerConfig.serverName + ",\n" +
+        setDescription("Owners are the founders of " + ServerConfig.SERVER_NAME + ",\n" +
                        "managing all aspects of the network\n" +
                        "and ensuring its efficient operation.");
     }

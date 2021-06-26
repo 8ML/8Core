@@ -5,7 +5,6 @@ Created by @8ML (https://github.com/8ML) on June 24 2021
 
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.ServerConfig;
-import com.github._8ml.core.module.hub.HubModule;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

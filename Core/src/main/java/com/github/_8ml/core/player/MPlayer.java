@@ -32,7 +32,8 @@ public class MPlayer {
                     ", `xp` INT NOT NULL" +
                     ", `coins` INT NOT NULL" +
                     ", `firstJoin` BIGINT NOT NULL" +
-                    ", `signature` MEDIUMTEXT)");
+                    ", `signature` MEDIUMTEXT" +
+                    ", `vanished` BIT NOT NULL)");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,6 +52,7 @@ public class MPlayer {
     private int xp;
     private long firstJoin;
     private String signature;
+    private boolean vanished;
 
     private String UUID;
 
@@ -118,7 +120,7 @@ public class MPlayer {
             ResultSet rs = checkStmt.executeQuery();
             if (!rs.next()) {
                 PreparedStatement createUser = sql.preparedStatement("INSERT INTO users" +
-                        " (`uuid`, `playerName`, `rank`, `xp`, `coins`, `firstJoin`, `signature`) VALUES (?,?,?,?,?,?,?)");
+                        " (`uuid`, `playerName`, `rank`, `xp`, `coins`, `firstJoin`, `signature`, `vanished`) VALUES (?,?,?,?,?,?,?,?)");
                 createUser.setString(1, this.getUUID());
                 createUser.setString(2, player);
                 createUser.setString(3, Ranks.DEFAULT.toString());
@@ -126,6 +128,7 @@ public class MPlayer {
                 createUser.setInt(5, 0);
                 createUser.setLong(6, System.currentTimeMillis());
                 createUser.setString(7, "");
+                createUser.setBoolean(8, false);
                 try {
                     createUser.execute();
                 } finally {
@@ -137,6 +140,7 @@ public class MPlayer {
                 this.coins = rs.getInt("coins");
                 this.firstJoin = rs.getLong("firstJoin");
                 this.signature = ChatColor.translateAlternateColorCodes('&', rs.getString("signature"));
+                this.vanished = rs.getBoolean("vanished");
             }
 
             sql.closeConnection(checkStmt);
@@ -144,6 +148,16 @@ public class MPlayer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void vanish() {
+        set("vanished", true);
+        VanishManager.hidePlayer(getPlayer());
+    }
+
+    public void unVanish() {
+        set("vanished", false);
+        VanishManager.unHidePlayer(getPlayer());
     }
 
     public void setRank(Ranks ranks) {
@@ -162,14 +176,18 @@ public class MPlayer {
 
     }
 
-    private void set(String column, String value) {
+    private void set(String column, Object value) {
 
         if (!exists) return;
 
         try {
 
             PreparedStatement st = sql.preparedStatement("UPDATE users SET `" + column + "`=? WHERE `uuid`=?");
-            st.setString(1, value);
+            if (value instanceof Boolean) {
+                st.setBoolean(1, (boolean) value);
+            } else {
+                st.setString(1, value.toString());
+            }
             st.setString(2, this.UUID);
 
             try {
@@ -239,6 +257,10 @@ public class MPlayer {
 
     public boolean exists() {
         return this.exists;
+    }
+
+    public boolean isVanished() {
+        return this.vanished;
     }
 
     public static void registerMPlayer(String player) {

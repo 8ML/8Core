@@ -1,5 +1,5 @@
-header: '&fWelcome to &d%networkName%'
-footer: '&fCheck &9&l%networkStoreDomain% &ffor cool perks!'
+header: '&f&lWelcome to &d&l%networkName%'
+footer: '&fVisit &9&l%networkStoreDomain% &ffor cool perks!'
 
 #
 # Placeholders:

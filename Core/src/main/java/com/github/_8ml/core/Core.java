@@ -22,6 +22,7 @@ import com.github._8ml.core.events.CommandEvent;
 import com.github._8ml.core.events.FunEvent;
 import com.github._8ml.core.events.common.JoinEvent;
 import com.github._8ml.core.events.common.LeaveEvent;
+import com.github._8ml.core.events.event.ServerShutDownEvent;
 import com.github._8ml.core.events.event.UpdateEvent;
 import com.github._8ml.core.exceptions.ModuleNotFoundException;
 import com.github._8ml.core.module.Module;
@@ -35,6 +36,7 @@ import com.github._8ml.core.storage.file.PluginFile;
 import com.github._8ml.core.utils.*;
 import com.github._8ml.core.world.MapExtract;
 import com.github._8ml.core.module.hub.HubModule;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -196,6 +198,7 @@ public class Core extends JavaPlugin implements ConfigurationReload {
 
     @Override
     public void onDisable() {
+        Bukkit.getServer().getPluginManager().callEvent(new ServerShutDownEvent());
         mapExtractor.load();
         if (Module.getEnabledModule() != null)
             Module.getEnabledModule().disableModule();

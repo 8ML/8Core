@@ -23,16 +23,16 @@ public enum Cosmetics {
     FISH_BOWL_HAT(FishBowlHat.class);
 
 
-    private final Class<?> cosmeticClass;
+    private final Class<? extends Cosmetic> cosmeticClass;
     private Cosmetic cosmetic;
 
-    Cosmetics(Class<?> cosmeticClass) {
+    Cosmetics(Class<? extends Cosmetic> cosmeticClass) {
         this.cosmeticClass = cosmeticClass;
     }
 
     public void register(CosmeticManager instance) {
         try {
-            Cosmetic cosmetic = (Cosmetic) cosmeticClass.newInstance();
+            Cosmetic cosmetic = cosmeticClass.newInstance();
             instance.registerCosmetic(cosmetic);
             this.cosmetic = cosmetic;
 
@@ -41,7 +41,7 @@ public enum Cosmetics {
         }
     }
 
-    public Class<?> getCosmeticClass() {
+    public Class<? extends Cosmetic> getCosmeticClass() {
         return cosmeticClass;
     }
 

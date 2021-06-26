@@ -24,6 +24,7 @@ public class ScoreBoard implements Listener {
     private String[] values;
 
     private final Set<Player> scoreboardSet = new HashSet<>();
+    private final Map<String, String> customPlaceholders = new HashMap<>();
 
     public ScoreBoard(Core plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -66,7 +67,7 @@ public class ScoreBoard implements Listener {
             Assert.assertNotNull("Team cannot be null! (setScoreboard)", team);
 
             team.addEntry(obj);
-            team.setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value));
+            team.setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value, customPlaceholders));
             objective.getScore(obj).setScore(s);
 
             s++;
@@ -82,6 +83,10 @@ public class ScoreBoard implements Listener {
         this.scoreboardSet.add(player);
 
 
+    }
+
+    public void addCustomPlaceholder(String placeholder, String value) {
+        this.customPlaceholders.put(placeholder, value);
     }
 
     private final Map<Player, Integer> previousFrameIndex = new HashMap<>();

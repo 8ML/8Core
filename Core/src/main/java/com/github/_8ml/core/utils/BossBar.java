@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
+import org.bukkit.entity.Boss;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,18 +28,18 @@ public class BossBar implements Listener {
 
     public static void sendMessage(String msg, BarColor color) {
 
-        Set<org.bukkit.boss.BossBar> toRemove = new HashSet<>();
-
         if (!bossBars.isEmpty()) {
-            for (org.bukkit.boss.BossBar bar : bossBars) {
+
+            Iterator<org.bukkit.boss.BossBar> it = bossBars.iterator();
+
+            while(it.hasNext()) {
+                org.bukkit.boss.BossBar bar = it.next();
                 bar.setVisible(!bar.isVisible());
-                toRemove.add(bar);
+                it.remove();
             }
+
         }
 
-        for (org.bukkit.boss.BossBar remove : toRemove) {
-            bossBars.remove(remove);
-        }
 
         org.bukkit.boss.BossBar bossBar = Bukkit.createBossBar(
                 msg, color, BarStyle.SOLID
@@ -63,23 +64,18 @@ public class BossBar implements Listener {
 
         if (e.getType().equals(UpdateEvent.UpdateType.SECONDS)) {
 
-            Set<org.bukkit.boss.BossBar> toRemove = new HashSet<>();
+            Iterator<org.bukkit.boss.BossBar> it = bossBarTimer.keySet().iterator();
 
-            for (org.bukkit.boss.BossBar bars : bossBarTimer.keySet()) {
-
+            while(it.hasNext()) {
+                org.bukkit.boss.BossBar bars = it.next();
                 if (bossBarTimer.get(bars) <= System.currentTimeMillis()) {
 
                     bars.setVisible(false);
                     bossBars.remove(bars);
 
-                    toRemove.add(bars);
+                    it.remove();
 
                 }
-
-            }
-
-            for (org.bukkit.boss.BossBar bars : toRemove) {
-                bossBarTimer.remove(bars);
             }
 
         }

@@ -15,17 +15,17 @@ public enum Ranks {
     ADMIN(Admin.class),
     OWNER(Owner.class);
 
-    private final Class<?> rankClass;
+    private final Class<? extends Rank> rankClass;
     private Rank rank;
 
-    Ranks(Class<?> rank) {
+    Ranks(Class<? extends Rank> rank) {
         this.rankClass = rank;
     }
 
     public void register() {
         try {
 
-            this.rank = (Rank) this.rankClass.newInstance();
+            this.rank = this.rankClass.newInstance();
 
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();

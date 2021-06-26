@@ -10,6 +10,8 @@ import com.github._8ml.core.player.level.Level;
 import com.github._8ml.core.Core;
 import org.bukkit.ChatColor;
 
+import java.util.Map;
+
 public class StringUtils {
 
 
@@ -35,6 +37,22 @@ public class StringUtils {
                 .replaceAll("%playerLevel%", String.valueOf((int) Level.getLevelFromXP(player.getXP(), false)))
                 .replaceAll("%playerXP%", String.valueOf(player.getXP()))
                 .replaceAll(":nl:", "\n"));
+    }
+
+
+    /**
+     *
+     * @param player Player to get the placeholders from
+     * @param str String to replace placeholders in
+     * @param extraPlaceholders Extra placeholders
+     * @return String with the placeholders replaced with player info, server info and extra placeholders
+     */
+    public static String getWithPlaceholders(MPlayer player, String str, Map<String, String> extraPlaceholders) {
+        String withPlaceholders = getWithPlaceholders(player, str);
+        for (String key : extraPlaceholders.keySet()) {
+            withPlaceholders = withPlaceholders.replaceAll(key, extraPlaceholders.get(key));
+        }
+        return withPlaceholders;
     }
 
 

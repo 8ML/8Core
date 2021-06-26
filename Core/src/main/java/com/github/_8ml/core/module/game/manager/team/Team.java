@@ -14,6 +14,7 @@ import java.util.List;
 public class Team {
 
     private final List<GamePlayer> players = new LinkedList<>();
+    private final List<GamePlayer> playersInGame = new LinkedList<>();
 
     private final String name;
     private final ChatColor color;
@@ -29,22 +30,34 @@ public class Team {
     public boolean add(GamePlayer player) {
         if (players.size() >= this.maxPlayers) return false;
         players.add(player);
+        playersInGame.add(player);
         return true;
     }
 
     public void remove(GamePlayer player) {
         players.remove(player);
+        playersInGame.remove(player);
+    }
+
+    public void playerOut(GamePlayer player) {
+        playersInGame.remove(player);
+    }
+
+    public void reset() {
+        for (GamePlayer player : players) {
+            if (!playersInGame.contains(player)) playersInGame.add(player);
+        }
     }
 
     public void win(Game game) {
 
         for (GamePlayer teamPlayer : this.players) {
 
-            teamPlayer.getPlayer().getPlayer().sendMessage(
+            teamPlayer.getPlayer().sendMessage(
                     ChatColor.GREEN + "" + ChatColor.BOLD + "VICTORY!\n\n"
                     + this.color + this.name + " Team wins!"
             );
-            Coin.addCoins(teamPlayer.getPlayer(), game.getWinningCoins(), true);
+            Coin.addCoins(teamPlayer.getMPlayer(), game.getWinningCoins(), true);
 
         }
 
@@ -54,7 +67,7 @@ public class Team {
 
         for (GamePlayer teamPlayer : this.players) {
 
-            teamPlayer.getPlayer().getPlayer().sendMessage(
+            teamPlayer.getPlayer().sendMessage(
                     ChatColor.RED + "" + ChatColor.BOLD + "GAME OVER!\n\n"
                             + winner.getColor() + winner.getName() + " Team wins!"
             );
@@ -81,5 +94,9 @@ public class Team {
 
     public List<GamePlayer> getPlayers() {
         return players;
+    }
+
+    public List<GamePlayer> getPlayersInGame() {
+        return playersInGame;
     }
 }

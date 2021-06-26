@@ -22,7 +22,7 @@
 
 Please note that this repository is intended for developers and the customization by file is limited.
 
-What can be customized by file?
+List of what can be customized by config file:
 - Server Info (Name, Domains)
 - Primary Colors
 - Tablist in Hub

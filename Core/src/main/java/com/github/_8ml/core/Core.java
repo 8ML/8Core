@@ -26,6 +26,7 @@ import com.github._8ml.core.events.event.ServerShutDownEvent;
 import com.github._8ml.core.events.event.UpdateEvent;
 import com.github._8ml.core.exceptions.ModuleNotFoundException;
 import com.github._8ml.core.module.Module;
+import com.github._8ml.core.module.build.BuildModule;
 import com.github._8ml.core.module.game.GameModule;
 import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.achievement.achievements.ChatAchievement;
@@ -150,6 +151,7 @@ public class Core extends JavaPlugin implements ConfigurationReload {
     private void registerModules() {
         Module.registerModule(new HubModule());
         Module.registerModule(new GameModule());
+        Module.registerModule(new BuildModule());
     }
 
     @Override

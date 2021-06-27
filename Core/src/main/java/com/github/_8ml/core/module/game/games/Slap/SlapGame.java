@@ -11,6 +11,7 @@ import com.github._8ml.core.module.game.manager.kit.Kit;
 import com.github._8ml.core.module.game.manager.map.Map;
 import com.github._8ml.core.module.game.manager.player.GamePlayer;
 import com.github._8ml.core.module.game.manager.team.Team;
+import com.github._8ml.core.utils.DeveloperMode;
 import com.github._8ml.core.utils.ScoreBoard;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -43,9 +44,11 @@ public class SlapGame extends Game {
         List<GamePlayer> players = player.getTeam().getPlayers();
         Map map = getMap();
 
-        Location location = map.getLocation(
-                player.getTeam().getName().toLowerCase() + "-spawn-" + players.indexOf(player) + 1
-        );
+        String key = player.getTeam().getName().toLowerCase() + "-spawn-" + (players.indexOf(player) + 1);
+
+        DeveloperMode.log("Location Key: " + key);
+
+        Location location = map.getLocation(key);
 
         player.getPlayer().teleport(location);
     }

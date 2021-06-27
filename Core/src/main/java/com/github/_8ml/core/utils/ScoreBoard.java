@@ -101,7 +101,7 @@ public class ScoreBoard implements Listener {
 
             Assert.assertNotNull("Team cannot be null! (updateScoreboard)", board.getTeam("board::" + Arrays.asList(objects).indexOf(obj)));
             Objects.requireNonNull(board.getTeam("board::" + Arrays.asList(objects).indexOf(obj)))
-                    .setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value));
+                    .setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value, customPlaceholders));
 
         }
 

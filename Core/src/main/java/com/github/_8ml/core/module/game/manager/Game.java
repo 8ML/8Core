@@ -11,22 +11,26 @@ import com.github._8ml.core.events.event.UpdateEvent;
 import com.github._8ml.core.module.game.exceptions.GameInitializationException;
 import com.github._8ml.core.module.game.manager.kit.Kit;
 import com.github._8ml.core.module.game.manager.map.Map;
+import com.github._8ml.core.module.game.manager.map.Maps;
 import com.github._8ml.core.module.game.manager.player.GamePlayer;
 import com.github._8ml.core.module.game.manager.team.Team;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.currency.Coin;
+import com.github._8ml.core.player.hierarchy.Ranks;
 import com.github._8ml.core.purchase.Purchase;
 import com.github._8ml.core.ui.PromptGUI;
 import com.github._8ml.core.ui.component.Component;
 import com.github._8ml.core.ui.component.components.Button;
+import com.github._8ml.core.utils.DeveloperMode;
 import com.github._8ml.core.utils.InteractItem;
+import com.github._8ml.core.utils.NameTag;
 import com.github._8ml.core.utils.ScoreBoard;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -66,7 +70,10 @@ public abstract class Game implements Listener {
     private int startingCountdown;
     private String customKillMessage;
 
-    private InteractItem[] item = new InteractItem[1];
+    protected boolean canBreakBlocks;
+    protected boolean canPlaceBlocks;
+
+    private final InteractItem[] item = new InteractItem[1];
 
     public Game(String name, Team[] teams, Kit[] kits, int winningCoins, int killCoins)
             throws GameInitializationException {
@@ -95,6 +102,12 @@ public abstract class Game implements Listener {
 
         setScoreBoard();
         kitSelector();
+
+        if (Maps.getLoadedMaps().size() != 0) {
+            this.map = Maps.getLoadedMaps().get(0);
+        }
+
+        this.state = GameState.WAITING;
     }
 
     public Game(String name, Kit[] kits, int minPlayers, int maxPlayers, int winningCoins, int killCoins)
@@ -119,6 +132,12 @@ public abstract class Game implements Listener {
 
         setScoreBoard();
         kitSelector();
+
+        if (Maps.getLoadedMaps().size() != 0) {
+            this.map = Maps.getLoadedMaps().get(0);
+        }
+
+        this.state = GameState.WAITING;
     }
 
     protected abstract void onStart();
@@ -146,27 +165,27 @@ public abstract class Game implements Listener {
 
     private void setScoreBoard() {
         scoreBoard.setScoreboard(
-                new String[]{this.name.toUpperCase()},
+                new String[]{ChatColor.BLUE + "" + ChatColor.BOLD + this.name.toUpperCase()},
                 new String[]{
-                        ChatColor.GRAY +"",
-                        ChatColor.WHITE + "Players: ",
-                        ChatColor.GRAY + "" + ChatColor.BOLD,
-                        ChatColor.AQUA + "",
-                        ChatColor.AQUA + "" + ChatColor.BOLD,
+                        ChatColor.WHITE + ServerConfig.SERVER_DOMAIN.toString(),
+                        ChatColor.GRAY + "",
                         ChatColor.WHITE + "Map: ",
-                        ChatColor.YELLOW + "",
-                        ChatColor.WHITE + ServerConfig.SERVER_DOMAIN.toString()
+                        ChatColor.DARK_GREEN + "" + ChatColor.BOLD,
+                        ChatColor.AQUA + "" + ChatColor.BOLD,
+                        ChatColor.GRAY + "" + ChatColor.BOLD,
+                        ChatColor.WHITE + "Players: ",
+                        ChatColor.GREEN + "",
 
                 },
                 new String[]{
                         "",
-                        ChatColor.AQUA + "%players%" + ChatColor.GRAY + "/%maxPlayers%",
-                        "",
-                        "%startingInfo%",
                         "",
                         ChatColor.GRAY + "%mapName%",
                         "",
-                        ""
+                        "%startingInfo%",
+                        "",
+                        ChatColor.AQUA + "%players%" + ChatColor.GRAY + "/%maxPlayers%",
+                        "",
 
 
                 }
@@ -184,8 +203,8 @@ public abstract class Game implements Listener {
         scoreBoard.addCustomPlaceholder("%startingIn%", String.valueOf(this.startingCountdown));
         scoreBoard.addCustomPlaceholder("%mapName%", map.getName());
         scoreBoard.addCustomPlaceholder("%startingInfo%", isStarting
-                ? "Starting in " + ChatColor.GREEN + "0:%startingIn%" + ChatColor.WHITE + " to"
-                : "Not enough players to start");
+                ? "Starting in " + ChatColor.GREEN + "0:%startingIn%"
+                : "Not enough players");
     }
 
     protected void kitSelector() {
@@ -215,7 +234,7 @@ public abstract class Game implements Listener {
                             button.setLore(new String[]{
                                     " ",
                                     purchased ? ChatColor.GREEN + "Owned"
-                                            : ChatColor.WHITE + "Price: " + ChatColor.GOLD +  kit.getPrice() + " coins"
+                                            : ChatColor.WHITE + "Price: " + ChatColor.GOLD + kit.getPrice() + " coins"
                             });
 
                             button.setOnClick(() -> {
@@ -321,11 +340,13 @@ public abstract class Game implements Listener {
 
             @Override
             public void run() {
-                state = GameState.WAITING;
-                teleport();
                 for (GamePlayer player : players) {
                     giveKitSelector(player);
+                    chooseTeam(player);
                 }
+                state = GameState.WAITING;
+                map = Maps.nextMap(map);
+                teleport();
             }
         }.runTaskLater(Core.instance, 20 * 10);
     }
@@ -337,8 +358,9 @@ public abstract class Game implements Listener {
 
     private void cancelCountdown() {
         this.startingCountdown = 0;
+        if (isStarting)
+            Bukkit.broadcastMessage(MessageColor.COLOR_ERROR + "Countdown cancelled due to not enough players");
         this.isStarting = false;
-        Bukkit.broadcastMessage(MessageColor.COLOR_ERROR + "Countdown cancelled due to not enough players");
     }
 
     protected void playerOut(GamePlayer player) {
@@ -346,7 +368,7 @@ public abstract class Game implements Listener {
         player.getTeam().playerOut(player);
         players.remove(player);
         player.getPlayer().sendTitle(MessageColor.COLOR_ERROR + "" + ChatColor.BOLD + "YOU DIED!",
-                ChatColor.WHITE+ "You are now a spectator!",
+                ChatColor.WHITE + "You are now a spectator!",
                 1, 60, 1);
     }
 
@@ -358,6 +380,23 @@ public abstract class Game implements Listener {
         }
     }
 
+    private Iterator<Team> teamIterator;
+
+    public void chooseTeam(GamePlayer player) {
+
+        if (teamIterator == null) {
+            teamIterator = Iterators.cycle(teams);
+        }
+
+        Team team = teamIterator.next();
+        if (team.getPlayers().size() >= team.getMaxPlayers()) team = teamIterator.next();
+
+        team.add(player);
+        player.setTeam(team);
+
+        NameTag.changeTag(player.getPlayer(), "", "", player.getTeam().getColor(), "");
+    }
+
     /*
     Events
      */
@@ -366,6 +405,10 @@ public abstract class Game implements Listener {
     public void onJoin(PlayerJoinEvent e) {
 
         if (MPlayer.getMPlayer(e.getPlayer().getName()).isVanished()) return;
+        if (Maps.getLoadedMaps().size() == 0) return;
+
+        e.getPlayer().getInventory().clear();
+        e.getPlayer().setGameMode(GameMode.SURVIVAL);
 
         scoreBoard.setScoreboard(e.getPlayer());
 
@@ -373,21 +416,18 @@ public abstract class Game implements Listener {
         player.setGame(this);
         giveKitSelector(player);
 
+        players.add(player);
+        gamePlayerMap.put(e.getPlayer(), player);
+
+        chooseTeam(player);
+
         Bukkit.broadcastMessage((teams.length == 0 ? ChatColor.GRAY :
                 player.getTeam().getColor()) + e.getPlayer().getName() + ChatColor.GOLD + " joined the game!"
-                + ChatColor.YELLOW + "("
+                + ChatColor.YELLOW + " ("
                 + ChatColor.AQUA + players.size() + ChatColor.YELLOW
                 + "/" + ChatColor.AQUA + maxPlayers + ChatColor.YELLOW + ")");
 
-        int index = -1;
-        List<Team> teamsList = new ArrayList<>();
-        for (Team team : teams) {
-            if (teamsList.indexOf(team) <= index) continue;
-            if (team.getPlayers().size() >= team.getMaxPlayers()) continue;
-            team.add(player);
-            index = index >= teamsList.size() - 1 ? -1 : index + 1;
-        }
-
+        teleport();
 
         onJoin(player);
 
@@ -396,13 +436,10 @@ public abstract class Game implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
 
-        GamePlayer player = getGamePlayer(e.getPlayer());
+        if (MPlayer.getMPlayer(e.getPlayer().getName()).isVanished()) return;
+        if (Maps.getLoadedMaps().size() == 0) return;
 
-        Bukkit.broadcastMessage((teams.length == 0 ? ChatColor.GRAY :
-                player.getTeam().getColor()) + e.getPlayer().getName() + ChatColor.GOLD + " left the game!"
-                + (this.state.equals(GameState.WAITING) ? ChatColor.YELLOW + "("
-                + ChatColor.AQUA + players.size() + ChatColor.YELLOW
-                + "/" + ChatColor.AQUA + maxPlayers + ChatColor.YELLOW + ")" : ""));
+        GamePlayer player = getGamePlayer(e.getPlayer());
 
 
         if (teams.length != 0) {
@@ -431,6 +468,12 @@ public abstract class Game implements Listener {
             }
         }
 
+        Bukkit.broadcastMessage((teams.length == 0 ? ChatColor.GRAY :
+                player.getTeam().getColor()) + e.getPlayer().getName() + ChatColor.GOLD + " left the game!"
+                + (this.state.equals(GameState.WAITING) ? ChatColor.YELLOW + " ("
+                + ChatColor.AQUA + players.size() + ChatColor.YELLOW
+                + "/" + ChatColor.AQUA + maxPlayers + ChatColor.YELLOW + ")" : ""));
+
         onLeave(player);
 
     }
@@ -438,7 +481,14 @@ public abstract class Game implements Listener {
     @EventHandler
     public void onConnect(PlayerLoginEvent e) {
 
-        if (MPlayer.getMPlayer(e.getPlayer().getName()).isVanished()) return;
+        MPlayer player = MPlayer.getMPlayer(e.getPlayer().getName());
+
+        if (Maps.getLoadedMaps().size() == 0) {
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, MessageColor.COLOR_ERROR + "Game server is currently not available!");
+            return;
+        }
+
+        if (player.isVanished()) return;
 
         if (Bukkit.getOnlinePlayers().size() >= maxPlayers) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, MessageColor.COLOR_ERROR + "Game is full!");
@@ -449,9 +499,15 @@ public abstract class Game implements Listener {
     public void onUpdate(UpdateEvent e) {
 
         if (players.size() == 0) return;
+        if (Maps.getLoadedMaps().size() == 0) return;
+
+        if (this.map == null) {
+            this.map = Maps.getLoadedMaps().get(0);
+        }
 
         if (e.getType().equals(UpdateEvent.UpdateType.TICK)) {
             onUpdate();
+            updateScoreboardPlaceholders();
         }
         if (e.getType().equals(UpdateEvent.UpdateType.SECONDS)) {
 
@@ -481,7 +537,6 @@ public abstract class Game implements Listener {
             }
 
             if (this.state.equals(GameState.IN_GAME)) {
-                updateScoreboardPlaceholders();
                 updateScoreboard();
             }
 
@@ -506,12 +561,38 @@ public abstract class Game implements Listener {
 
     @EventHandler
     public void onBlockChangePlaced(BlockPlaceEvent e) {
+
+        if (this.state.equals(GameState.WAITING) || this.state.equals(GameState.ENDING)) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (this.canPlaceBlocks) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (Maps.getLoadedMaps().size() == 0) return;
+
         if (map.blockData.containsKey(e.getBlock())) return;
         map.blockData.put(e.getBlock(), e.getBlock().getType());
     }
 
     @EventHandler
     public void onBlockChangeBreak(BlockBreakEvent e) {
+
+        if (this.state.equals(GameState.WAITING) || this.state.equals(GameState.ENDING)) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (this.canBreakBlocks) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (Maps.getLoadedMaps().size() == 0) return;
+
         if (map.blockData.containsKey(e.getBlock())) return;
         map.blockData.put(e.getBlock(), e.getBlock().getType());
     }
@@ -521,13 +602,25 @@ public abstract class Game implements Listener {
         map.resetBlockData();
     }
 
+    private final java.util.Map<Player, Location> prevLocation = new HashMap<>();
+
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
+
+        if (Maps.getLoadedMaps().size() == 0) return;
 
         if (MPlayer.getMPlayer(e.getPlayer().getName()).isVanished()) return;
 
         if (this.state.equals(GameState.WAITING)) {
-            e.getPlayer().teleport(e.getFrom());
+
+            if (prevLocation.containsKey(e.getPlayer())) {
+                if (Math.floor(e.getPlayer().getLocation().getX()) != Math.floor(prevLocation.get(e.getPlayer()).getX())
+                        || Math.floor(e.getPlayer().getLocation().getZ()) != Math.floor(prevLocation.get(e.getPlayer()).getZ())) {
+                    e.getPlayer().teleport(prevLocation.get(e.getPlayer()));
+                }
+            } else {
+                prevLocation.put(e.getPlayer(), e.getPlayer().getLocation());
+            }
         }
     }
 

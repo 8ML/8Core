@@ -12,7 +12,7 @@
 - Report System
 - Module System:
    - Hub Module:
-      - CosmeticsAPI
+      - Cosmetics API
       - Join Items
    - Game Module (TODO):
       - Minigame API

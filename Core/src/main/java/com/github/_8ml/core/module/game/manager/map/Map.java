@@ -5,16 +5,19 @@ Created by @8ML (https://github.com/8ML) on June 25 2021
 
 import com.github._8ml.core.Core;
 import com.github._8ml.core.storage.SQL;
+import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Properties;
 
 public class Map {
@@ -24,9 +27,9 @@ public class Map {
 
             Core.instance.sql.createTable("CREATE TABLE IF NOT EXISTS mapInfo (`id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL" +
                     ", `name` VARCHAR(255) NOT NULL" +
-                    ", `authors`, TEXT NOT NULL" +
-                    ", `locations`, TEXT NOT NULL" +
-                    ", `extras`, TEXT NOT NULL)");
+                    ", `authors` TEXT NOT NULL" +
+                    ", `locations` TEXT NOT NULL" +
+                    ", `extras` TEXT NOT NULL)");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,6 +57,7 @@ public class Map {
 
     public boolean load() {
 
+
         for (World world : Bukkit.getWorlds()) {
             if (world.getName().equalsIgnoreCase(worldName)) {
 
@@ -62,14 +66,20 @@ public class Map {
                     File file = new File(world.getWorldFolder().getAbsolutePath()
                             + File.separator + "map.properties");
 
-                    if (!file.exists()) return false;
+                    if (!file.exists()) {
+                        DeveloperMode.log(world.getName() + ": does not contain map.properties file!");
+                        return false;
+                    }
 
                     FileInputStream stream = new FileInputStream(file);
 
                     mapProperties = new Properties();
                     mapProperties.load(stream);
 
-                    if (!mapProperties.containsKey("map-name") || !mapProperties.containsKey("authors")) return false;
+                    if (!mapProperties.containsKey("map-name") || !mapProperties.containsKey("authors")) {
+                        DeveloperMode.log(world.getName() + ": Invalid map properties! missing map-name or authors");
+                        return false;
+                    }
 
                     this.name = mapProperties.getProperty("map-name");
                     this.authors = mapProperties.getProperty("authors").split(",");
@@ -99,9 +109,9 @@ public class Map {
                             int minX = chunk.getX() << 4;
                             int minZ = chunk.getZ() << 4;
 
-                            int maxX = 15 | minX;
+                            int maxX = 15;
                             int maxY = chunk.getWorld().getMaxHeight();
-                            int maxZ = 15 | minZ;
+                            int maxZ = 15;
 
                             for (int xx = minX; xx < maxX; xx++) {
                                 for (int yy = 0; yy < maxY; yy++) {
@@ -111,7 +121,7 @@ public class Map {
                                         if (block.getType().equals(Material.OAK_SIGN)) {
 
                                             Sign sign = (Sign) block;
-                                            if (sign.getLine(0).equalsIgnoreCase("[MAP-INFO]")) {
+                                            if (sign.getLine(0).equalsIgnoreCase("[GAME-INFO]")) {
 
                                                 String key = sign.getLine(1);
                                                 String extraValue = "";
@@ -125,6 +135,8 @@ public class Map {
                                                 }
 
                                                 sign.setType(Material.AIR);
+
+                                                DeveloperMode.log("Found sign with game-info!");
 
                                             }
 

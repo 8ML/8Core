@@ -91,6 +91,8 @@ public abstract class Game implements Listener {
 
         Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
 
+        this.scoreBoard = Core.instance.scoreBoard;
+
         setScoreBoard();
         kitSelector();
     }
@@ -112,6 +114,8 @@ public abstract class Game implements Listener {
         this.scoreBoard = Core.instance.scoreBoard;
 
         Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
+
+        this.scoreBoard = Core.instance.scoreBoard;
 
         setScoreBoard();
         kitSelector();
@@ -443,6 +447,9 @@ public abstract class Game implements Listener {
 
     @EventHandler
     public void onUpdate(UpdateEvent e) {
+
+        if (players.size() == 0) return;
+
         if (e.getType().equals(UpdateEvent.UpdateType.TICK)) {
             onUpdate();
         }

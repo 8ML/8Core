@@ -20,7 +20,7 @@
 
 8Core is easy for developers to build on, as all classes are well documented and easy to use.
 
-Please note that this repository is intended for developers and the customization by file is limited.
+Please note this repository is intended for developers and the customization by file is limited.
 
 Options that can be customized by config file:
 - Server Info (Name, Domains)

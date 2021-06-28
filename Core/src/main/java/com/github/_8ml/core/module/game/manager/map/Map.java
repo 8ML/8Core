@@ -14,15 +14,10 @@ import org.bukkit.block.Block;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
 
 public class Map {
-
-    private final static SQL sql = Core.instance.sql;
 
     private final World world;
 

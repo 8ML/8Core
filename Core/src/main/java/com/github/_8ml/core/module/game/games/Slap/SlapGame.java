@@ -38,6 +38,7 @@ public class SlapGame extends Game {
                         new DefaultKit()
                 }, 50, 5);
         setCustomKillMsg(ChatColor.YELLOW + " slapped ");
+        gameObjective = "First to 15 kills!";
     }
 
     public void teleportPlayer(GamePlayer player) {

@@ -70,6 +70,7 @@ public abstract class Game implements Listener {
     private int startingCountdown;
     private String customKillMessage;
 
+    protected String gameObjective;
     protected boolean canBreakBlocks;
     protected boolean canPlaceBlocks;
 
@@ -203,7 +204,7 @@ public abstract class Game implements Listener {
         scoreBoard.addCustomPlaceholder("%startingIn%", String.valueOf(this.startingCountdown));
         scoreBoard.addCustomPlaceholder("%mapName%", map.getName());
         scoreBoard.addCustomPlaceholder("%startingInfo%", isStarting
-                ? "Starting in " + ChatColor.GREEN + "0:%startingIn%"
+                ? "Starting in " + ChatColor.GREEN + "0:" + this.startingCountdown
                 : "Not enough players");
     }
 
@@ -276,6 +277,9 @@ public abstract class Game implements Listener {
                 player.setKit(kits[0]);
             }
             player.getKit().apply(player);
+            player.getPlayer().sendTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "GAME ON!",
+                    this.gameObjective != null ? this.gameObjective : "",
+                    1, 1, 1);
         }
 
         if (this.kits.length > 1) {

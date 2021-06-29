@@ -6,6 +6,7 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.hierarchy.Ranks;
+import javafx.fxml.Initializable;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class MPlayer {
@@ -73,7 +75,7 @@ public class MPlayer {
         this.player = player;
 
         if (!exists(player)) {
-            this.exists = true;
+            this.exists = false;
             this.isOffline = true;
         } else {
             try {
@@ -98,6 +100,7 @@ public class MPlayer {
             update();
 
         }
+
     }
 
     public MPlayer(MPlayer player) {
@@ -110,6 +113,32 @@ public class MPlayer {
         this.signature = player.signature;
         this.exists = player.exists;
         update();
+    }
+
+    public MPlayer(UUID uuid) {
+
+        boolean notExists = true;
+        String tmpName = "";
+
+        this.UUID = uuid.toString();
+        try {
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
+            st.setString(1, uuid.toString());
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+
+                tmpName = rs.getString("playerName");
+                notExists = false;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.exists = !notExists;
+        this.isOffline = exists && Bukkit.getOfflinePlayer(uuid).isOnline();
+        this.player = tmpName;
+
     }
 
     public void update() {
@@ -276,6 +305,10 @@ public class MPlayer {
     public static MPlayer getMPlayer(String player) {
         if (!playerMap.containsKey(player)) registerMPlayer(player);
         return playerMap.get(player);
+    }
+
+    public static MPlayer getMPlayer(java.util.UUID uuid) {
+        return new MPlayer(uuid);
     }
 
     public static void removeMPlayer(MPlayer player) {

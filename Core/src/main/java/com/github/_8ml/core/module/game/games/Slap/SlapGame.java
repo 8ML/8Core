@@ -75,28 +75,27 @@ public class SlapGame extends Game {
     protected void initScoreboard() {
 
         getScoreBoard().setScoreboard(
-                new String[]{ChatColor.GREEN + "SLAP"},
+                new String[]{ChatColor.GREEN + "" + ChatColor.BOLD + "SLAP"},
                 new String[]{
-                        ChatColor.GRAY + "",
-                        ChatColor.WHITE + "Scores:",
+                        ChatColor.WHITE + ServerConfig.SERVER_DOMAIN.toString(),
+                        ChatColor.WHITE + "",
+                        ChatColor.WHITE + "Your Kills: ",
+                        ChatColor.YELLOW + "" + ChatColor.BOLD,
                         ChatColor.BLUE + "Blue Team: ",
                         ChatColor.RED + "Red Team: ",
-                        ChatColor.GREEN + "",
-                        ChatColor.WHITE + "Your Kills: ",
-                        ChatColor.WHITE + "",
-                        ChatColor.WHITE + ServerConfig.SERVER_DOMAIN.toString()
+                        ChatColor.WHITE + "Scores:",
+                        ChatColor.AQUA + ""
                 },
                 new String[]{
                         "",
                         "",
-                        ChatColor.GRAY + "%blueKills%",
-                        ChatColor.GRAY + "%redKills%",
+                        "%playerKills%",
                         "",
-                        ChatColor.GRAY + "%playerKills%",
+                        "%blueKills%",
+                        "%redKills%",
                         "",
                         ""
                 }
-
         );
 
     }
@@ -110,7 +109,7 @@ public class SlapGame extends Game {
     protected void updateBoardPlaceholders() {
         ScoreBoard sb = getScoreBoard();
         for (GamePlayer player : getPlayers()) {
-            sb.addCustomPlaceholder("%playerKills%", String.valueOf(playerKills.get(player)));
+            sb.addCustomPlaceholder("%playerKills%", String.valueOf(playerKills.get(player)), player.getPlayer());
         }
         sb.addCustomPlaceholder("%blueKills%", String.valueOf(blueKills));
         sb.addCustomPlaceholder("%redKills%", String.valueOf(redKills));

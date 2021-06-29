@@ -25,6 +25,7 @@ public class ScoreBoard implements Listener {
 
     private final Set<Player> scoreboardSet = new HashSet<>();
     private final Map<String, String> customPlaceholders = new HashMap<>();
+    private final Map<Player, Map<String, String>> customPlaceholdersPlayer = new HashMap<>();
 
     public ScoreBoard(Core plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -66,8 +67,11 @@ public class ScoreBoard implements Listener {
 
             Assert.assertNotNull("Team cannot be null! (setScoreboard)", team);
 
+            Map<String, String> customPlayerPlaceholder = customPlaceholdersPlayer.getOrDefault(player, Collections.emptyMap());
+
             team.addEntry(obj);
-            team.setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value, customPlaceholders));
+            team.setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value,
+                    Arrays.asList(customPlayerPlaceholder, customPlaceholders)));
             objective.getScore(obj).setScore(s);
 
             s++;
@@ -89,6 +93,13 @@ public class ScoreBoard implements Listener {
         this.customPlaceholders.put(placeholder, value);
     }
 
+    public void addCustomPlaceholder(String placeholder, String value, Player player) {
+        Map<String, String> map = customPlaceholdersPlayer.containsKey(player)
+                ? customPlaceholdersPlayer.get(player) : new HashMap<>();
+        map.put(placeholder, value);
+        customPlaceholdersPlayer.put(player, map);
+    }
+
     private final Map<Player, Integer> previousFrameIndex = new HashMap<>();
 
     private void updateScoreboard(Player player) {
@@ -99,9 +110,12 @@ public class ScoreBoard implements Listener {
 
             String value = values[Arrays.asList(objects).indexOf(obj)];
 
+            Map<String, String> customPlayerPlaceholder = customPlaceholdersPlayer.getOrDefault(player, Collections.emptyMap());
+
             Assert.assertNotNull("Team cannot be null! (updateScoreboard)", board.getTeam("board::" + Arrays.asList(objects).indexOf(obj)));
             Objects.requireNonNull(board.getTeam("board::" + Arrays.asList(objects).indexOf(obj)))
-                    .setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value, customPlaceholders));
+                    .setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value,
+                            Arrays.asList(customPlayerPlaceholder, customPlaceholders)));
 
         }
 

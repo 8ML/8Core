@@ -8,6 +8,7 @@ import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.options.PlayerOptions;
 import com.github._8ml.core.storage.SQL;
+import com.github._8ml.core.utils.DeveloperMode;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -322,11 +323,11 @@ public class Friend {
             requestList = "";
         } else {
 
-            requestListBuilder = new StringBuilder(list.get(0).getPlayerStr());
+            requestListBuilder = new StringBuilder(list.get(0).getUUID());
             if (list.size() > 1) {
 
-                for (int i = 1; i < list.size() - 1; i++) {
-                    requestListBuilder.append(",").append(list.get(i));
+                for (int i = 1; i < list.size(); i++) {
+                    requestListBuilder.append(",").append(list.get(i).getUUID());
                 }
 
             }
@@ -338,6 +339,8 @@ public class Friend {
     }
 
     private List<MPlayer> getList(String strList) {
+
+        DeveloperMode.log("GetList: " + strList);
 
         if (strList.equals("")) return new ArrayList<>();
 
@@ -351,7 +354,7 @@ public class Friend {
         }
 
         for (String str : array) {
-            list.add(MPlayer.getMPlayer(str));
+            list.add(MPlayer.getMPlayer(UUID.fromString(str)));
         }
 
         return list;

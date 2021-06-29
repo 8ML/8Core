@@ -16,16 +16,13 @@ import com.github._8ml.core.module.game.manager.player.GamePlayer;
 import com.github._8ml.core.module.game.manager.team.Team;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.currency.Coin;
-import com.github._8ml.core.player.hierarchy.Ranks;
 import com.github._8ml.core.purchase.Purchase;
 import com.github._8ml.core.ui.PromptGUI;
 import com.github._8ml.core.ui.component.Component;
 import com.github._8ml.core.ui.component.components.Button;
-import com.github._8ml.core.utils.DeveloperMode;
 import com.github._8ml.core.utils.InteractItem;
 import com.github._8ml.core.utils.NameTag;
 import com.github._8ml.core.utils.ScoreBoard;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -44,7 +41,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class Game implements Listener {
 

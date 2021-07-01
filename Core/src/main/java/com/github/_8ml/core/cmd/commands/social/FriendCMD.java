@@ -10,6 +10,7 @@ import com.github._8ml.core.player.social.friend.Friend;
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.game.GameInfo;
+import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -150,6 +151,9 @@ public class FriendCMD extends CMD {
             String info = pageEntry.isOffline() ? MessageColor.COLOR_ERROR + "is Offline"
                     : gameInfo.getGame().equals("") ? MessageColor.COLOR_HIGHLIGHT + "is in a Lobby"
                     : MessageColor.COLOR_HIGHLIGHT + "is playing " + gameInfo.getGame();
+
+            DeveloperMode.log(pageEntry.toString());
+            DeveloperMode.log(pageEntry.getRankEnum() == null ? "Mplayer rank null" : "MPlayer rank not null");
 
             pageBuilder.append(pageEntry.getRankEnum().getRank().getFullPrefixWithSpace())
                     .append(pageEntry.getRankEnum().getRank().getNameColor())

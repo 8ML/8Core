@@ -20,6 +20,7 @@ import com.github._8ml.core.purchase.Purchase;
 import com.github._8ml.core.ui.PromptGUI;
 import com.github._8ml.core.ui.component.Component;
 import com.github._8ml.core.ui.component.components.Button;
+import com.github._8ml.core.utils.DeveloperMode;
 import com.github._8ml.core.utils.InteractItem;
 import com.github._8ml.core.utils.NameTag;
 import com.github._8ml.core.utils.ScoreBoard;
@@ -33,18 +34,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public abstract class Game implements Listener {
 
@@ -62,6 +61,7 @@ public abstract class Game implements Listener {
 
     private final List<GamePlayer> players = new LinkedList<>();
     private final java.util.Map<Player, GamePlayer> gamePlayerMap = new HashMap<>();
+    private final java.util.Map<Player, Boolean> isTeleportingMap = new HashMap<>();
 
     private Map map;
     private GameState state;
@@ -73,6 +73,7 @@ public abstract class Game implements Listener {
     protected String gameObjective;
     protected boolean canBreakBlocks;
     protected boolean canPlaceBlocks;
+    protected boolean hunger;
 
     private final InteractItem[] item = new InteractItem[1];
 
@@ -157,7 +158,7 @@ public abstract class Game implements Listener {
 
     protected abstract void onKill(GamePlayer killed, GamePlayer killer);
 
-    protected abstract void onDeath(GamePlayer player);
+    protected abstract void onDeath(GamePlayer player, boolean killedByPlayer);
 
     protected abstract void onJoin(GamePlayer player);
 
@@ -271,6 +272,11 @@ public abstract class Game implements Listener {
 
         for (GamePlayer player : players) {
 
+            fixInvisiblePlayerBug(player.getPlayer());
+
+            player.getPlayer().getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+            scoreBoard.setScoreboard(player.getPlayer());
+
             player.getPlayer().closeInventory();
             player.setStatus(GamePlayer.GameStatus.IN_GAME);
             if (player.getKit() == null) {
@@ -279,13 +285,12 @@ public abstract class Game implements Listener {
             player.getKit().apply(player);
             player.getPlayer().sendTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "GAME ON!",
                     this.gameObjective != null ? this.gameObjective : "",
-                    1, 1, 1);
+                    1, 40, 1);
         }
 
         if (this.kits.length > 1) {
             item[0].removeFromEveryone();
         }
-
         onStart();
 
     }
@@ -324,7 +329,8 @@ public abstract class Game implements Listener {
                 .append(ChatColor.GREEN + "" + ChatColor.BOLD + "CLICK HERE!")
                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "hub"));
         BaseComponent[] msg = new ComponentBuilder()
-                .append(ChatColor.GREEN + "" + ChatColor.BOLD + "NEW GAME IN 10 SECONDS! Return to hub? " + returnToLobby)
+                .append(ChatColor.GREEN + "" + ChatColor.BOLD + "NEW GAME IN 10 SECONDS! Return to hub? ")
+                .append(returnToLobby.create())
                 .create();
 
         Bukkit.spigot().broadcast(msg);
@@ -344,9 +350,17 @@ public abstract class Game implements Listener {
 
             @Override
             public void run() {
+
+                setScoreBoard();
+
                 for (GamePlayer player : players) {
+                    player.getPlayer().getInventory().clear();
                     giveKitSelector(player);
                     chooseTeam(player);
+                    player.getPlayer().getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+
+                    setScoreBoard();
+                    scoreBoard.setScoreboard(player.getPlayer());
                 }
                 state = GameState.WAITING;
                 map = Maps.nextMap(map);
@@ -356,7 +370,7 @@ public abstract class Game implements Listener {
     }
 
     private void startCountdown() {
-        this.startingCountdown = players.size() > maxPlayers / 2 ? 30 : 60;
+        if (!this.isStarting) this.startingCountdown = players.size() > maxPlayers / 2 ? 30 : 60;
         this.isStarting = true;
     }
 
@@ -384,6 +398,16 @@ public abstract class Game implements Listener {
         }
     }
 
+    private void fixInvisiblePlayerBug(Player player) {
+        for (GamePlayer gPlayers : players) {
+            gPlayers.getPlayer().hidePlayer(Core.instance, Objects.requireNonNull(player.getPlayer()));
+            player.getPlayer().hidePlayer(Core.instance, gPlayers.getPlayer());
+
+            gPlayers.getPlayer().showPlayer(Core.instance, player.getPlayer());
+            player.getPlayer().showPlayer(Core.instance, gPlayers.getPlayer());
+        }
+    }
+
     private Iterator<Team> teamIterator;
 
     public void chooseTeam(GamePlayer player) {
@@ -398,7 +422,7 @@ public abstract class Game implements Listener {
         team.add(player);
         player.setTeam(team);
 
-        NameTag.changeTag(player.getPlayer(), "", "", player.getTeam().getColor(), "");
+        NameTag.changeTag(player.getPlayer(), ChatColor.RED + "[" + team.getName().toUpperCase() + "]", "", player.getTeam().getColor(), "");
     }
 
     /*
@@ -419,6 +443,8 @@ public abstract class Game implements Listener {
         GamePlayer player = new GamePlayer(MPlayer.getMPlayer(e.getPlayer().getName()));
         player.setGame(this);
         giveKitSelector(player);
+
+        fixInvisiblePlayerBug(e.getPlayer());
 
         players.add(player);
         gamePlayerMap.put(e.getPlayer(), player);
@@ -520,7 +546,7 @@ public abstract class Game implements Listener {
                 boolean canStart = false;
 
                 for (Team team : teams) {
-                    canStart = team.getPlayers().size() >= team.getMinPlayers();
+                    canStart = team.getPlayers().size() >= team.getMinPlayers() && players.size() >= minPlayers;
                 }
 
                 if (canStart) {
@@ -529,13 +555,17 @@ public abstract class Game implements Listener {
                     cancelCountdown();
                 }
 
+                DeveloperMode.log("Can Start: " + canStart);
+
                 if (this.isStarting) {
                     startingCountdown--;
                     if (startingCountdown <= 0) {
                         startingCountdown = 0;
                         isStarting = false;
                         startGame();
+                        DeveloperMode.log("GAME STARTED");
                     }
+                    DeveloperMode.log("Countdown: " + startingCountdown);
                 }
 
             }
@@ -548,19 +578,107 @@ public abstract class Game implements Listener {
         }
     }
 
+    private final java.util.Map<GamePlayer, GamePlayer> lastDamageMap = new HashMap<>();
+
     @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
+    public void onDamageByPlayer(EntityDamageByEntityEvent e) {
 
-        GamePlayer killed = getGamePlayer(e.getEntity());
-        GamePlayer killer = getGamePlayer(e.getEntity().getKiller());
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 
-        onDeath(killed);
-        onKill(killed, killer);
+            GamePlayer player = getGamePlayer((Player) e.getEntity());
+            GamePlayer damagedBy = getGamePlayer((Player) e.getDamager());
 
-        Bukkit.broadcastMessage((teams.length == 0 ? ChatColor.GRAY : killer.getTeam().getColor())
-                + "" + (customKillMessage != null ? customKillMessage : ChatColor.YELLOW + " killed ")
-                + (teams.length == 0 ? ChatColor.GRAY : killed.getTeam().getColor()));
-        Coin.addCoins(killer.getMPlayer(), this.killCoins, true);
+            if (player.getTeam().equals(damagedBy.getTeam())) {
+                e.setCancelled(true);
+                return;
+            }
+
+            if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
+
+                lastDamageMap.put(getGamePlayer((Player) e.getEntity()), getGamePlayer((Player) e.getDamager()));
+
+            }
+        }
+
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+
+        if (this.state.equals(GameState.WAITING) || this.state.equals(GameState.ENDING)) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (e.getEntity() instanceof Player) {
+
+            if (isTeleportingMap.getOrDefault((Player) e.getEntity(), false)) {
+                e.setCancelled(true);
+                return;
+            }
+
+            if (((Player) e.getEntity()).getHealth() - e.getFinalDamage() < 1) {
+
+                e.getEntity().setVelocity(new Vector(0f, 0f, 0f));
+
+                ((Player) e.getEntity()).setHealth(20.0);
+
+                GamePlayer killed = getGamePlayer((Player) e.getEntity());
+                GamePlayer killer = lastDamageMap.getOrDefault(killed, null);
+
+                if (killer != null) {
+                    Bukkit.broadcastMessage((teams.length == 0 ? ChatColor.GRAY : killer.getTeam().getColor())
+                            + killer.getPlayer().getName() + (customKillMessage != null ? customKillMessage : ChatColor.YELLOW + " killed ")
+                            + (teams.length == 0 ? ChatColor.GRAY : killed.getTeam().getColor()) + killed.getPlayer().getName());
+                    Coin.addCoins(killer.getMPlayer(), this.killCoins, true);
+                    onKill(killed, killer);
+                } else {
+                    Bukkit.broadcastMessage(
+                            (teams.length == 0 ? ChatColor.GRAY : killed.getTeam().getColor())
+                                    + ""
+                                    + killed.getPlayer().getName()
+                                    + ChatColor.YELLOW + " died!"
+
+                    );
+                }
+
+                onDeath(killed, killer != null);
+
+                lastDamageMap.remove(killed);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent e) {
+        isTeleportingMap.put(e.getPlayer(), true);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                isTeleportingMap.put(e.getPlayer(), false);
+            }
+        }.runTaskLater(Core.instance, 20L);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onFoodLevelChange(FoodLevelChangeEvent e) {
+
+        if (e.getEntity() instanceof Player) {
+
+            Player player = (Player) e.getEntity();
+
+            if (!hunger) {
+
+                if (player.getFoodLevel() < 20) {
+                    e.setFoodLevel(20);
+                }
+
+                e.setCancelled(true);
+
+            }
+
+        }
+
     }
 
     @EventHandler

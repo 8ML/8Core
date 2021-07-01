@@ -137,6 +137,8 @@ public class Core extends JavaPlugin implements ConfigurationReload {
         CommandCenter.registerCommand(new ReportCMD(), this);
         CommandCenter.registerCommand(new PingCMD(), this);
         CommandCenter.registerCommand(new ReloadConfigCMD(), this);
+        CommandCenter.registerCommand(new VanishCMD(), this);
+        CommandCenter.registerCommand(new TPCMD(), this);
 
 
         //TEST COMMANDS (if development mode is on)

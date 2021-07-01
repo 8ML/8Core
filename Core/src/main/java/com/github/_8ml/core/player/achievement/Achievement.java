@@ -183,7 +183,7 @@ public abstract class Achievement {
         return achievements;
     }
 
-    public static Achievement getAchievement(Class<?> clazz) {
+    public static Achievement getAchievement(Class<? extends Achievement> clazz) {
         for (Achievement ach : achievements) {
             if (ach.getClass().getSimpleName().equals(clazz.getSimpleName())) return ach;
         }

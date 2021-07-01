@@ -70,9 +70,9 @@ public class GamePlayer {
 
         if (team != null) return;
 
-        this.mPlayer.getPlayer().sendMessage(
+        this.mPlayer.getPlayer().sendMessage("\n" +
                 ChatColor.GREEN + "" + ChatColor.BOLD + "VICTORY!\n\n"
-                + ChatColor.YELLOW + this.mPlayer.getPlayerStr() + " won!"
+                + ChatColor.YELLOW + this.mPlayer.getPlayerStr() + " won!" + "\n"
         );
         Coin.addCoins(this.mPlayer, getGame().getWinningCoins(), true);
 
@@ -82,9 +82,9 @@ public class GamePlayer {
 
         if (team != null) return;
 
-        this.mPlayer.getPlayer().sendMessage(
+        this.mPlayer.getPlayer().sendMessage("\n" +
                 ChatColor.RED + "" + ChatColor.BOLD + "GAME OVER!\n\n"
-                        + ChatColor.YELLOW + winning.getPlayer().getName() + " won!"
+                        + ChatColor.YELLOW + winning.getPlayer().getName() + " won!" + "\n"
         );
     }
 

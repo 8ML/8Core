@@ -53,9 +53,9 @@ public class Team {
 
         for (GamePlayer teamPlayer : this.players) {
 
-            teamPlayer.getPlayer().sendMessage(
+            teamPlayer.getPlayer().sendMessage("\n" +
                     ChatColor.GREEN + "" + ChatColor.BOLD + "VICTORY!\n\n"
-                    + this.color + this.name + " Team wins!"
+                    + this.color + this.name + " Team wins!" + "\n"
             );
             Coin.addCoins(teamPlayer.getMPlayer(), game.getWinningCoins(), true);
 
@@ -67,9 +67,9 @@ public class Team {
 
         for (GamePlayer teamPlayer : this.players) {
 
-            teamPlayer.getPlayer().sendMessage(
+            teamPlayer.getPlayer().sendMessage("\n" +
                     ChatColor.RED + "" + ChatColor.BOLD + "GAME OVER!\n\n"
-                            + winner.getColor() + winner.getName() + " Team wins!"
+                            + winner.getColor() + winner.getName() + " Team wins!" + "\n"
             );
 
         }

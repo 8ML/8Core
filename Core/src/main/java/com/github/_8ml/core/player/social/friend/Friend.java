@@ -60,7 +60,7 @@ public class Friend {
             return;
         }
 
-        if (getFriends().contains(player)) {
+        if (isFriendsWith(player)) {
             this.player.getPlayer().sendMessage(MessageColor.COLOR_ERROR + "You are already friends with this player!");
             return;
         }
@@ -166,7 +166,7 @@ public class Friend {
 
     public void decline(MPlayer player) {
 
-        if (getFriends().contains(player)) {
+        if (isFriendsWith(player)) {
             this.player.getPlayer().sendMessage(MessageColor.COLOR_ERROR + player.getPlayerStr() + " is already your friend!");
             return;
         }
@@ -314,6 +314,14 @@ public class Friend {
         }
     }
 
+    public boolean isFriendsWith(MPlayer player) {
+
+        for (MPlayer p : getFriends()) {
+            if (p.getUUID().equalsIgnoreCase(player.getUUID())) return true;
+        }
+
+        return false;
+    }
 
     private String buildList(List<MPlayer> list) {
         StringBuilder requestListBuilder;
@@ -354,7 +362,9 @@ public class Friend {
         }
 
         for (String str : array) {
-            list.add(MPlayer.getMPlayer(UUID.fromString(str)));
+            MPlayer pl = MPlayer.getMPlayer(UUID.fromString(str));
+            DeveloperMode.log(pl.toString());
+            list.add(pl);
         }
 
         return list;
@@ -387,7 +397,7 @@ public class Friend {
         }
 
         if (preferenceReceiver.equals("FRIENDS_ONLY")) {
-            if (!getFriends().contains(receiver)) {
+            if (!isFriendsWith(receiver)) {
                 sender.sendMessage(MessageColor.COLOR_ERROR + "Only " + receiver.getPlayerStr() + "'s friends can message them");
                 return;
             }

@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JoinEvent implements Listener {
@@ -32,13 +33,19 @@ public class JoinEvent implements Listener {
 
         try {
 
-            PreparedStatement st = sql.preparedStatement("INSERT INTO proxy (proxyPlayer) VALUES(?)");
-            st.setString(1, e.getPlayer().getName());
-            try {
-                st.execute();
-            } finally {
-                sql.getConnection().close();
+            PreparedStatement exists = sql.preparedStatement("SELECT * FROM proxy WHERE proxyPlayer=?");
+            exists.setString(1, e.getPlayer().getName());
+            ResultSet rs = exists.executeQuery();
+            if (!rs.next()) {
+                PreparedStatement st = sql.preparedStatement("INSERT INTO proxy (proxyPlayer) VALUES(?)");
+                st.setString(1, e.getPlayer().getName());
+                try {
+                    st.execute();
+                } finally {
+                    sql.getConnection().close();
+                }
             }
+            sql.getConnection().close();
 
             if (e.getReason().equals(ServerConnectEvent.Reason.JOIN_PROXY)) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();

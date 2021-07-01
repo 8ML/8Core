@@ -6,6 +6,7 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.hierarchy.Ranks;
+import com.github._8ml.core.utils.PluginMessenger;
 import javafx.fxml.Initializable;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -136,8 +137,13 @@ public class MPlayer {
         }
 
         this.exists = !notExists;
-        this.isOffline = exists && Bukkit.getOfflinePlayer(uuid).isOnline();
+        this.isOffline = !exists || !Bukkit.getOfflinePlayer(uuid).isOnline()
+                || !Core.instance.pluginMessenger.getBungeePlayers().contains(tmpName);
         this.player = tmpName;
+
+        if (exists) {
+            update();
+        }
 
     }
 

@@ -82,18 +82,21 @@ public class ChatEvent implements Listener {
 
                 String mentionPreference = PlayerOptions.getPreference(pl, PlayerOptions.Preference.MENTION);
 
+                boolean mention = false;
+
                 if (mentionPreference.equals("FRIENDS_ONLY")) {
-                    if (!friendManager.getFriends().contains(player)) continue;
+                    if (friendManager.isFriendsWith(player)) mention = true;
                 }
-                if (mentionPreference.equals("OFF")) {
-                    continue;
+                if (mentionPreference.equals("ANYONE")) {
+                    mention = true;
                 }
 
+                if (mention) {
+                    messageString = messageString.replaceAll("@" + p.getName(), ChatColor.YELLOW + p.getName()
+                            + player.getRankEnum().getRank().getChatColor());
 
-                messageString = messageString.replaceAll("@" + p.getName(), ChatColor.YELLOW + p.getName()
-                        + MPlayer.getMPlayer(p.getName()).getRankEnum().getRank().getChatColor());
-
-                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
+                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
+                }
 
             }
 

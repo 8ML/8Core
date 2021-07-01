@@ -15,6 +15,7 @@ import com.github._8ml.core.utils.DeveloperMode;
 import com.github._8ml.core.utils.ScoreBoard;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -109,7 +110,7 @@ public class SlapGame extends Game {
     protected void updateBoardPlaceholders() {
         ScoreBoard sb = getScoreBoard();
         for (GamePlayer player : getPlayers()) {
-            sb.addCustomPlaceholder("%playerKills%", String.valueOf(playerKills.get(player)), player.getPlayer());
+            sb.addCustomPlaceholder("%playerKills%", String.valueOf(playerKills.getOrDefault(player, 0)), player.getPlayer());
         }
         sb.addCustomPlaceholder("%blueKills%", String.valueOf(blueKills));
         sb.addCustomPlaceholder("%redKills%", String.valueOf(redKills));
@@ -117,11 +118,14 @@ public class SlapGame extends Game {
 
     @Override
     protected void onEnd() {
-
+        this.blueKills = 0;
+        this.redKills = 0;
+        this.playerKills.clear();
     }
 
     @Override
     protected void onKill(GamePlayer killed, GamePlayer killer) {
+        if (!getState().equals(GameState.IN_GAME)) return;
         if (killer.getTeam().equals(getTeams()[0])) {
             blueKills++;
             if (blueKills >= killsToWin) {
@@ -139,8 +143,24 @@ public class SlapGame extends Game {
     }
 
     @Override
-    protected void onDeath(GamePlayer player) {
+    protected void onDeath(GamePlayer player, boolean killedByPlayer) {
+        if (!getState().equals(GameState.IN_GAME)) return;
+        if (!killedByPlayer) {
 
+            if (player.getTeam().equals(getTeams()[0])) {
+                redKills++;
+                if (redKills >= killsToWin) {
+                    endGame(getTeams()[1]);
+                }
+            } else {
+                blueKills++;
+                if (blueKills >= killsToWin) {
+                    endGame(getTeams()[0]);
+                }
+            }
+            teleportPlayer(player);
+
+        }
     }
 
     @Override

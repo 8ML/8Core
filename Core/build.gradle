@@ -23,19 +23,22 @@ build {}
 configurations {
     provided
     compile.extendsFrom provided
+    depends
+    runtime.extendsFrom depends
+    compile.extendsFrom depends
 }
 
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    shadow 'commons-io:commons-io:2.6'
-    shadow 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile group: 'junit', name: 'junit', version: '4.12'
     provided files('Jars/spigot.jar')
+    depends 'commons-io:commons-io:2.6'
+    depends 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 
 shadowJar {
-    configurations = [project.configurations.shadow]
+    configurations = [project.configurations.depends]
 
 
 }

@@ -6,6 +6,8 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.hierarchy.Ranks;
+import com.github._8ml.core.utils.PluginMessenger;
+import javafx.fxml.Initializable;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,6 +19,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class MPlayer {
@@ -32,7 +35,8 @@ public class MPlayer {
                     ", `xp` INT NOT NULL" +
                     ", `coins` INT NOT NULL" +
                     ", `firstJoin` BIGINT NOT NULL" +
-                    ", `signature` MEDIUMTEXT)");
+                    ", `signature` MEDIUMTEXT" +
+                    ", `vanished` BIT NOT NULL)");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,6 +55,7 @@ public class MPlayer {
     private int xp;
     private long firstJoin;
     private String signature;
+    private boolean vanished;
 
     private String UUID;
 
@@ -71,7 +76,7 @@ public class MPlayer {
         this.player = player;
 
         if (!exists(player)) {
-            this.exists = true;
+            this.exists = false;
             this.isOffline = true;
         } else {
             try {
@@ -96,6 +101,7 @@ public class MPlayer {
             update();
 
         }
+
     }
 
     public MPlayer(MPlayer player) {
@@ -110,6 +116,37 @@ public class MPlayer {
         update();
     }
 
+    public MPlayer(UUID uuid) {
+
+        boolean notExists = true;
+        String tmpName = "";
+
+        this.UUID = uuid.toString();
+        try {
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM users WHERE uuid=?");
+            st.setString(1, uuid.toString());
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+
+                tmpName = rs.getString("playerName");
+                notExists = false;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.exists = !notExists;
+        this.isOffline = !exists || !Bukkit.getOfflinePlayer(uuid).isOnline()
+                || !Core.instance.pluginMessenger.getBungeePlayers().contains(tmpName);
+        this.player = tmpName;
+
+        if (exists) {
+            update();
+        }
+
+    }
+
     public void update() {
         try {
 
@@ -118,7 +155,7 @@ public class MPlayer {
             ResultSet rs = checkStmt.executeQuery();
             if (!rs.next()) {
                 PreparedStatement createUser = sql.preparedStatement("INSERT INTO users" +
-                        " (`uuid`, `playerName`, `rank`, `xp`, `coins`, `firstJoin`, `signature`) VALUES (?,?,?,?,?,?,?)");
+                        " (`uuid`, `playerName`, `rank`, `xp`, `coins`, `firstJoin`, `signature`, `vanished`) VALUES (?,?,?,?,?,?,?,?)");
                 createUser.setString(1, this.getUUID());
                 createUser.setString(2, player);
                 createUser.setString(3, Ranks.DEFAULT.toString());
@@ -126,6 +163,7 @@ public class MPlayer {
                 createUser.setInt(5, 0);
                 createUser.setLong(6, System.currentTimeMillis());
                 createUser.setString(7, "");
+                createUser.setBoolean(8, false);
                 try {
                     createUser.execute();
                 } finally {
@@ -137,6 +175,7 @@ public class MPlayer {
                 this.coins = rs.getInt("coins");
                 this.firstJoin = rs.getLong("firstJoin");
                 this.signature = ChatColor.translateAlternateColorCodes('&', rs.getString("signature"));
+                this.vanished = rs.getBoolean("vanished");
             }
 
             sql.closeConnection(checkStmt);
@@ -144,6 +183,16 @@ public class MPlayer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void vanish() {
+        set("vanished", true);
+        VanishManager.hidePlayer(getPlayer());
+    }
+
+    public void unVanish() {
+        set("vanished", false);
+        VanishManager.unHidePlayer(getPlayer());
     }
 
     public void setRank(Ranks ranks) {
@@ -162,14 +211,18 @@ public class MPlayer {
 
     }
 
-    private void set(String column, String value) {
+    private void set(String column, Object value) {
 
         if (!exists) return;
 
         try {
 
             PreparedStatement st = sql.preparedStatement("UPDATE users SET `" + column + "`=? WHERE `uuid`=?");
-            st.setString(1, value);
+            if (value instanceof Boolean) {
+                st.setBoolean(1, (boolean) value);
+            } else {
+                st.setString(1, value.toString());
+            }
             st.setString(2, this.UUID);
 
             try {
@@ -241,6 +294,10 @@ public class MPlayer {
         return this.exists;
     }
 
+    public boolean isVanished() {
+        return this.vanished;
+    }
+
     public static void registerMPlayer(String player) {
         if (playerMap.containsKey(player)) playerMap.remove(player, getMPlayer(player));
         playerMap.put(player, new MPlayer(player));
@@ -254,6 +311,10 @@ public class MPlayer {
     public static MPlayer getMPlayer(String player) {
         if (!playerMap.containsKey(player)) registerMPlayer(player);
         return playerMap.get(player);
+    }
+
+    public static MPlayer getMPlayer(java.util.UUID uuid) {
+        return new MPlayer(uuid);
     }
 
     public static void removeMPlayer(MPlayer player) {

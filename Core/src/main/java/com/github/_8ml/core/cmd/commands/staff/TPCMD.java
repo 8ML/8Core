@@ -78,6 +78,11 @@ public class TPCMD extends CMD {
 
         } else {
 
+            if (paramArrayOfString.length == 0) {
+                paramPlayer.sendMessage(getUsage());
+                return;
+            }
+
             if (paramArrayOfString[0].equalsIgnoreCase("all")) {
 
                 if (!MPlayer.getMPlayer(paramPlayer.getName()).isPermissible(Ranks.ADMIN, true)) return;

@@ -10,6 +10,9 @@ import com.github._8ml.core.player.level.Level;
 import com.github._8ml.core.Core;
 import org.bukkit.ChatColor;
 
+import java.util.List;
+import java.util.Map;
+
 public class StringUtils {
 
 
@@ -20,11 +23,11 @@ public class StringUtils {
      */
     public static String getWithPlaceholders(MPlayer player, String str) {
         return ChatColor.translateAlternateColorCodes('&', str
-                .replaceAll("%networkName%", ServerConfig.serverName)
-                .replaceAll("%networkDomain%", ServerConfig.serverDomain)
-                .replaceAll("%networkStoreDomain%", ServerConfig.serverStoreDomain)
-                .replaceAll("%networkAppealDomain%", ServerConfig.serverAppealDomain)
-                .replaceAll("%discordLink%", ServerConfig.serverDiscordLink)
+                .replaceAll("%networkName%", ServerConfig.SERVER_NAME.toString())
+                .replaceAll("%networkDomain%", ServerConfig.SERVER_DOMAIN.toString())
+                .replaceAll("%networkStoreDomain%", ServerConfig.SERVER_STORE_DOMAIN.toString())
+                .replaceAll("%networkAppealDomain%", ServerConfig.SERVER_APPEAL_DOMAIN.toString())
+                .replaceAll("%discordLink%", ServerConfig.SERVER_DISCORD_LINK.toString())
                 .replaceAll("%player%", player.getPlayerStr())
                 .replaceAll("%onlineServer%", String.valueOf(Core.onlinePlayers.size()))
                 .replaceAll("%onlineBungee%", String.valueOf(Core.instance.pluginMessenger.getBungeeCount()))
@@ -35,6 +38,24 @@ public class StringUtils {
                 .replaceAll("%playerLevel%", String.valueOf((int) Level.getLevelFromXP(player.getXP(), false)))
                 .replaceAll("%playerXP%", String.valueOf(player.getXP()))
                 .replaceAll(":nl:", "\n"));
+    }
+
+
+    /**
+     *
+     * @param player Player to get the placeholders from
+     * @param str String to replace placeholders in
+     * @param extraPlaceholders Extra placeholders as list of Map<String, String> first String = placeholder, second = replacementValue
+     * @return String with the placeholders replaced with player info, server info and extra placeholders
+     */
+    public static String getWithPlaceholders(MPlayer player, String str, List<Map<String, String>> extraPlaceholders) {
+        String withPlaceholders = getWithPlaceholders(player, str);
+        for (Map<String, String> placeholders : extraPlaceholders) {
+            for (String key : placeholders.keySet()) {
+                withPlaceholders = withPlaceholders.replaceAll(key, placeholders.get(key));
+            }
+        }
+        return withPlaceholders;
     }
 
 

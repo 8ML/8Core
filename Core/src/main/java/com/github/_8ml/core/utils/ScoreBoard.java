@@ -7,6 +7,7 @@ import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.Core;
 import com.github._8ml.core.events.event.UpdateEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +24,8 @@ public class ScoreBoard implements Listener {
     private String[] values;
 
     private final Set<Player> scoreboardSet = new HashSet<>();
+    private final Map<String, String> customPlaceholders = new HashMap<>();
+    private final Map<Player, Map<String, String>> customPlaceholdersPlayer = new HashMap<>();
 
     public ScoreBoard(Core plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -64,8 +67,11 @@ public class ScoreBoard implements Listener {
 
             Assert.assertNotNull("Team cannot be null! (setScoreboard)", team);
 
+            Map<String, String> customPlayerPlaceholder = customPlaceholdersPlayer.getOrDefault(player, Collections.emptyMap());
+
             team.addEntry(obj);
-            team.setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value));
+            team.setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value,
+                    Arrays.asList(customPlayerPlaceholder, customPlaceholders)));
             objective.getScore(obj).setScore(s);
 
             s++;
@@ -83,6 +89,17 @@ public class ScoreBoard implements Listener {
 
     }
 
+    public void addCustomPlaceholder(String placeholder, String value) {
+        this.customPlaceholders.put(placeholder, value);
+    }
+
+    public void addCustomPlaceholder(String placeholder, String value, Player player) {
+        Map<String, String> map = customPlaceholdersPlayer.containsKey(player)
+                ? customPlaceholdersPlayer.get(player) : new HashMap<>();
+        map.put(placeholder, value);
+        customPlaceholdersPlayer.put(player, map);
+    }
+
     private final Map<Player, Integer> previousFrameIndex = new HashMap<>();
 
     private void updateScoreboard(Player player) {
@@ -93,9 +110,12 @@ public class ScoreBoard implements Listener {
 
             String value = values[Arrays.asList(objects).indexOf(obj)];
 
+            Map<String, String> customPlayerPlaceholder = customPlaceholdersPlayer.getOrDefault(player, Collections.emptyMap());
+
             Assert.assertNotNull("Team cannot be null! (updateScoreboard)", board.getTeam("board::" + Arrays.asList(objects).indexOf(obj)));
             Objects.requireNonNull(board.getTeam("board::" + Arrays.asList(objects).indexOf(obj)))
-                    .setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value));
+                    .setSuffix(StringUtils.getWithPlaceholders(MPlayer.getMPlayer(player.getName()), value,
+                            Arrays.asList(customPlayerPlaceholder, customPlaceholders)));
 
         }
 
@@ -107,6 +127,35 @@ public class ScoreBoard implements Listener {
         Objective objective = board.getObjective("8Core");
         Assert.assertNotNull("Objective cannot be null! (updateScoreboard)", objective);
         objective.setDisplayName(frame);
+
+    }
+
+    public static String[] animateString(String str) {
+        int[] frames = new int[2];
+        List<String> framesList = new ArrayList<>();
+
+        for (int i = 0; i < 50; i++) {
+
+            frames[0]++;
+            if (frames[0] > 10) {
+                frames[0] = 0;
+                frames[1]++;
+            }
+
+            ChatColor color;
+
+            try {
+                color = frames[0] % frames[1] == 3 ? ChatColor.LIGHT_PURPLE
+                        : ChatColor.WHITE;
+            } catch (ArithmeticException e) {
+                color = ChatColor.LIGHT_PURPLE;
+            }
+
+            framesList.add(color + "" + ChatColor.BOLD +  str.toUpperCase());
+
+        }
+
+        return framesList.toArray(new String[framesList.size() - 1]);
 
     }
 

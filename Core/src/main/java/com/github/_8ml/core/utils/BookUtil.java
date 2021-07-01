@@ -36,7 +36,7 @@ public class BookUtil {
         assert bookMeta != null;
 
         BaseComponent[] cb = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "\n&0Welcome to\n" +
-                "&d8" + ServerConfig.serverName + "&0!\n" +
+                "&d8" + ServerConfig.SERVER_NAME + "&0!\n" +
                 "\n" +
                 "&0To start playing\n" +
                 "&0games, click on an NPC\n" +
@@ -46,7 +46,7 @@ public class BookUtil {
                 "&0news, updates, and\n" +
                 "&0announcements!\n\n")).create();
         BaseComponent[] cl = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&r     &r&d&l&nCLICK HERE&r"))
-                .event(new ClickEvent(ClickEvent.Action.OPEN_URL, ServerConfig.serverDiscordLink))
+                .event(new ClickEvent(ClickEvent.Action.OPEN_URL, ServerConfig.SERVER_DISCORD_LINK + ""))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Click for link!").create())).create();
 
         BaseComponent[] comp = new ComponentBuilder().append(cb).append(cl).create();

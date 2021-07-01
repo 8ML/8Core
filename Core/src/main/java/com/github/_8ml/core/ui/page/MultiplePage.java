@@ -101,4 +101,10 @@ public abstract class MultiplePage extends Page {
         }
 
     }
+
+    @Override
+    protected void refresh() {
+        this.initialized = false;
+        super.refresh();
+    }
 }

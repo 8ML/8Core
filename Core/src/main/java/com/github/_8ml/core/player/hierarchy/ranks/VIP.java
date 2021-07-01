@@ -13,7 +13,7 @@ public class VIP extends Rank {
         super("VIP", "VIP", 1.0D);
         this.setColor(ChatColor.LIGHT_PURPLE, ChatColor.LIGHT_PURPLE);
         this.setDescription("The first purchasable rank\n" +
-                            "at " + ServerConfig.serverStoreDomain);
+                            "at " + ServerConfig.SERVER_STORE_DOMAIN);
     }
 
     @Override

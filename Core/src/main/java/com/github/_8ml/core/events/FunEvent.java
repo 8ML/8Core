@@ -10,6 +10,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
+/**
+ * This class along with EACMD.class should probably be either removed
+ * or used with caution as I can confirm this is pretty destructive.
+ */
 public class FunEvent implements Listener {
 
     public FunEvent(Core plugin) {

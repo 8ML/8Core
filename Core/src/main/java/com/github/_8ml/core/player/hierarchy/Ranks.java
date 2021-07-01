@@ -7,21 +7,42 @@ import com.github._8ml.core.player.hierarchy.ranks.*;
 
 public enum Ranks {
 
-    DEFAULT(new Default()),
-    VIP(new VIP()),
-    YT(new YT()),
-    BUILD_TEAM(new BuildTeam()),
-    STAFF(new Staff()),
-    ADMIN(new Admin()),
-    OWNER(new Owner());
+    DEFAULT(Default.class),
+    VIP(VIP.class),
+    YT(YT.class),
+    BUILD_TEAM(BuildTeam.class),
+    STAFF(Staff.class),
+    ADMIN(Admin.class),
+    OWNER(Owner.class);
 
-    private final Rank rank;
+    private final Class<? extends Rank> rankClass;
+    private Rank rank;
 
-    Ranks(Rank rank) {
-        this.rank = rank;
+    Ranks(Class<? extends Rank> rank) {
+        this.rankClass = rank;
+    }
+
+    public void register() {
+        try {
+
+            this.rank = this.rankClass.newInstance();
+
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public Rank getRank() {
         return rank;
+    }
+
+    public static void registerRanks() {
+
+        for (Ranks rank : values()) {
+
+            rank.register();
+
+        }
+
     }
 }

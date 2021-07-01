@@ -1,11 +1,11 @@
 package com.github._8ml.core.world;
 /*
-Created by @8ML (https://github.com/8ML) on 5/16/2021
+Created by @mesic (https://github.com/mebsic) on 5/16/2021
 */
 
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
-import org.apache.commons.io.FileUtils;
+import com.github._8ml.core.utils.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -56,12 +56,7 @@ public class MapExtract {
             for (final Chunk chunk : loadedChunks) {
                 chunk.unload(false);
             }
-            try {
-                FileUtils.deleteDirectory(active);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            FileUtils.deleteDirectory(active);
             try {
                 final ZipFile zipFile = new ZipFile(map + ".zip");
                 final Enumeration<?> enu = zipFile.entries();

@@ -294,7 +294,7 @@ public class PunishPage extends Page {
 
     private void sendStaffMessage(String str) {
 
-        StringBuilder msg = new StringBuilder(MessageColor.COLOR_ERROR + str + " " + this.target.getPlayerStr());
+        StringBuilder msg = new StringBuilder(ChatColor.RED + str + " " + this.target.getPlayerStr());
         if (!this.type.equals(Punishment.PunishType.WARN)
                 && !this.type.equals(Punishment.PunishType.KICK)) {
 

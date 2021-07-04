@@ -41,12 +41,14 @@ public abstract class Achievement {
 
     private final String name;
     private final String description;
+    private final String game;
     private final int rewardCoins;
     private final int rewardXP;
 
-    public Achievement(String name, String description, int rewardCoins, int rewardXP) {
+    public Achievement(String name, String description, String game, int rewardCoins, int rewardXP) {
         this.name = name;
         this.description = description;
+        this.game = game;
         this.rewardCoins = rewardCoins;
         this.rewardXP = rewardXP;
     }
@@ -138,6 +140,10 @@ public abstract class Achievement {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getGame() {
+        return game;
     }
 
     public int getRewardCoins() {

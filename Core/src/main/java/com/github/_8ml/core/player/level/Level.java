@@ -31,6 +31,16 @@ public class Level {
         }
     }
 
+    public static void addXP(MPlayer player, int xp, boolean msg) {
+        addXP(player, xp);
+        if (msg) {
+            if (!player.isOffline()) {
+                player.getPlayer().sendMessage(ChatColor.LIGHT_PURPLE + "+" + xp + " xp!");
+                player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+            }
+        }
+    }
+
     public static void resetXP(MPlayer player) {
         setXP(player, 0);
     }

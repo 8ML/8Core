@@ -6,10 +6,12 @@ Created by @8ML (https://github.com/8ML) on June 25 2021
 import com.github._8ml.core.module.game.manager.Game;
 import com.github._8ml.core.module.game.manager.player.GamePlayer;
 import com.github._8ml.core.player.currency.Coin;
+import com.github._8ml.core.player.level.Level;
 import org.bukkit.ChatColor;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Team {
 
@@ -53,12 +55,14 @@ public class Team {
 
         for (GamePlayer teamPlayer : this.players) {
 
-            teamPlayer.getPlayer().sendMessage("\n" +
+            teamPlayer.getPlayer().sendMessage("");
+            teamPlayer.getPlayer().sendMessage(
                     ChatColor.GREEN + "" + ChatColor.BOLD + "VICTORY!\n\n"
-                    + this.color + this.name + " Team wins!" + "\n"
+                            + this.color + this.name + " Team wins!"
             );
+            teamPlayer.getPlayer().sendMessage("");
             Coin.addCoins(teamPlayer.getMPlayer(), game.getWinningCoins(), true);
-
+            Level.addLevel(teamPlayer.getMPlayer(), (int) (Math.random() * (Game.WIN_XP_MAX - Game.WIN_XP_MIN)) + Game.WIN_XP_MIN);
         }
 
     }
@@ -67,10 +71,14 @@ public class Team {
 
         for (GamePlayer teamPlayer : this.players) {
 
-            teamPlayer.getPlayer().sendMessage("\n" +
+            teamPlayer.getPlayer().sendMessage("");
+            teamPlayer.getPlayer().sendMessage(
                     ChatColor.RED + "" + ChatColor.BOLD + "GAME OVER!\n\n"
-                            + winner.getColor() + winner.getName() + " Team wins!" + "\n"
+                            + winner.getColor() + winner.getName() + " Team wins!"
             );
+            teamPlayer.getPlayer().sendMessage("");
+            Level.addLevel(teamPlayer.getMPlayer(), (int) (Math.random() * (Game.LOOSE_XP_MAX - Game.LOOSE_XP_MIN)) + Game.LOOSE_XP_MIN);
+
 
         }
 

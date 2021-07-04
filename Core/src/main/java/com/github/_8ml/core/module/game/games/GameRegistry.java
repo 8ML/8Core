@@ -3,6 +3,8 @@ package com.github._8ml.core.module.game.games;
 Created by @8ML (https://github.com/8ML) on June 26 2021
 */
 
+import com.github._8ml.core.Core;
+import com.github._8ml.core.game.GameInfo;
 import com.github._8ml.core.module.game.exceptions.GameNotFoundException;
 import com.github._8ml.core.module.game.games.Slap.SlapGame;
 import com.github._8ml.core.module.game.manager.Game;
@@ -46,6 +48,8 @@ public enum GameRegistry {
             if (registry.name().equalsIgnoreCase(name)) {
                 registry.register();
                 enabledGame = registry.getGame();
+                GameInfo.storeInfo(Core.instance.serverName, enabledGame.getName(),
+                        enabledGame.getMaxPlayers(), enabledGame.getMinPlayers(), 0);
             }
         }
         if (enabledGame == null) throw new GameNotFoundException(name);

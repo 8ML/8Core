@@ -38,6 +38,9 @@ public class AchievementPage extends Page {
             Label ach = new Label(Material.BOOK, getParent());
             ach.setLabel(MessageColor.COLOR_SUCCESS + achievement.getName());
             ach.setLore(new String[]{
+                    ChatColor.WHITE + "Game: " + MessageColor.COLOR_MAIN
+                            + (achievement.getGame().equals("") ? "None" : achievement.getGame()),
+                    "",
                     MessageColor.COLOR_MAIN + achievement.getDescription(),
                     " ",
                     achievement.hasAchievement(player) ? MessageColor.COLOR_SUCCESS + "Completed!"

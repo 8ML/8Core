@@ -24,6 +24,7 @@ import com.github._8ml.core.exceptions.ModuleNotFoundException;
 import com.github._8ml.core.module.Module;
 import com.github._8ml.core.module.build.BuildModule;
 import com.github._8ml.core.module.game.GameModule;
+import com.github._8ml.core.module.game.games.Slap.achievements.SlapNewbieAchievement;
 import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.achievement.achievements.ChatAchievement;
 import com.github._8ml.core.player.hierarchy.Ranks;
@@ -99,6 +100,7 @@ public class Core extends JavaPlugin implements ConfigurationReload {
 
     private void registerAchievements() {
         Achievement.registerAchievement(new ChatAchievement());
+        Achievement.registerAchievement(new SlapNewbieAchievement());
     }
 
     private final int[] timer = {0};
@@ -139,6 +141,7 @@ public class Core extends JavaPlugin implements ConfigurationReload {
         CommandCenter.registerCommand(new ReloadConfigCMD(), this);
         CommandCenter.registerCommand(new VanishCMD(), this);
         CommandCenter.registerCommand(new TPCMD(), this);
+        CommandCenter.registerCommand(new HubCMD(), this);
 
 
         //TEST COMMANDS (if development mode is on)

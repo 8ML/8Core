@@ -18,6 +18,7 @@ import com.github._8ml.core.events.CommandEvent;
 import com.github._8ml.core.events.FunEvent;
 import com.github._8ml.core.events.common.JoinEvent;
 import com.github._8ml.core.events.common.LeaveEvent;
+import com.github._8ml.core.events.event.ServerReadyEvent;
 import com.github._8ml.core.events.event.ServerShutDownEvent;
 import com.github._8ml.core.events.event.UpdateEvent;
 import com.github._8ml.core.exceptions.ModuleNotFoundException;
@@ -197,6 +198,7 @@ public class Core extends JavaPlugin implements ConfigurationReload {
 
         Ranks.registerRanks();
 
+        this.getServer().getPluginManager().callEvent(new ServerReadyEvent());
     }
 
     @Override

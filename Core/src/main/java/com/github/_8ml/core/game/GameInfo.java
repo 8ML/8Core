@@ -9,6 +9,8 @@ import com.github._8ml.core.storage.SQL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameInfo {
 
@@ -150,6 +152,14 @@ public class GameInfo {
         return onlinePlayers;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public boolean isOffline() {
+        return state.equalsIgnoreCase("Offline");
+    }
+
     public static void storeInfo(String serverName, String gameType, int maxPlayers, int minPlayers, int onlinePlayers) {
 
         GameInfo info = new GameInfo(serverName);
@@ -170,5 +180,50 @@ public class GameInfo {
 
     public static GameInfo getInfo(String serverName) {
         return new GameInfo(serverName);
+    }
+
+    public static List<GameInfo> getServers() {
+
+        List<GameInfo> servers = new ArrayList<>();
+
+        try {
+
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM gameInfo");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                servers.add(getInfo(rs.getString("serverName")));
+            }
+
+            sql.closeConnection(st);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return servers;
+
+    }
+
+    public static List<GameInfo> getServers(String type) {
+
+        List<GameInfo> servers = new ArrayList<>();
+
+        try {
+
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM gameInfo WHERE `gameType`=?");
+            st.setString(1, type);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                servers.add(getInfo(rs.getString("serverName")));
+            }
+
+            sql.closeConnection(st);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return servers;
     }
 }

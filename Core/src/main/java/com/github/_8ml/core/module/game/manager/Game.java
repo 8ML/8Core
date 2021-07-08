@@ -8,12 +8,15 @@ import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.events.event.ServerShutDownEvent;
 import com.github._8ml.core.events.event.UpdateEvent;
+import com.github._8ml.core.game.GameInfo;
+import com.github._8ml.core.game.GamePlayerInfo;
 import com.github._8ml.core.module.game.exceptions.GameInitializationException;
 import com.github._8ml.core.module.game.manager.kit.Kit;
 import com.github._8ml.core.module.game.manager.map.Map;
 import com.github._8ml.core.module.game.manager.map.Maps;
 import com.github._8ml.core.module.game.manager.player.GamePlayer;
 import com.github._8ml.core.module.game.manager.team.Team;
+import com.github._8ml.core.module.game.sfx.SoundEffect;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.currency.Coin;
 import com.github._8ml.core.purchase.Purchase;
@@ -44,12 +47,18 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.util.Vector;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public abstract class Game implements Listener {
 
     public enum GameState {
         WAITING, IN_GAME, ENDING, NONE
     }
+
+    public final static int WIN_XP_MIN = 80;
+    public final static int WIN_XP_MAX = 400;
+    public final static int LOOSE_XP_MIN = 20;
+    public final static int LOOSE_XP_MAX = 120;
 
     private final String name;
     private final Team[] teams;
@@ -74,6 +83,9 @@ public abstract class Game implements Listener {
     protected boolean canBreakBlocks;
     protected boolean canPlaceBlocks;
     protected boolean hunger;
+    protected long spawnKillCoolDown = TimeUnit.SECONDS.toMillis(3);
+
+    protected final java.util.Map<String, SoundEffect> sfx = new HashMap<>();
 
     private final InteractItem[] item = new InteractItem[1];
 
@@ -199,13 +211,16 @@ public abstract class Game implements Listener {
     }
 
     private void updateScoreboardPlaceholders() {
+
+        String startingCount = this.startingCountdown < 10 ? "0:0" + this.startingCountdown : "0:" + this.startingCountdown;
+
         updateBoardPlaceholders();
         scoreBoard.addCustomPlaceholder("%players%", String.valueOf(this.players.size()));
         scoreBoard.addCustomPlaceholder("%maxPlayers%", String.valueOf(this.maxPlayers));
         scoreBoard.addCustomPlaceholder("%startingIn%", String.valueOf(this.startingCountdown));
         scoreBoard.addCustomPlaceholder("%mapName%", map.getName());
         scoreBoard.addCustomPlaceholder("%startingInfo%", isStarting
-                ? "Starting in " + ChatColor.GREEN + "0:" + this.startingCountdown
+                ? "Starting in " + ChatColor.GREEN + startingCount
                 : "Not enough players");
     }
 
@@ -268,6 +283,8 @@ public abstract class Game implements Listener {
 
         state = GameState.IN_GAME;
 
+        GameInfo.updateInfo(Core.instance.serverName, "state", "In Game");
+
         initScoreboard();
 
         for (GamePlayer player : players) {
@@ -323,11 +340,13 @@ public abstract class Game implements Listener {
         map.resetBlockData();
         this.state = GameState.ENDING;
 
+        GameInfo.updateInfo(Core.instance.serverName, "state", "Ending");
+
         onEnd();
 
         ComponentBuilder returnToLobby = new ComponentBuilder()
                 .append(ChatColor.GREEN + "" + ChatColor.BOLD + "CLICK HERE!")
-                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "hub"));
+                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/hub"));
         BaseComponent[] msg = new ComponentBuilder()
                 .append(ChatColor.GREEN + "" + ChatColor.BOLD + "NEW GAME IN 10 SECONDS! Return to hub? ")
                 .append(returnToLobby.create())
@@ -363,14 +382,28 @@ public abstract class Game implements Listener {
                     scoreBoard.setScoreboard(player.getPlayer());
                 }
                 state = GameState.WAITING;
+
+                GameInfo.updateInfo(Core.instance.serverName, "state", "Waiting");
+
                 map = Maps.nextMap(map);
                 teleport();
             }
         }.runTaskLater(Core.instance, 20 * 10);
     }
 
+    private int lastPlayerCount = 0;
     private void startCountdown() {
         if (!this.isStarting) this.startingCountdown = players.size() > maxPlayers / 2 ? 30 : 60;
+        else {
+            if (lastPlayerCount < this.players.size()) {
+
+                this.startingCountdown -= (this.players.size() > maxPlayers / 2
+                        ? this.players.size() == maxPlayers ? 30 : 15 : 0);
+                lastPlayerCount = this.players.size();
+
+            }
+        }
+
         this.isStarting = true;
     }
 
@@ -422,7 +455,7 @@ public abstract class Game implements Listener {
         team.add(player);
         player.setTeam(team);
 
-        NameTag.changeTag(player.getPlayer(), ChatColor.RED + "[" + team.getName().toUpperCase() + "]", "", player.getTeam().getColor(), "");
+        NameTag.changeTag(player.getPlayer(), "", "", player.getTeam().getColor(), "");
     }
 
     /*
@@ -435,12 +468,18 @@ public abstract class Game implements Listener {
         if (MPlayer.getMPlayer(e.getPlayer().getName()).isVanished()) return;
         if (Maps.getLoadedMaps().size() == 0) return;
 
+        GameInfo.updateInfo(Core.instance.serverName, "onlinePlayers", players.size());
+
         e.getPlayer().getInventory().clear();
         e.getPlayer().setGameMode(GameMode.SURVIVAL);
 
         scoreBoard.setScoreboard(e.getPlayer());
 
         GamePlayer player = new GamePlayer(MPlayer.getMPlayer(e.getPlayer().getName()));
+
+        GamePlayerInfo.getGameInfo(player.getMPlayer()).set("game", this.name);
+        GamePlayerInfo.getGameInfo(player.getMPlayer()).set("map", this.map.getName());
+
         player.setGame(this);
         giveKitSelector(player);
 
@@ -469,7 +508,12 @@ public abstract class Game implements Listener {
         if (MPlayer.getMPlayer(e.getPlayer().getName()).isVanished()) return;
         if (Maps.getLoadedMaps().size() == 0) return;
 
+        GameInfo.updateInfo(Core.instance.serverName, "onlinePlayers", players.size());
+
         GamePlayer player = getGamePlayer(e.getPlayer());
+
+        GamePlayerInfo.getGameInfo(player.getMPlayer()).set("game", "");
+        GamePlayerInfo.getGameInfo(player.getMPlayer()).set("map", "");
 
 
         if (teams.length != 0) {
@@ -520,6 +564,11 @@ public abstract class Game implements Listener {
 
         if (player.isVanished()) return;
 
+        if (!this.state.equals(GameState.WAITING)) {
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, MessageColor.COLOR_ERROR + "Game is running!");
+            return;
+        }
+
         if (Bukkit.getOnlinePlayers().size() >= maxPlayers) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, MessageColor.COLOR_ERROR + "Game is full!");
         }
@@ -559,6 +608,17 @@ public abstract class Game implements Listener {
 
                 if (this.isStarting) {
                     startingCountdown--;
+                    if (startingCountdown <= 5) {
+                        Bukkit.broadcastMessage(ChatColor.YELLOW + "Starting in "
+                                + ChatColor.GOLD + startingCountdown + ChatColor.YELLOW + " seconds...");
+
+                        SoundEffect sfx = this.sfx.getOrDefault("sfx-start-countdown",
+                                new SoundEffect(Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f));
+
+                        for (GamePlayer pl : players) {
+                            sfx.play(pl.getPlayer());
+                        }
+                    }
                     if (startingCountdown <= 0) {
                         startingCountdown = 0;
                         isStarting = false;
@@ -579,6 +639,7 @@ public abstract class Game implements Listener {
     }
 
     private final java.util.Map<GamePlayer, GamePlayer> lastDamageMap = new HashMap<>();
+    private final java.util.Map<GamePlayer, Long> spawnKillCoolDownMap = new HashMap<>();
 
     @EventHandler
     public void onDamageByPlayer(EntityDamageByEntityEvent e) {
@@ -587,6 +648,12 @@ public abstract class Game implements Listener {
 
             GamePlayer player = getGamePlayer((Player) e.getEntity());
             GamePlayer damagedBy = getGamePlayer((Player) e.getDamager());
+
+            long coolDown = spawnKillCoolDownMap.getOrDefault(player, 0L);
+            if (coolDown + this.spawnKillCoolDown <= System.currentTimeMillis()) {
+                e.setCancelled(true);
+                return;
+            }
 
             if (player.getTeam().equals(damagedBy.getTeam())) {
                 e.setCancelled(true);
@@ -610,14 +677,24 @@ public abstract class Game implements Listener {
             return;
         }
 
+
         if (e.getEntity() instanceof Player) {
 
             if (isTeleportingMap.getOrDefault((Player) e.getEntity(), false)) {
+                ((Player) e.getEntity()).setHealth(20.0);
                 e.setCancelled(true);
                 return;
             }
+            double y = 1.0;
+            if (((Player) e.getEntity()).getHealth() - e.getFinalDamage() < 1 || (y = e.getEntity().getLocation().getY()) < 0) {
 
-            if (((Player) e.getEntity()).getHealth() - e.getFinalDamage() < 1) {
+                SoundEffect sfx;
+                if (y < 0.0) {
+                    sfx = this.sfx.getOrDefault("sfx-death-void", null);
+                } else {
+                    sfx = this.sfx.getOrDefault("sfx-death", null);
+                }
+                if (sfx != null) sfx.play((Player) e.getEntity());
 
                 e.getEntity().setVelocity(new Vector(0f, 0f, 0f));
 
@@ -645,6 +722,7 @@ public abstract class Game implements Listener {
                 onDeath(killed, killer != null);
 
                 lastDamageMap.remove(killed);
+                spawnKillCoolDownMap.put(killed, System.currentTimeMillis());
             }
         }
     }
@@ -722,6 +800,8 @@ public abstract class Game implements Listener {
     @EventHandler
     public void onServerShutdown(ServerShutDownEvent e) {
         map.resetBlockData();
+        GameInfo.updateInfo(Core.instance.serverName, "state", "Offline");
+        GameInfo.updateInfo(Core.instance.serverName, "onlinePlayers", 0);
     }
 
     private final java.util.Map<Player, Location> prevLocation = new HashMap<>();
@@ -791,6 +871,14 @@ public abstract class Game implements Listener {
 
     public int getKillCoins() {
         return killCoins;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
     }
 
 }

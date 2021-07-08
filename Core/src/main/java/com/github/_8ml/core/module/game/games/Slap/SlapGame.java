@@ -5,20 +5,25 @@ Created by @8ML (https://github.com/8ML) on June 26 2021
 
 import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.module.game.exceptions.GameInitializationException;
+import com.github._8ml.core.module.game.games.Slap.achievements.SlapNewbieAchievement;
 import com.github._8ml.core.module.game.games.Slap.kits.DefaultKit;
 import com.github._8ml.core.module.game.manager.Game;
 import com.github._8ml.core.module.game.manager.kit.Kit;
 import com.github._8ml.core.module.game.manager.map.Map;
 import com.github._8ml.core.module.game.manager.player.GamePlayer;
 import com.github._8ml.core.module.game.manager.team.Team;
+import com.github._8ml.core.module.game.sfx.SoundEffect;
+import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.utils.DeveloperMode;
 import com.github._8ml.core.utils.ScoreBoard;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class SlapGame extends Game {
 
@@ -40,9 +45,18 @@ public class SlapGame extends Game {
                 }, 50, 5);
         setCustomKillMsg(ChatColor.YELLOW + " slapped ");
         gameObjective = "First to 15 kills!";
+
+        initializeSFX();
     }
 
-    public void teleportPlayer(GamePlayer player) {
+    private void initializeSFX() {
+
+        this.sfx.put("sfx-death", new SoundEffect(Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1f, 1f));
+        this.sfx.put("sfx-death-void", new SoundEffect(Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 1f, 1f));
+
+    }
+
+    private void teleportPlayer(GamePlayer player) {
         List<GamePlayer> players = player.getTeam().getPlayers();
         Map map = getMap();
 
@@ -140,6 +154,7 @@ public class SlapGame extends Game {
         int currentPlayerKills = playerKills.getOrDefault(killer, 0);
         playerKills.put(killer, currentPlayerKills + 1);
         teleportPlayer(killed);
+        Objects.requireNonNull(Achievement.getAchievement(SlapNewbieAchievement.class)).complete(killer.getMPlayer());
     }
 
     @Override

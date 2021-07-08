@@ -41,6 +41,8 @@ public class TabList implements Listener {
 
                 PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
 
+
+
                 Field a = packet.getClass().getDeclaredField("header");
                 a.setAccessible(true);
                 Field b = packet.getClass().getDeclaredField("footer");

@@ -9,7 +9,7 @@ import com.github._8ml.core.player.hierarchy.Ranks;
 import com.github._8ml.core.player.social.friend.Friend;
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
-import com.github._8ml.core.game.GameInfo;
+import com.github._8ml.core.game.GamePlayerInfo;
 import com.github._8ml.core.utils.DeveloperMode;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -146,7 +146,7 @@ public class FriendCMD extends CMD {
         StringBuilder pageBuilder = new StringBuilder();
         for (MPlayer pageEntry : page) {
 
-            GameInfo gameInfo = GameInfo.getGameInfo(pageEntry);
+            GamePlayerInfo gameInfo = GamePlayerInfo.getGameInfo(pageEntry);
             Core.instance.getLogger().info(String.valueOf(gameInfo));
             String info = pageEntry.isOffline() ? MessageColor.COLOR_ERROR + "is Offline"
                     : gameInfo.getGame().equals("") ? MessageColor.COLOR_HIGHLIGHT + "is in a Lobby"

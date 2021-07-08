@@ -9,6 +9,7 @@ import com.github._8ml.core.module.game.manager.kit.Kit;
 import com.github._8ml.core.module.game.manager.team.Team;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.currency.Coin;
+import com.github._8ml.core.player.level.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -70,11 +71,14 @@ public class GamePlayer {
 
         if (team != null) return;
 
-        this.mPlayer.getPlayer().sendMessage("\n" +
+        this.player.sendMessage("");
+        this.player.sendMessage(
                 ChatColor.GREEN + "" + ChatColor.BOLD + "VICTORY!\n\n"
-                + ChatColor.YELLOW + this.mPlayer.getPlayerStr() + " won!" + "\n"
+                        + ChatColor.YELLOW + this.mPlayer.getPlayerStr() + " won!"
         );
+        this.player.sendMessage("");
         Coin.addCoins(this.mPlayer, getGame().getWinningCoins(), true);
+        Level.addLevel(this.mPlayer, (int) (Math.random() * (Game.WIN_XP_MAX - Game.WIN_XP_MIN)) + Game.WIN_XP_MIN);
 
     }
 
@@ -82,10 +86,13 @@ public class GamePlayer {
 
         if (team != null) return;
 
-        this.mPlayer.getPlayer().sendMessage("\n" +
+        this.player.sendMessage("");
+        this.player.sendMessage(
                 ChatColor.RED + "" + ChatColor.BOLD + "GAME OVER!\n\n"
-                        + ChatColor.YELLOW + winning.getPlayer().getName() + " won!" + "\n"
+                        + ChatColor.YELLOW + winning.getPlayer().getName() + " won!"
         );
+        this.player.sendMessage("");
+        Level.addLevel(this.mPlayer, (int) (Math.random() * (Game.LOOSE_XP_MAX - Game.LOOSE_XP_MIN)) + Game.LOOSE_XP_MIN);
     }
 
     public MPlayer getMPlayer() {

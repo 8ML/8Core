@@ -29,7 +29,7 @@ public class DefaultKit extends Kit {
         ItemMeta meta = stick.getItemMeta();
 
         Assert.assertNotNull("Meta cannot be null! (Kit) (getItems)", meta);
-        meta.addEnchant(Enchantment.KNOCKBACK, 3, true);
+        meta.addEnchant(Enchantment.KNOCKBACK, 6, true);
         meta.setDisplayName(ChatColor.GREEN + "Slap that a**");
 
         stick.setItemMeta(meta);

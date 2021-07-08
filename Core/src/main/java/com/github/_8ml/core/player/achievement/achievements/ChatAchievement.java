@@ -9,7 +9,7 @@ import com.github._8ml.core.player.achievement.Achievement;
 public class ChatAchievement extends Achievement {
 
     public ChatAchievement() {
-        super("Chat", "Say something in chat for the first time", 50, 50);
+        super("Chat", "Say something in chat for the first time", "", 50, 50);
     }
 
     @Override

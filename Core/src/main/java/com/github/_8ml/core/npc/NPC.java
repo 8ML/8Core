@@ -13,29 +13,41 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityInteractEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class NPC implements Listener {
 
+    public interface InteractionEvent {
+
+        void run(Player player);
+
+    }
+
+    private static final List<NPC> npcList = new ArrayList<>();
+
     private final String name;
     private final String displayName;
     private final String uuid;
-    private final Runnable onInteract;
+    private final InteractionEvent onInteract;
 
     private EntityPlayer playerEntity;
     private Location location;
 
-    public NPC(String name, String displayName, String uuid, Runnable onInteract) {
+    public NPC(String name, String displayName, String uuid, InteractionEvent onInteract) {
         this.name = name;
         this.displayName = displayName;
         this.uuid = uuid;
         this.onInteract = onInteract;
         Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
+        npcList.add(this);
     }
 
     public void spawn(Location location) {
@@ -64,7 +76,7 @@ public class NPC implements Listener {
     public void destroy() {
 
         ((CraftWorld) Objects.requireNonNull(this.location.getWorld())).getHandle().removeEntity(this.playerEntity);
-
+        npcList.remove(this);
     }
 
     public String getName() {
@@ -87,7 +99,7 @@ public class NPC implements Listener {
         return location;
     }
 
-    public Runnable getOnInteract() {
+    public InteractionEvent getOnInteract() {
         return onInteract;
     }
 
@@ -95,7 +107,7 @@ public class NPC implements Listener {
     public void interactAtNPC(EntityInteractEvent e) {
         if (e.getEntity().getEntityId() == this.playerEntity.getId()) {
 
-            this.onInteract.run();
+            this.onInteract.run((Player) e.getEntity());
 
         }
     }

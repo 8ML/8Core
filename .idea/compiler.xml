@@ -8,12 +8,7 @@
       <module name="club.mineplay.Core" target="1.8" />
       <module name="club.mineplay.Hub" target="1.8" />
       <module name="club.mineplay.Hub.test" target="1.8" />
-      <module name="Core.BungeeProxy" target="1.8" />
-      <module name="Core.BungeeProxy.main" target="1.8" />
-      <module name="Core.BungeeProxy.test" target="1.8" />
-      <module name="Core.Core" target="1.8" />
-      <module name="Core.Core.main" target="1.8" />
-      <module name="Core.Core.test" target="1.8" />
+      <module name="Core" target="1.8" />
       <module name="Core.main" target="1.8" />
       <module name="Core.test" target="1.8" />
       <module name="Game.main" target="1.8" />

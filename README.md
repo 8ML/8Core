@@ -8,17 +8,25 @@
 - Friends System
 - Preferences System
 - Command Manager
-- Plugin Messaging (Staff Messages, DM's, Party chat, Friend requests)
+- Plugin Messaging (Staff and Direct Messages, Party Chat, Friend Requests)
 - Report System
 - Module System:
    - Hub Module:
-      - CosmeticsAPI
+      - Cosmetics API
       - Join Items
-   - Game Module:
+   - Game Module (TODO):
       - Minigame API
       - Map System
 
 8Core is easy for developers to build on, as all classes are well documented and easy to use.
+
+Please note this repository is intended for developers and the customization by file is limited.
+
+Options that can be customized by config file:
+- Server Info (Name, Domains)
+- Primary Colors
+- Tablist in Hub
+- Scoreboard in Hub
 
 ## Usage
 8Core is currently in development stages and is not ready for public use. 

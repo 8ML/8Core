@@ -6,19 +6,19 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.player.hierarchy.Ranks;
-import com.github._8ml.core.utils.PluginMessenger;
-import javafx.fxml.Initializable;
+import com.github._8ml.core.storage.SQL;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import com.github._8ml.core.storage.SQL;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")

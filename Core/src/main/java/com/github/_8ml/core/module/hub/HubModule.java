@@ -8,6 +8,7 @@ import com.github._8ml.core.cmd.CommandCenter;
 import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.module.Module;
 import com.github._8ml.core.module.hub.commands.CosmeticCMD;
+import com.github._8ml.core.module.hub.commands.admin.NPCCMD;
 import com.github._8ml.core.module.hub.commands.admin.NewsCMD;
 import com.github._8ml.core.module.hub.cosmetic.CosmeticManager;
 import com.github._8ml.core.module.hub.events.*;
@@ -38,6 +39,7 @@ public class HubModule extends Module {
     private void registerCommands() {
         CommandCenter.registerCommand(new CosmeticCMD(), mainInstance, this);
         CommandCenter.registerCommand(new NewsCMD(), mainInstance, this);
+        CommandCenter.registerCommand(new NPCCMD(), mainInstance, this);
     }
 
     private void registerEvents() {

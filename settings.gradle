@@ -1,2 +1,3 @@
 rootProject.name = '8Core'
+
 include 'Core', 'BungeeProxy'

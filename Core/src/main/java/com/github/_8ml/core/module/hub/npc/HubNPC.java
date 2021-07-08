@@ -40,7 +40,7 @@ public class HubNPC implements Listener {
                     ", `y` DOUBLE" +
                     ", `z` DOUBLE" +
                     ", `yaw` FLOAT" +
-                    ", `pitch` FLOAT");
+                    ", `pitch` FLOAT)");
 
         } catch (SQLException e) {
             e.printStackTrace();

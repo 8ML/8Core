@@ -24,7 +24,7 @@ public class GameInfo {
                     ", `onlinePlayers` INT NOT NULL" +
                     ", `minPlayers` INT NOT NULL" +
                     ", `maxPlayers` INT NOT NULL" +
-                    ", `state` VARCHAR(255) NOT NULL"
+                    ", `state` VARCHAR(255) NOT NULL)"
             );
 
         } catch (SQLException e) {
@@ -44,8 +44,10 @@ public class GameInfo {
     private String state;
 
     private GameInfo(String serverName) {
-
         this.serverName = serverName;
+
+        if (serverName.equals("")) return;
+
         fetch();
 
     }
@@ -225,5 +227,9 @@ public class GameInfo {
         }
 
         return servers;
+    }
+
+    public static void init() {
+        new GameInfo("");
     }
 }

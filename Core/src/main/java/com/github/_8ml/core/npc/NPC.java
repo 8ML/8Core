@@ -5,10 +5,7 @@ Created by @8ML (https://github.com/8ML) on June 25 2021
 
 import com.github._8ml.core.Core;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.server.v1_16_R3.ChatComponentText;
-import net.minecraft.server.v1_16_R3.EntityPlayer;
-import net.minecraft.server.v1_16_R3.PlayerInteractManager;
-import net.minecraft.server.v1_16_R3.WorldServer;
+import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
@@ -55,18 +52,27 @@ public class NPC implements Listener {
         CraftServer server = (CraftServer) Bukkit.getServer();
 
         EntityPlayer playerEntity = new EntityPlayer(
-                server.getHandle().getServer(),
-                (WorldServer) server.getServer().worldServer,
+                ((CraftServer) Bukkit.getServer()).getHandle().getServer(),
+                ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle(),
                 new GameProfile(UUID.fromString(this.uuid), this.name),
-                new PlayerInteractManager((WorldServer) server.getServer().worldServer)
+                new PlayerInteractManager(((CraftWorld) location.getWorld()).getHandle())
         );
+
+        playerEntity.setPositionRotation(location.getX(),
+                location.getY(),
+                location.getZ(),
+                location.getYaw(),
+                location.getPitch());
 
         playerEntity.setCustomName(new ChatComponentText(this.displayName));
         playerEntity.setCustomNameVisible(true);
         playerEntity.setNoGravity(true);
         playerEntity.ai = false;
+        playerEntity.playerConnection = new PlayerConnection(((CraftServer) Bukkit.getServer()).getServer(),
+                new NetworkManager(EnumProtocolDirection.SERVERBOUND), playerEntity);
 
         ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle().addEntity(playerEntity);
+        ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle().removePlayer(playerEntity);
 
         this.playerEntity = playerEntity;
         this.location = location;

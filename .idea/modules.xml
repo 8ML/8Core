@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/8Core.iml" filepath="$PROJECT_DIR$/.idea/8Core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/club.mineplay.Hub.iml" filepath="$PROJECT_DIR$/.idea/modules/club.mineplay.Hub.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/club.mineplay.Hub.test.iml" filepath="$PROJECT_DIR$/.idea/modules/club.mineplay.Hub.test.iml" />
     </modules>

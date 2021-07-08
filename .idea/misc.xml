@@ -8,8 +8,7 @@
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$/BungeeProxy" />
-    <file type="web" url="file://$PROJECT_DIR$/Core" />
+    <file type="web" url="file://$PROJECT_DIR$" />
     <file type="web" url="file://$PROJECT_DIR$/Game" />
     <file type="web" url="file://$PROJECT_DIR$/Hub" />
   </component>

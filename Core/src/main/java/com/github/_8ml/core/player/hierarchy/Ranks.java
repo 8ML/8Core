@@ -5,6 +5,8 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 
 import com.github._8ml.core.player.hierarchy.ranks.*;
 
+import java.util.Arrays;
+
 public enum Ranks {
 
     DEFAULT(Default.class),
@@ -38,11 +40,7 @@ public enum Ranks {
 
     public static void registerRanks() {
 
-        for (Ranks rank : values()) {
-
-            rank.register();
-
-        }
+        Arrays.stream(values()).forEach(Ranks::register);
 
     }
 }

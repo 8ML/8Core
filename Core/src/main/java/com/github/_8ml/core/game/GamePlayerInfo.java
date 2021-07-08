@@ -106,4 +106,5 @@ public class GamePlayerInfo {
         gamePlayerInfoMap.put(player, info);
         return gamePlayerInfoMap.get(player);
     }
+
 }

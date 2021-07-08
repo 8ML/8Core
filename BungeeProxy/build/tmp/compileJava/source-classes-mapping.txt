@@ -1,0 +1,12 @@
+com/github/_8ml/core/bungee/events/JoinEvent.java
+ com.github._8ml.core.bungee.events.JoinEvent
+com/github/_8ml/core/bungee/Main.java
+ com.github._8ml.core.bungee.Main
+com/github/_8ml/core/bungee/player/UUID.java
+ com.github._8ml.core.bungee.player.UUID
+com/github/_8ml/core/bungee/storage/file/ConfigFile.java
+ com.github._8ml.core.bungee.storage.file.ConfigFile
+com/github/_8ml/core/bungee/storage/SQL.java
+ com.github._8ml.core.bungee.storage.SQL
+com/github/_8ml/core/bungee/events/QuitEvent.java
+ com.github._8ml.core.bungee.events.QuitEvent

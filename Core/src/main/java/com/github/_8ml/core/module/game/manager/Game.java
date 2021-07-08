@@ -41,6 +41,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -68,7 +69,7 @@ public abstract class Game implements Listener {
     private final int maxPlayers;
     private final int minPlayers;
 
-    private final List<GamePlayer> players = new LinkedList<>();
+    private final List<GamePlayer> players = new ArrayList<>();
     private final java.util.Map<Player, GamePlayer> gamePlayerMap = new HashMap<>();
     private final java.util.Map<Player, Boolean> isTeleportingMap = new HashMap<>();
 
@@ -77,12 +78,14 @@ public abstract class Game implements Listener {
     private ScoreBoard scoreBoard;
     private boolean isStarting;
     private int startingCountdown;
-    private String customKillMessage;
 
+    protected String customKillMessage;
     protected String gameObjective;
     protected boolean canBreakBlocks;
     protected boolean canPlaceBlocks;
     protected boolean hunger;
+    protected boolean allowDayNightCycle;
+    protected boolean allowRain;
     protected long spawnKillCoolDown = TimeUnit.SECONDS.toMillis(3);
 
     protected final java.util.Map<String, SoundEffect> sfx = new HashMap<>();
@@ -122,6 +125,8 @@ public abstract class Game implements Listener {
         }
 
         this.state = GameState.WAITING;
+
+        updateGameRules();
     }
 
     public Game(String name, Kit[] kits, int minPlayers, int maxPlayers, int winningCoins, int killCoins)
@@ -152,6 +157,8 @@ public abstract class Game implements Listener {
         }
 
         this.state = GameState.WAITING;
+
+        updateGameRules();
     }
 
     protected abstract void onStart();
@@ -206,10 +213,6 @@ public abstract class Game implements Listener {
         );
     }
 
-    protected void setCustomKillMsg(String msg) {
-        this.customKillMessage = msg;
-    }
-
     private void updateScoreboardPlaceholders() {
 
         String startingCount = this.startingCountdown < 10 ? "0:0" + this.startingCountdown : "0:" + this.startingCountdown;
@@ -222,6 +225,10 @@ public abstract class Game implements Listener {
         scoreBoard.addCustomPlaceholder("%startingInfo%", isStarting
                 ? "Starting in " + ChatColor.GREEN + startingCount
                 : "Not enough players");
+    }
+
+    private void updateGameRules() {
+        this.map.getWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, this.allowDayNightCycle);
     }
 
     protected void kitSelector() {
@@ -386,6 +393,7 @@ public abstract class Game implements Listener {
                 GameInfo.updateInfo(Core.instance.serverName, "state", "Waiting");
 
                 map = Maps.nextMap(map);
+                updateGameRules();
                 teleport();
             }
         }.runTaskLater(Core.instance, 20 * 10);
@@ -508,7 +516,6 @@ public abstract class Game implements Listener {
         if (MPlayer.getMPlayer(e.getPlayer().getName()).isVanished()) return;
         if (Maps.getLoadedMaps().size() == 0) return;
 
-        GameInfo.updateInfo(Core.instance.serverName, "onlinePlayers", players.size());
 
         GamePlayer player = getGamePlayer(e.getPlayer());
 
@@ -521,6 +528,8 @@ public abstract class Game implements Listener {
         }
         players.remove(player);
         gamePlayerMap.remove(e.getPlayer());
+
+        GameInfo.updateInfo(Core.instance.serverName, "onlinePlayers", players.size());
 
         if (this.state.equals(GameState.IN_GAME)) {
             if (players.size() > 2) {
@@ -673,6 +682,7 @@ public abstract class Game implements Listener {
     public void onDamage(EntityDamageEvent e) {
 
         if (this.state.equals(GameState.WAITING) || this.state.equals(GameState.ENDING)) {
+            ((Player) e.getEntity()).setHealth(20.0);
             e.setCancelled(true);
             return;
         }
@@ -823,6 +833,14 @@ public abstract class Game implements Listener {
             } else {
                 prevLocation.put(e.getPlayer(), e.getPlayer().getLocation());
             }
+        }
+    }
+
+    @EventHandler
+    public void weatherChange(WeatherChangeEvent e) {
+        if (!allowRain) {
+            e.getWorld().setStorm(false);
+            e.getWorld().setThundering(false);
         }
     }
 

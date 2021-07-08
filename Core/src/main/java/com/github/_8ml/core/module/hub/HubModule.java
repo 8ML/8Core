@@ -14,6 +14,7 @@ import com.github._8ml.core.module.hub.cosmetic.CosmeticManager;
 import com.github._8ml.core.module.hub.events.*;
 import com.github._8ml.core.module.hub.item.JoinItems;
 import com.github._8ml.core.module.hub.news.News;
+import com.github._8ml.core.module.hub.npc.HubNPC;
 import com.github._8ml.core.module.hub.scoreboard.Scoreboard;
 import com.github._8ml.core.storage.file.PluginFile;
 import org.bukkit.Bukkit;
@@ -47,6 +48,7 @@ public class HubModule extends Module {
         new InteractionEvent(mainInstance);
         new UpdaterEvent(mainInstance);
         new VoidEvent(mainInstance);
+        new HubNPC(mainInstance);
 
         new JoinItems();
     }

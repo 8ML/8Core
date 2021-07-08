@@ -43,9 +43,16 @@ public class SlapGame extends Game {
                 new Kit[]{
                         new DefaultKit()
                 }, 50, 5);
-        setCustomKillMsg(ChatColor.YELLOW + " slapped ");
+
+        //Settings
+        canBreakBlocks = false;
+        canPlaceBlocks = false;
+        allowRain = false;
+        allowDayNightCycle = false;
+        customKillMessage = ChatColor.YELLOW + " slapped ";
         gameObjective = "First to 15 kills!";
 
+        //SFX
         initializeSFX();
     }
 

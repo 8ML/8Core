@@ -18,7 +18,9 @@ repositories {
 
 }
 
-build {}
+build {
+
+}
 
 configurations {
     provided
@@ -39,6 +41,4 @@ dependencies {
 
 shadowJar {
     configurations = [project.configurations.depends]
-
-
 }

@@ -1,8 +1,0 @@
-header: '&f&lWelcome to &d&l%networkName%'
-footer: '&fVisit &9&l%networkStoreDomain% &ffor cool perks!'
-
-#
-# Placeholders:
-# %networkName%, %networkDomain%, %networkStoreDomain%, %networkAppealDomain%, %discordLink%
-# %playerRank%, %playerLevel%, %playerXP%, %playerCoins%, %onlineServer%, %onlineBungee%, :nl: (new line)
-#

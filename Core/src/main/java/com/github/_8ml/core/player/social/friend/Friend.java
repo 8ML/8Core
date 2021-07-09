@@ -23,6 +23,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+
+/**
+ * This class manages friends.
+ * You need to get the instance of this class through the getFriendManager(MPlayer) method
+ * to add/remove/request and send private messages.
+ */
 public class Friend {
 
     static {
@@ -46,6 +52,7 @@ public class Friend {
     private final MPlayer player;
     private final SQL sql = Core.instance.sql;
 
+
     private Friend(MPlayer player) {
         this.player = player;
         this.playerFull = this.player.getRankEnum().getRank().getFullPrefixWithSpace()
@@ -53,6 +60,12 @@ public class Friend {
                 + this.player.getPlayerStr();
     }
 
+
+    /**
+     * This will send a request to the specified player
+     *
+     * @param player The player to send request to
+     */
     private void sendRequest(MPlayer player) {
 
         if (player.equals(this.player)) {
@@ -102,6 +115,12 @@ public class Friend {
     }
 
 
+    /**
+     * This will check if this.player has a friend request from the specified player
+     *
+     * @param player The player
+     * @return Will return true if this.player has a request from the specified player.
+     */
     public boolean checkRequest(MPlayer player) {
 
         boolean result = false;
@@ -134,6 +153,13 @@ public class Friend {
 
     }
 
+
+    /**
+     * This will add the specified player to this.player's friend list by sending a request.
+     * The specified player has to accept it for this.player and player to become friends.
+     *
+     * @param player The player to send a request to
+     */
     public void addFriend(MPlayer player) {
 
         String targetFull = player.getRankEnum().getRank().getFullPrefixWithSpace()
@@ -164,6 +190,12 @@ public class Friend {
 
     }
 
+
+    /**
+     * This will decline this.player's incoming friend request from the specified player
+     *
+     * @param player The player
+     */
     public void decline(MPlayer player) {
 
         if (isFriendsWith(player)) {
@@ -190,6 +222,12 @@ public class Friend {
 
     }
 
+
+    /**
+     * This will force add the specified player to this.player's friend list
+     *
+     * @param player The player to add.
+     */
     private void add(MPlayer player) {
 
         List<MPlayer> currentFriends = getFriends();
@@ -200,6 +238,12 @@ public class Friend {
 
     }
 
+
+    /**
+     * Thi swill remove the specified player from this.player's friend list
+     *
+     * @param player The player to remove
+     */
     public void remove(MPlayer player) {
 
         if (this.player.getPlayerStr().equals(player.getPlayerStr())) {
@@ -226,6 +270,12 @@ public class Friend {
 
     }
 
+
+    /**
+     * This will add the specified player to this.player's friend requests.
+     *
+     * @param player The player to add
+     */
     public void addRequest(MPlayer player) {
 
         List<MPlayer> requests = getRequests();
@@ -235,6 +285,12 @@ public class Friend {
 
     }
 
+
+    /**
+     * This will remove the specified player from this.player's requests
+     *
+     * @param player The player to remove
+     */
     public void removeRequest(MPlayer player) {
 
         List<MPlayer> requests = getRequests();
@@ -243,6 +299,12 @@ public class Friend {
         update("requests", requestsList);
     }
 
+
+    /**
+     * This will return this.player's friend request
+     *
+     * @return List of MPlayer
+     */
     public List<MPlayer> getRequests() {
 
         List<MPlayer> players = new ArrayList<>();
@@ -269,6 +331,12 @@ public class Friend {
 
     }
 
+
+    /**
+     * This will get this.player's friend list
+     *
+     * @return List of MPlayer
+     */
     public List<MPlayer> getFriends() {
 
         List<MPlayer> players = new ArrayList<>();
@@ -295,6 +363,13 @@ public class Friend {
 
     }
 
+
+    /**
+     * This will update the specified column with the specified list of uuid's seperated by comma
+     *
+     * @param column Column to update
+     * @param list   String of uuid's seperated by comma
+     */
     public void update(String column, String list) {
         try {
 
@@ -314,6 +389,13 @@ public class Friend {
         }
     }
 
+
+    /**
+     * Checks if the specified player is on this.player's friend list
+     *
+     * @param player The player to check
+     * @return Will return true if the specified player is on this.player's friend list
+     */
     public boolean isFriendsWith(MPlayer player) {
 
         for (MPlayer p : getFriends()) {
@@ -323,6 +405,13 @@ public class Friend {
         return false;
     }
 
+
+    /**
+     * This will build a String of uuid's seperated by a comma from a List of MPlayer
+     *
+     * @param list List of MPlayer
+     * @return String of uuid's seperated by comma
+     */
     private String buildList(List<MPlayer> list) {
         StringBuilder requestListBuilder;
         String requestList;
@@ -346,6 +435,13 @@ public class Friend {
         return requestList;
     }
 
+
+    /**
+     * This will build a player list from a String of uuid's seperated by a comma
+     *
+     * @param strList The uuid's seperated by comma
+     * @return List of MPlayer
+     */
     private List<MPlayer> getList(String strList) {
 
         DeveloperMode.log("GetList: " + strList);
@@ -372,8 +468,21 @@ public class Friend {
     }
 
 
+    /**
+     * This map keeps track of the last recipient of the player so they can simply
+     * reply using /r instead of /msg player
+     */
     public static final Map<MPlayer, MPlayer> lastRecipient = new HashMap<>();
 
+
+    /**
+     * This will send a private message through bungee if the receivers
+     * private message preference allows it.
+     *
+     * @param sender   The sending player
+     * @param receiver The receiving Player
+     * @param message  The message
+     */
     public void sendMessage(Player sender, MPlayer receiver, String message) {
 
         if (MPlayer.getMPlayer(sender.getName()).equals(receiver)) {
@@ -415,6 +524,13 @@ public class Friend {
 
     }
 
+
+    /**
+     * This will return an instance of this class
+     *
+     * @param player The player to manage
+     * @return Instance of Friend
+     */
     public static Friend getFriendManager(MPlayer player) {
         if (friendManager.containsKey(player)) return friendManager.get(player);
         Friend fm = new Friend(player);
@@ -422,6 +538,12 @@ public class Friend {
         return fm;
     }
 
+
+    /**
+     * This will add the player to the database if they are not already there
+     *
+     * @param player The player to initialize
+     */
     public static void initialize(MPlayer player) {
         try {
 

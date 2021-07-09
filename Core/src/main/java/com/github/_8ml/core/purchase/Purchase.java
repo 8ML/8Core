@@ -26,6 +26,15 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * This class handles purchases
+ * <p>
+ * A purchase can be made by creating an instance of this class,
+ * with the name, key, price and player
+ * <p>
+ * It will automatically open a UI to confirm.
+ */
 public class Purchase implements Listener {
 
     static {
@@ -50,6 +59,13 @@ public class Purchase implements Listener {
 
     private final static SQL sql = Core.instance.sql;
 
+
+    /**
+     * @param name   Name of the item
+     * @param key    Purchase key of the item
+     * @param price  Price of the item
+     * @param player Player that is purchasing this item
+     */
     public Purchase(String name, String key, int price, MPlayer player) {
 
         this.name = name;
@@ -62,6 +78,10 @@ public class Purchase implements Listener {
         confirm();
     }
 
+
+    /**
+     * This will open the confirm Prompt UI with a confirm button and a cancel button
+     */
     private void confirm() {
 
         new PromptGUI(this.player, "Confirm Purchase") {
@@ -121,6 +141,13 @@ public class Purchase implements Listener {
 
     }
 
+
+    /**
+     * This will open a Prompt ui with the error message.
+     * Called when purchase was unsuccessful
+     *
+     * @param message The error message to display
+     */
     private void error(String message) {
 
         player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1f, 6f);
@@ -134,7 +161,7 @@ public class Purchase implements Listener {
                 Label error = new Label(MessageColor.COLOR_ERROR + "Purchase Failed", Material.RED_WOOL, null);
                 error.setLore(new String[]{MessageColor.COLOR_MAIN + message});
 
-                for (int i = 0; i < getInventory().getSize(); i ++) {
+                for (int i = 0; i < getInventory().getSize(); i++) {
                     componentMap.put(i, error);
                 }
 
@@ -145,6 +172,10 @@ public class Purchase implements Listener {
     }
 
 
+    /**
+     * This will add the purchase to the database. This will be called
+     * if the purchase was successful
+     */
     private void updateDatabase() {
         try {
 
@@ -164,22 +195,44 @@ public class Purchase implements Listener {
         }
     }
 
+
+    /**
+     * @return The name of this item
+     */
     public String getName() {
         return name;
     }
 
+
+    /**
+     * @return The purchase key of this item
+     */
     public String getKey() {
         return key;
     }
 
+
+    /**
+     * @return The price of this item
+     */
     public int getPrice() {
         return price;
     }
 
+
+    /**
+     * @return The player that is purchasing this item
+     */
     public MPlayer getPlayer() {
         return player;
     }
 
+
+    /**
+     * @param player Player to check
+     * @param key    Purchase key to look for
+     * @return Will return true if the player has purchased this item.
+     */
     public static boolean hasPurchased(MPlayer player, String key) {
 
         try {

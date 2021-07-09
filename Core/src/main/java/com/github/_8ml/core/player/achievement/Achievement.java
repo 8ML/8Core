@@ -17,6 +17,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+
+/**
+ * This class manages the achievements.
+ * <p>
+ * This is abstract and has to be extended by the achievement
+ * types.
+ * <p>
+ * When completing an achievement, you need to call:
+ * getAchievement(MyAchievement.class).complete(MPlayer)
+ * <p>
+ * (MyAchievement.class being the class that extends this class containing rewards, name, game and description)
+ */
 public abstract class Achievement {
 
     static {
@@ -45,6 +57,14 @@ public abstract class Achievement {
     private final int rewardCoins;
     private final int rewardXP;
 
+
+    /**
+     * @param name        The name of the achievement
+     * @param description The description of the achievement
+     * @param game        The game this belongs to (Set to "" for no game)
+     * @param rewardCoins The reward coins on complete
+     * @param rewardXP    The reward xp on complete
+     */
     public Achievement(String name, String description, String game, int rewardCoins, int rewardXP) {
         this.name = name;
         this.description = description;
@@ -53,8 +73,20 @@ public abstract class Achievement {
         this.rewardXP = rewardXP;
     }
 
+
+    /**
+     * This is called when the achievement is completed
+     *
+     * @param player The player who completed it
+     */
     protected abstract void onComplete(MPlayer player);
 
+
+    /**
+     * This will complete this achievement for the specified player and add it to the database
+     *
+     * @param player The player to complete
+     */
     public void complete(MPlayer player) {
         try {
 
@@ -105,6 +137,13 @@ public abstract class Achievement {
         }
     }
 
+
+    /**
+     * This checks if the specified player has completed this achievement
+     *
+     * @param player The player to check
+     * @return Will return true if the specified player has completed this achievement
+     */
     public boolean hasAchievement(MPlayer player) {
         boolean result = false;
 
@@ -154,6 +193,12 @@ public abstract class Achievement {
         return rewardXP;
     }
 
+
+    /**
+     * This will fetch the achievements from the specified player
+     *
+     * @param player The player to fetch
+     */
     public static void fetchAchievements(MPlayer player) {
         if (loadedPlayer.containsKey(player)) return;
         try {
@@ -180,15 +225,34 @@ public abstract class Achievement {
         }
     }
 
+
+    /**
+     * This will register the achievement
+     *
+     * @param achievement The class extending achievement to register
+     */
     public static void registerAchievement(Achievement achievement) {
         achievements.add(achievement);
         Core.instance.getLogger().info("Registered Achievement " + achievement.name + "....");
     }
 
+
+    /**
+     * This will return all the registered achievements
+     *
+     * @return Set of Achievement
+     */
     public static Set<Achievement> getAchievementClasses() {
         return achievements;
     }
 
+
+    /**
+     * This will get the registered achievement from the type class
+     *
+     * @param clazz The class extending achievement
+     * @return Instance of the achievement
+     */
     public static Achievement getAchievement(Class<? extends Achievement> clazz) {
         for (Achievement ach : achievements) {
             if (ach.getClass().getSimpleName().equals(clazz.getSimpleName())) return ach;

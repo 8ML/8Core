@@ -11,7 +11,7 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.sql.SQLException;
 
-public enum ServerConfig {
+public enum ServerConfig implements ConfigurationReload {
 
     SPAWN_POINT(true),
     SERVER_NAME(false),
@@ -27,6 +27,7 @@ public enum ServerConfig {
 
     ServerConfig(boolean ignore) {
         this.ignore = ignore;
+        ConfigurationReload.registerClass(this);
     }
 
     public void setValue(Object value) {
@@ -56,6 +57,11 @@ public enum ServerConfig {
         for (ConfigurationReload classToReload : ConfigurationReload.classes) {
             classToReload.reloadConfigs();
         }
+    }
+
+    @Override
+    public void reloadConfigs() {
+        refreshValues();
     }
 
     /**

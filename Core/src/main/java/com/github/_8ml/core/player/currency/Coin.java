@@ -16,6 +16,14 @@ public class Coin {
 
     private final static SQL sql = Core.instance.sql;
 
+
+    /**
+     * This will add the specified coins to the specified player.
+     *
+     * @param player The player to add to
+     * @param coins  The coins to add
+     * @param msg    If true, this will send a message with a sound to the player
+     */
     public static void addCoins(MPlayer player, int coins, boolean msg) {
 
         try {
@@ -46,6 +54,13 @@ public class Coin {
 
     }
 
+
+    /**
+     * This will remove the specified coins from the specified player
+     *
+     * @param player The player to remove from
+     * @param coins  The coins to remove
+     */
     public static void removeCoins(MPlayer player, int coins) {
         try {
 
@@ -68,6 +83,13 @@ public class Coin {
         player.update();
     }
 
+
+    /**
+     * This will set the specified player's coins to the specified coins
+     *
+     * @param player The player to set the coins
+     * @param coins  The coins to set
+     */
     public static void setCoins(MPlayer player, int coins) {
         try {
 
@@ -87,6 +109,12 @@ public class Coin {
         player.update();
     }
 
+
+    /**
+     * This will reset the specified player's coins
+     *
+     * @param player The player to reset
+     */
     public static void resetCoins(MPlayer player) {
         try {
 

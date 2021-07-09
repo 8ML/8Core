@@ -14,6 +14,12 @@ import java.util.List;
 
 public class ArmorUtils {
 
+
+    /**
+     *
+     * @param color The color of the leather armor
+     * @return A full set of leather armor colored in the specified color.
+     */
     public static List<ItemStack> createLeatherArmor(Color color) {
 
         ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);

@@ -11,6 +11,22 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * This is the main module class.
+ * It is abstract, so it has to be extended by other classes.
+ * <p>
+ * This is "mini plugins" inside the main core plugin and will
+ * provide additional functionality when enabled
+ * <p>
+ * To create a module, create a class and extend this class
+ * The name specified in the main constructor will be used
+ * to enable it through the server.yml
+ * <p>
+ * There has to be a module specified for the plugin to start.
+ * If module specified in server.yml does not exist, it will throw
+ * a module not found exception followed by a shutdown.
+ */
 public abstract class Module implements ConfigurationReload {
 
     private static final Set<Module> modules = new HashSet<>();
@@ -19,6 +35,11 @@ public abstract class Module implements ConfigurationReload {
     protected Core mainInstance;
     protected String name;
 
+
+    /**
+     * @param name This will be used when enabling this module
+     *             through the server.yml
+     */
     public Module(String name) {
         this.name = name;
     }
@@ -35,6 +56,7 @@ public abstract class Module implements ConfigurationReload {
     }
 
     protected abstract void onEnable();
+
     protected abstract void onDisable();
 
 
@@ -59,13 +81,13 @@ public abstract class Module implements ConfigurationReload {
         return enabledModule;
     }
 
-    public static Module getModule(Class<?> clazz) {
+    public static Module getModule(Class<? extends Module> clazz) throws ModuleNotFoundException {
         for (Module mod : modules) {
             if (clazz.getSimpleName().equals(mod.getClass().getSimpleName())) {
                 return mod;
             }
         }
-        return null;
+        throw new ModuleNotFoundException("Module class " + clazz.getName() + " Does not exist or is not registered");
     }
 
 }

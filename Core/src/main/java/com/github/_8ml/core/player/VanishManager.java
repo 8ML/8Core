@@ -4,6 +4,9 @@ Created by @8ML (https://github.com/8ML) on June 26 2021
 */
 
 import com.github._8ml.core.Core;
+import com.github._8ml.core.config.MessageColor;
+import com.github._8ml.core.events.event.UpdateEvent;
+import com.github._8ml.core.utils.ActionBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +17,7 @@ import java.util.Set;
 
 public class VanishManager implements Listener {
 
-    private static Set<Player> vanishedPlayers = new HashSet<>();
+    private static final Set<Player> vanishedPlayers = new HashSet<>();
 
     public VanishManager(Core plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -52,6 +55,17 @@ public class VanishManager implements Listener {
             }
 
         }
+    }
+
+    @EventHandler
+    public void onUpdate(UpdateEvent e) {
+
+        if (e.getType().equals(UpdateEvent.UpdateType.SECONDS)) {
+            for (Player player : vanishedPlayers) {
+                ActionBar.sendActionBar(player, MessageColor.COLOR_SUCCESS + "You are vanished!");
+            }
+        }
+
     }
 
 }

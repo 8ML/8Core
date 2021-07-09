@@ -24,7 +24,7 @@ import com.github._8ml.core.events.event.UpdateEvent;
 import com.github._8ml.core.exceptions.ModuleNotFoundException;
 import com.github._8ml.core.game.GameInfo;
 import com.github._8ml.core.module.Module;
-import com.github._8ml.core.module.build.BuildModule;
+import com.github._8ml.core.module.buildserver.BuildModule;
 import com.github._8ml.core.module.game.GameModule;
 import com.github._8ml.core.module.game.games.Slap.achievements.SlapNewbieAchievement;
 import com.github._8ml.core.player.achievement.Achievement;

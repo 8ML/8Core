@@ -1,11 +1,11 @@
-package com.github._8ml.core.module.build.commands;
+package com.github._8ml.core.module.buildserver.commands;
 /*
 Created by @8ML (https://github.com/8ML) on June 27 2021
 */
 
 import com.github._8ml.core.cmd.CMD;
 import com.github._8ml.core.config.MessageColor;
-import com.github._8ml.core.module.build.MapCreator;
+import com.github._8ml.core.module.buildserver.MapCreator;
 import com.github._8ml.core.player.hierarchy.Ranks;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

@@ -1,4 +1,4 @@
-package com.github._8ml.core.module.build.events;
+package com.github._8ml.core.module.buildserver.events;
 /*
 Created by @8ML (https://github.com/8ML) on June 27 2021
 */

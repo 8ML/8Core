@@ -21,6 +21,13 @@ import org.bukkit.inventory.meta.BookMeta;
 @SuppressWarnings("deprecation")
 public class BookUtil {
 
+
+    /**
+     * This will open a book to the player.
+     *
+     * @param player Player to display book to
+     * @param book   The book to open
+     */
     public static void openBook(Player player, ItemStack book) {
         final int slot = player.getInventory().getHeldItemSlot();
         final ItemStack old = player.getInventory().getItem(slot);
@@ -29,6 +36,12 @@ public class BookUtil {
         player.getInventory().setItem(slot, old);
     }
 
+
+    /**
+     * This will display the help book to the specified player
+     *
+     * @param player The player to display this book to
+     */
     public static void displayHelpBook(Player player) {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta bookMeta = (BookMeta) book.getItemMeta();

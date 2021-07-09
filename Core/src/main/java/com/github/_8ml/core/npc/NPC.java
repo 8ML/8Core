@@ -20,6 +20,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+
+/**
+ * This class handles NPC's
+ */
 public class NPC implements Listener {
 
     public interface InteractionEvent {
@@ -38,6 +42,13 @@ public class NPC implements Listener {
     private EntityPlayer playerEntity;
     private Location location;
 
+
+    /**
+     * @param name        Name of the npc
+     * @param displayName Display name of the npc
+     * @param uuid        The uuid to fetch skin from
+     * @param onInteract  The event to fire when a player interacts with it
+     */
     public NPC(String name, String displayName, String uuid, InteractionEvent onInteract) {
         this.name = name;
         this.displayName = displayName;
@@ -47,6 +58,12 @@ public class NPC implements Listener {
         npcList.add(this);
     }
 
+
+    /**
+     * This will spawn the npc at the specified location
+     *
+     * @param location The location to spawn at.
+     */
     public void spawn(Location location) {
 
         CraftServer server = (CraftServer) Bukkit.getServer();

@@ -10,7 +10,7 @@ import net.md_5.bungee.api.ChatColor;
 import java.awt.*;
 import java.util.Objects;
 
-public enum MessageColor {
+public enum MessageColor implements ConfigurationReload {
 
     COLOR_MAIN,
     COLOR_HIGHLIGHT,
@@ -20,6 +20,10 @@ public enum MessageColor {
     private static final PluginFile file = Core.instance.messagesYML;
 
     private ChatColor color;
+
+    MessageColor() {
+        ConfigurationReload.registerClass(this);
+    }
 
     @Override
     public String toString() {
@@ -43,4 +47,8 @@ public enum MessageColor {
         }
     }
 
+    @Override
+    public void reloadConfigs() {
+        refreshColors();
+    }
 }

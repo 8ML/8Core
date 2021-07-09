@@ -10,6 +10,14 @@ import com.github._8ml.core.config.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+
+/**
+ * There is actually no good use for this command but its kinda fun to play around with.
+ * The handling of this command is located in FunEvent.class
+ *
+ * This command should be registered through CommandCenter.registerTestCommand()
+ * or just be disabled/removed as it causes a lot of damage, trust me i tried.
+ */
 public class EACMD extends CMD {
 
     public static boolean ea = false;

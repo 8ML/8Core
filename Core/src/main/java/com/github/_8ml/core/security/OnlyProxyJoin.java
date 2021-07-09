@@ -16,6 +16,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+/**
+ * This class is a extra security measure to prevent players from directly joining the individual
+ * servers. Since the servers are offline, any player could impersonate another player since mojang
+ * does not validate the account on offline servers.
+ *
+ * Bungee cord has "inbuilt" security for this if you set bungeecord = true in spigot.yml but if you forget
+ * this, then this class will come in handy.
+ *
+ * The bungee plugin will add the player to the proxyPlayer table when a player joins, when the player then joins
+ * the spigot server, it checks if the players name is located there. If it is, then it will allow them to join,
+ * if not then it wil disallow them.
+ */
 public class OnlyProxyJoin implements Listener {
 
     static {

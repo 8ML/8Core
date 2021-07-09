@@ -44,7 +44,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Core extends JavaPlugin implements ConfigurationReload {
+public class Core extends JavaPlugin {
 
     public static Core instance;
     public static final Set<Player> onlinePlayers = new HashSet<>();
@@ -85,7 +85,6 @@ public class Core extends JavaPlugin implements ConfigurationReload {
 
         this.serverYML = new PluginFile(this, null, "server.yml", "server.yml");
 
-        ConfigurationReload.registerClass(this);
         ServerConfig.reloadAllConfigs();
     }
 
@@ -213,9 +212,4 @@ public class Core extends JavaPlugin implements ConfigurationReload {
             Module.getEnabledModule().disableModule();
     }
 
-    @Override
-    public void reloadConfigs() {
-        ServerConfig.refreshValues();
-        MessageColor.refreshColors();
-    }
 }

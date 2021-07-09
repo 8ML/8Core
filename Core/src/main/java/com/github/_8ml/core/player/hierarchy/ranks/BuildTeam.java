@@ -12,7 +12,7 @@ public class BuildTeam extends Rank {
     public BuildTeam() {
         super("Build Team", "Build Team", 30.0D);
         setColor(ChatColor.DARK_GREEN, ChatColor.DARK_GREEN);
-        setDescription("Builders are level designers who build\n" +
+        setDescription("Builders are level designers who buildserver\n" +
                        "all of the maps exclusive to " + ServerConfig.SERVER_NAME + ".");
     }
 

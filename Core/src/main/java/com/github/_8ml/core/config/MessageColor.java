@@ -21,13 +21,13 @@ public enum MessageColor implements ConfigurationReload {
 
     private ChatColor color;
 
-    MessageColor() {
-        ConfigurationReload.registerClass(this);
-    }
-
     @Override
     public String toString() {
         return this.color.toString();
+    }
+
+    public void init() {
+        ConfigurationReload.registerClass(this);
     }
 
     private static Color parseColor(String configValue) {
@@ -44,6 +44,12 @@ public enum MessageColor implements ConfigurationReload {
 
             color.color = ChatColor.of(parseColor(Objects.requireNonNull(file.getString(color.name()))));
 
+        }
+    }
+
+    public static void initialize() {
+        for (MessageColor value : values()) {
+            value.init();
         }
     }
 

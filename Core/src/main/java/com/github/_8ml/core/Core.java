@@ -27,6 +27,7 @@ import com.github._8ml.core.module.Module;
 import com.github._8ml.core.module.buildserver.BuildModule;
 import com.github._8ml.core.module.game.GameModule;
 import com.github._8ml.core.module.game.games.Slap.achievements.SlapNewbieAchievement;
+import com.github._8ml.core.player.VanishManager;
 import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.achievement.achievements.ChatAchievement;
 import com.github._8ml.core.player.hierarchy.Ranks;
@@ -85,6 +86,8 @@ public class Core extends JavaPlugin {
 
         this.serverYML = new PluginFile(this, null, "server.yml", "server.yml");
 
+        ServerConfig.initialize();
+        MessageColor.initialize();
         ServerConfig.reloadAllConfigs();
     }
 
@@ -97,6 +100,7 @@ public class Core extends JavaPlugin {
 
         new NameTag(this);
         new BossBar(this);
+        new VanishManager(this);
     }
 
     private void registerAchievements() {

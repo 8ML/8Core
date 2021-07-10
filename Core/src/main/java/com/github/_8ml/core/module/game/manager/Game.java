@@ -839,8 +839,7 @@ public abstract class Game implements Listener {
     @EventHandler
     public void weatherChange(WeatherChangeEvent e) {
         if (!allowRain) {
-            e.getWorld().setStorm(false);
-            e.getWorld().setThundering(false);
+            e.setCancelled(true);
         }
     }
 

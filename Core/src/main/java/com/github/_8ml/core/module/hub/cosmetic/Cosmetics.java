@@ -3,6 +3,7 @@ package com.github._8ml.core.module.hub.cosmetic;
 Created by @8ML (https://github.com/8ML) on June 19 2021
 */
 
+import com.github._8ml.core.module.hub.cosmetic.cosmetics.gadgets.FireworkGunGadget;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.gadgets.StickGadget;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.hats.FishBowlHat;
 import com.github._8ml.core.module.hub.cosmetic.cosmetics.hats.GrassHat;
@@ -14,6 +15,7 @@ public enum Cosmetics {
 
     //GADGETS
     STICK_GADGET(StickGadget.class),
+    FIREWORK_GUN_GADGET(FireworkGunGadget.class),
     //OUTFITS
     ASTRONAUT_OUTFIT(AstronautOutfit.class),
     RAINBOW_OUTFIT(RainbowOutfit.class),

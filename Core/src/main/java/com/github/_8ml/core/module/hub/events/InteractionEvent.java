@@ -60,7 +60,7 @@ public class InteractionEvent implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.LOW)
     public void onDamageByPlayer(EntityDamageByEntityEvent e) {
         if (e.getEntityType().equals(EntityType.PLAYER)) {
             e.setCancelled(true);

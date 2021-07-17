@@ -3,4 +3,4 @@ options:
   SERVER_DOMAIN: "example.com"
   SERVER_STORE_DOMAIN: "example.com/store"
   SERVER_APPEAL_DOMAIN: "example.com/appeal"
-  SERVER_DISCORD_LINK: "example.com/discord"
+  SERVER_DISCORD_LINK: "https://example.com/discord"

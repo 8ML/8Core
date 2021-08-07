@@ -18,7 +18,7 @@ import java.util.Map;
 public class DefaultKit extends Kit {
 
     public DefaultKit() {
-        super("Default", new ItemStack(Material.STICK), 0);
+        super("Default", "The default kit", new ItemStack(Material.STICK), 0);
     }
 
     @Override

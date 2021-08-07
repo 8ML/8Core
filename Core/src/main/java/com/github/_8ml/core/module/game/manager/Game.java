@@ -86,6 +86,7 @@ public abstract class Game implements Listener {
     protected boolean hunger;
     protected boolean allowDayNightCycle;
     protected boolean allowRain;
+    protected boolean pvp;
     protected long spawnKillCoolDown = TimeUnit.SECONDS.toMillis(3);
 
     protected final java.util.Map<String, SoundEffect> sfx = new HashMap<>();
@@ -652,6 +653,11 @@ public abstract class Game implements Listener {
 
     @EventHandler
     public void onDamageByPlayer(EntityDamageByEntityEvent e) {
+
+        if (!pvp) {
+            e.setCancelled(true);
+            return;
+        }
 
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 

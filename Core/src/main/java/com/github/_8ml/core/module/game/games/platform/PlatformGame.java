@@ -6,12 +6,14 @@ Created by @8ML (https://github.com/8ML) on August 07 2021
 import com.github._8ml.core.Core;
 import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.module.game.exceptions.GameInitializationException;
+import com.github._8ml.core.module.game.games.platform.achievements.PlatformSurvivorAchievement;
 import com.github._8ml.core.module.game.games.platform.kits.AcrobatKit;
 import com.github._8ml.core.module.game.games.platform.kits.DefaultKit;
 import com.github._8ml.core.module.game.manager.Game;
 import com.github._8ml.core.module.game.manager.kit.Kit;
 import com.github._8ml.core.module.game.manager.player.GamePlayer;
 import com.github._8ml.core.module.game.sfx.SoundEffect;
+import com.github._8ml.core.player.achievement.Achievement;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -164,7 +166,7 @@ public class PlatformGame extends Game {
     }
 
     @Override
-    protected void onEnd() {
+    protected void onEnd(Object winner) {
         for (Location key : originalFloor.keySet()) {
             getPlayers().get(0).getPlayer().getWorld()
                     .getBlockAt(key).setBlockData(originalFloor.get(key).getBlockData());
@@ -174,6 +176,10 @@ public class PlatformGame extends Game {
         for (Player player : Core.onlinePlayers) {
             player.setAllowFlight(false);
         }
+
+        Objects.requireNonNull(Achievement.getAchievement(PlatformSurvivorAchievement.class))
+                .complete(((GamePlayer) winner).getMPlayer());
+
     }
 
     @Override

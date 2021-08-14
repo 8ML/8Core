@@ -1,12 +1,12 @@
-package com.github._8ml.core.module.game.games.Slap;
+package com.github._8ml.core.module.game.games.slap;
 /*
 Created by @8ML (https://github.com/8ML) on June 26 2021
 */
 
 import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.module.game.exceptions.GameInitializationException;
-import com.github._8ml.core.module.game.games.Slap.achievements.SlapNewbieAchievement;
-import com.github._8ml.core.module.game.games.Slap.kits.DefaultKit;
+import com.github._8ml.core.module.game.games.slap.achievements.SlapNewbieAchievement;
+import com.github._8ml.core.module.game.games.slap.kits.DefaultKit;
 import com.github._8ml.core.module.game.manager.Game;
 import com.github._8ml.core.module.game.manager.kit.Kit;
 import com.github._8ml.core.module.game.manager.map.Map;
@@ -19,7 +19,6 @@ import com.github._8ml.core.utils.ScoreBoard;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +34,7 @@ public class SlapGame extends Game {
     private int redKills;
 
     public SlapGame() throws GameInitializationException {
-        super("Slap",
+        super("slap",
                 new Team[]{
                         new Team("Blue", ChatColor.BLUE, 1, 4),
                         new Team("Red", ChatColor.RED, 1, 4)
@@ -138,7 +137,7 @@ public class SlapGame extends Game {
     }
 
     @Override
-    protected void onEnd() {
+    protected void onEnd(Object winner) {
         this.blueKills = 0;
         this.redKills = 0;
         this.playerKills.clear();

@@ -6,8 +6,6 @@ Created by @8ML (https://github.com/8ML) on June 18 2021
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.ui.component.Component;
 import com.github._8ml.core.ui.component.components.Button;
-import com.github._8ml.core.utils.DeveloperMode;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.HashMap;

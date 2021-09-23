@@ -1,3 +1,6 @@
 rootProject.name = '8Core'
 
 include 'Core', 'BungeeProxy'
+include 'Discord'
+include 'DiscordCommunicationAPI'
+

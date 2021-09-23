@@ -39,6 +39,7 @@ dependencies {
     provided files('Jars/spigot.jar')
     depends 'commons-io:commons-io:2.6'
     depends 'com.googlecode.json-simple:json-simple:1.1.1'
+    depends project(':DiscordCommunicationAPI')
 }
 
 

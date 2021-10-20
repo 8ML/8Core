@@ -20,7 +20,7 @@
       - Minigame API
       - Map System
 - Extras:
-   - 2-factor authenciation through Discord
+   - 2-factor authentication through Discord
    - Check if account is migrated from Mojang to Microsoft
 
 8Core is easy for developers to build on, as all classes are well documented and easy to use.

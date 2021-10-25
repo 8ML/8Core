@@ -10,6 +10,8 @@
 - Command Manager
 - Plugin Messaging (Staff and Direct Messages, Party Chat, Friend Requests)
 - Report System
+- BungeeCord Server Manager:
+   - Create, Remove, and Edit Servers without restarting proxy
 - Module System:
    - Hub Module:
       - Cosmetics API
@@ -17,6 +19,9 @@
    - Game Module:
       - Minigame API
       - Map System
+- Extras:
+   - 2-factor authentication through Discord
+   - Check if account is migrated from Mojang to Microsoft
 
 8Core is easy for developers to build on, as all classes are well documented and easy to use.
 

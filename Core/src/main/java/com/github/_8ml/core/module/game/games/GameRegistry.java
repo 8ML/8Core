@@ -6,12 +6,14 @@ Created by @8ML (https://github.com/8ML) on June 26 2021
 import com.github._8ml.core.Core;
 import com.github._8ml.core.game.GameInfo;
 import com.github._8ml.core.module.game.exceptions.GameNotFoundException;
-import com.github._8ml.core.module.game.games.Slap.SlapGame;
+import com.github._8ml.core.module.game.games.slap.SlapGame;
+import com.github._8ml.core.module.game.games.platform.PlatformGame;
 import com.github._8ml.core.module.game.manager.Game;
 
 public enum GameRegistry {
 
-    SLAP(SlapGame.class);
+    SLAP(SlapGame.class),
+    PLATFORM(PlatformGame.class);
 
     private final Class<? extends Game> gameClass;
     private Game game;

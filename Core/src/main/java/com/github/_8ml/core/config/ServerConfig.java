@@ -27,6 +27,9 @@ public enum ServerConfig implements ConfigurationReload {
 
     ServerConfig(boolean ignore) {
         this.ignore = ignore;
+    }
+
+    public void init() {
         ConfigurationReload.registerClass(this);
     }
 
@@ -56,6 +59,12 @@ public enum ServerConfig implements ConfigurationReload {
     public static void reloadAllConfigs() {
         for (ConfigurationReload classToReload : ConfigurationReload.classes) {
             classToReload.reloadConfigs();
+        }
+    }
+
+    public static void initialize() {
+        for (ServerConfig conf : values()) {
+            conf.init();
         }
     }
 

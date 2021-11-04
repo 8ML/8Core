@@ -10,10 +10,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,18 +91,41 @@ public class NPC implements Listener {
         playerEntity.playerConnection = new PlayerConnection(((CraftServer) Bukkit.getServer()).getServer(),
                 new NetworkManager(EnumProtocolDirection.SERVERBOUND), playerEntity);
 
-        ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle().addEntity(playerEntity);
-        ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle().removePlayer(playerEntity);
-
         this.playerEntity = playerEntity;
+
+        sendSpawnPacket();
+
         this.location = location;
 
     }
 
     public void destroy() {
 
-        ((CraftWorld) Objects.requireNonNull(this.location.getWorld())).getHandle().removeEntity(this.playerEntity);
+        for (Player player : Core.onlinePlayers) {
+
+            PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(this.playerEntity.getId());
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+
+        }
         npcList.remove(this);
+        HandlerList.unregisterAll(this);
+    }
+
+    private void sendSpawnPacket() {
+        for (Player player : Core.onlinePlayers) {
+            sendSpawnPacket(player);
+        }
+    }
+
+    private void sendSpawnPacket(Player player) {
+        PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity(playerEntity);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+
+        PacketPlayOutPlayerInfo playerInfoPacket = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, playerEntity);
+        playerInfoPacket.new PlayerInfoData(playerEntity.getProfile(), 1,
+                EnumGamemode.valueOf(playerEntity.playerConnection.getPlayer().getGameMode().toString()),
+                IChatBaseComponent.ChatSerializer.b(playerEntity.getName()));
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(playerInfoPacket);
     }
 
     public String getName() {
@@ -133,5 +159,11 @@ public class NPC implements Listener {
             this.onInteract.run((Player) e.getEntity());
 
         }
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        sendSpawnPacket(e.getPlayer());
+
     }
 }

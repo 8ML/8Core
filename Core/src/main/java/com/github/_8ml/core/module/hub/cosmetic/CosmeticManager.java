@@ -231,7 +231,7 @@ public class CosmeticManager implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onLeftClickPlayer(EntityDamageByEntityEvent e) {
 
         if (e.getDamager() instanceof Player) {

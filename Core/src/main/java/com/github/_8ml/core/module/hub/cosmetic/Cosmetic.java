@@ -3,6 +3,7 @@ package com.github._8ml.core.module.hub.cosmetic;
 Created by @8ML (https://github.com/8ML) on 5/30/2021
 */
 
+import com.github._8ml.core.Core;
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.module.hub.HubModule;
 import com.github._8ml.core.player.MPlayer;
@@ -10,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.Assert;
@@ -17,7 +19,7 @@ import com.github._8ml.core.player.hierarchy.Ranks;
 
 import java.util.Collections;
 
-public abstract class Cosmetic {
+public abstract class Cosmetic implements Listener {
 
     private final String name;
     private final String description;
@@ -128,6 +130,8 @@ public abstract class Cosmetic {
             setStackMeta(meta);
             this.stack.setItemMeta(meta);
         }
+
+        Core.instance.getServer().getPluginManager().registerEvents(this, Core.instance);
 
     }
 

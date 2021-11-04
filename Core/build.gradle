@@ -12,6 +12,7 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+
 repositories {
     mavenCentral()
     mavenLocal();
@@ -28,6 +29,8 @@ configurations {
     depends
     runtime.extendsFrom depends
     compile.extendsFrom depends
+
+
 }
 
 
@@ -36,6 +39,7 @@ dependencies {
     provided files('Jars/spigot.jar')
     depends 'commons-io:commons-io:2.6'
     depends 'com.googlecode.json-simple:json-simple:1.1.1'
+    depends project(':DiscordCommunicationAPI')
 }
 
 

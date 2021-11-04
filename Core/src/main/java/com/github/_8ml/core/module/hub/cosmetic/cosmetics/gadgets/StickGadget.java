@@ -21,7 +21,7 @@ public class StickGadget extends Cosmetic {
 
     public StickGadget() {
         super("Stick", 100, new ItemStack(Material.STICK), new ItemStack(Material.STICK), MessageColor.COLOR_MAIN
-                + "Slap some bi****", CosmeticType.GADGET, Ranks.DEFAULT);
+                + "slap some bi****", CosmeticType.GADGET, Ranks.DEFAULT);
 
         setCoolDown(10L);
     }

@@ -86,6 +86,7 @@ public abstract class Game implements Listener {
     protected boolean hunger;
     protected boolean allowDayNightCycle;
     protected boolean allowRain;
+    protected boolean pvp;
     protected long spawnKillCoolDown = TimeUnit.SECONDS.toMillis(3);
 
     protected final java.util.Map<String, SoundEffect> sfx = new HashMap<>();
@@ -173,7 +174,7 @@ public abstract class Game implements Listener {
 
     protected abstract void updateBoardPlaceholders();
 
-    protected abstract void onEnd();
+    protected abstract void onEnd(Object winner);
 
     protected abstract void onKill(GamePlayer killed, GamePlayer killer);
 
@@ -231,7 +232,7 @@ public abstract class Game implements Listener {
         this.map.getWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, this.allowDayNightCycle);
     }
 
-    protected void kitSelector() {
+    private void kitSelector() {
         if (kits.length < 2) return;
         item[0] = new InteractItem(
                 ChatColor.YELLOW + "Kits",
@@ -326,7 +327,7 @@ public abstract class Game implements Listener {
             if (team.getName().equalsIgnoreCase(winner.getName())) continue;
             team.loose(winner);
         }
-        endGame();
+        endGame(winner);
 
     }
 
@@ -340,16 +341,16 @@ public abstract class Game implements Listener {
                 player.loose(winner);
             }
         }
-        endGame();
+        endGame(winner);
     }
 
-    public void endGame() {
+    public void endGame(Object winner) {
         map.resetBlockData();
         this.state = GameState.ENDING;
 
         GameInfo.updateInfo(Core.instance.serverName, "state", "Ending");
 
-        onEnd();
+        onEnd(winner);
 
         ComponentBuilder returnToLobby = new ComponentBuilder()
                 .append(ChatColor.GREEN + "" + ChatColor.BOLD + "CLICK HERE!")
@@ -653,6 +654,11 @@ public abstract class Game implements Listener {
     @EventHandler
     public void onDamageByPlayer(EntityDamageByEntityEvent e) {
 
+        if (!pvp) {
+            e.setCancelled(true);
+            return;
+        }
+
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 
             GamePlayer player = getGamePlayer((Player) e.getEntity());
@@ -839,8 +845,7 @@ public abstract class Game implements Listener {
     @EventHandler
     public void weatherChange(WeatherChangeEvent e) {
         if (!allowRain) {
-            e.getWorld().setStorm(false);
-            e.getWorld().setThundering(false);
+            e.setCancelled(true);
         }
     }
 

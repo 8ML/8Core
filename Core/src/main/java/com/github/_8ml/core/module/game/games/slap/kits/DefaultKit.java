@@ -1,4 +1,4 @@
-package com.github._8ml.core.module.game.games.Slap.kits;
+package com.github._8ml.core.module.game.games.slap.kits;
 /*
 Created by @8ML (https://github.com/8ML) on June 26 2021
 */
@@ -18,7 +18,7 @@ import java.util.Map;
 public class DefaultKit extends Kit {
 
     public DefaultKit() {
-        super("Default", new ItemStack(Material.STICK), 0);
+        super("Default", "The default kit", new ItemStack(Material.STICK), 0);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DefaultKit extends Kit {
 
         Assert.assertNotNull("Meta cannot be null! (Kit) (getItems)", meta);
         meta.addEnchant(Enchantment.KNOCKBACK, 6, true);
-        meta.setDisplayName(ChatColor.GREEN + "Slap that a**");
+        meta.setDisplayName(ChatColor.GREEN + "slap that a**");
 
         stick.setItemMeta(meta);
 

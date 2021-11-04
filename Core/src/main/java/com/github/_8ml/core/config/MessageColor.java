@@ -3,8 +3,8 @@ package com.github._8ml.core.config;
 Created by @8ML (https://github.com/8ML) on 4/24/2021
 */
 
-import com.github._8ml.core.storage.file.PluginFile;
 import com.github._8ml.core.Core;
+import com.github._8ml.core.storage.file.PluginFile;
 import net.md_5.bungee.api.ChatColor;
 
 import java.awt.*;
@@ -21,13 +21,13 @@ public enum MessageColor implements ConfigurationReload {
 
     private ChatColor color;
 
-    MessageColor() {
-        ConfigurationReload.registerClass(this);
-    }
-
     @Override
     public String toString() {
         return this.color.toString();
+    }
+
+    public void init() {
+        ConfigurationReload.registerClass(this);
     }
 
     private static Color parseColor(String configValue) {
@@ -44,6 +44,12 @@ public enum MessageColor implements ConfigurationReload {
 
             color.color = ChatColor.of(parseColor(Objects.requireNonNull(file.getString(color.name()))));
 
+        }
+    }
+
+    public static void initialize() {
+        for (MessageColor value : values()) {
+            value.init();
         }
     }
 

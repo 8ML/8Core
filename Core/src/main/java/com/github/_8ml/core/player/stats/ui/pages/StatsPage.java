@@ -53,7 +53,7 @@ public class StatsPage extends Page {
         double level = Level.getLevelFromXP(this.t.getXP(), true);
         double levelF = Math.floor(level);
         int iLevel = (int) levelF;
-        double percentage = (level - Math.floor(level)) * 100;
+        double percentage = (level - levelF) * 100;
         double percentage10 = percentage / 10;
 
         StringBuilder builder = new StringBuilder();

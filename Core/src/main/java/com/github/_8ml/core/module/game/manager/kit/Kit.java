@@ -31,12 +31,14 @@ public abstract class Kit {
 
     private final int price;
     private final String name;
+    private final String description;
     private final ItemStack display;
 
-    public Kit(String name, ItemStack display, int price) {
+    public Kit(String name, String description, ItemStack display, int price) {
         this.name = name;
         this.display = display;
         this.price = price;
+        this.description = description;
     }
 
     protected abstract Map<ItemStack, ItemInfo> getItems();
@@ -44,6 +46,10 @@ public abstract class Kit {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public ItemStack getDisplay() {

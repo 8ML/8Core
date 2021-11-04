@@ -6,11 +6,16 @@ Created by @8ML (https://github.com/8ML) on 4/23/2021
 import com.github._8ml.core.cmd.CommandCenter;
 import com.github._8ml.core.cmd.commands.*;
 import com.github._8ml.core.cmd.commands.admin.*;
-import com.github._8ml.core.cmd.commands.special.*;
-import com.github._8ml.core.cmd.commands.staff.*;
-import com.github._8ml.core.cmd.commands.social.*;
-import com.github._8ml.core.cmd.commands.test.*;
-import com.github._8ml.core.config.ConfigurationReload;
+import com.github._8ml.core.cmd.commands.social.FriendCMD;
+import com.github._8ml.core.cmd.commands.social.MessageCMD;
+import com.github._8ml.core.cmd.commands.social.ReplyCMD;
+import com.github._8ml.core.cmd.commands.special.TitleCMD;
+import com.github._8ml.core.cmd.commands.staff.PunishCMD;
+import com.github._8ml.core.cmd.commands.staff.StaffChatCMD;
+import com.github._8ml.core.cmd.commands.staff.TPCMD;
+import com.github._8ml.core.cmd.commands.staff.VanishCMD;
+import com.github._8ml.core.cmd.commands.test.PunishCMDTEST;
+import com.github._8ml.core.cmd.commands.test.UpdateRankCMDTEST;
 import com.github._8ml.core.config.MessageColor;
 import com.github._8ml.core.config.ServerConfig;
 import com.github._8ml.core.events.ChatEvent;
@@ -26,7 +31,10 @@ import com.github._8ml.core.game.GameInfo;
 import com.github._8ml.core.module.Module;
 import com.github._8ml.core.module.buildserver.BuildModule;
 import com.github._8ml.core.module.game.GameModule;
-import com.github._8ml.core.module.game.games.Slap.achievements.SlapNewbieAchievement;
+import com.github._8ml.core.module.game.games.platform.achievements.PlatformSurvivorAchievement;
+import com.github._8ml.core.module.game.games.slap.achievements.SlapNewbieAchievement;
+import com.github._8ml.core.module.hub.HubModule;
+import com.github._8ml.core.player.VanishManager;
 import com.github._8ml.core.player.achievement.Achievement;
 import com.github._8ml.core.player.achievement.achievements.ChatAchievement;
 import com.github._8ml.core.player.hierarchy.Ranks;
@@ -35,7 +43,8 @@ import com.github._8ml.core.storage.SQL;
 import com.github._8ml.core.storage.file.PluginFile;
 import com.github._8ml.core.utils.*;
 import com.github._8ml.core.world.MapExtract;
-import com.github._8ml.core.module.hub.HubModule;
+import com.github._8ml.eightcore.discordcommapi.DiscordCommunicationAPI;
+import com.github._8ml.eightcore.discordcommapi.packet.PacketManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -85,6 +94,8 @@ public class Core extends JavaPlugin {
 
         this.serverYML = new PluginFile(this, null, "server.yml", "server.yml");
 
+        ServerConfig.initialize();
+        MessageColor.initialize();
         ServerConfig.reloadAllConfigs();
     }
 
@@ -97,11 +108,13 @@ public class Core extends JavaPlugin {
 
         new NameTag(this);
         new BossBar(this);
+        new VanishManager(this);
     }
 
     private void registerAchievements() {
         Achievement.registerAchievement(new ChatAchievement());
         Achievement.registerAchievement(new SlapNewbieAchievement());
+        Achievement.registerAchievement(new PlatformSurvivorAchievement());
     }
 
     private final int[] timer = {0};
@@ -195,6 +208,12 @@ public class Core extends JavaPlugin {
                         "\nPLEASE SET developmentMode TO false IN ServerConfig class");
             }
         }
+
+        //Initialize Discord Communication
+        new DiscordCommunicationAPI(configYML.getString("discord.packetCommIP"),
+                configYML.getInt("discord.socketCommPort"));
+        PacketManager.initialize();
+
 
         Ranks.registerRanks();
 

@@ -13,7 +13,7 @@ public class DiscordConnectAccountPacket extends Packet {
     }
 
     public void send(String discordName) {
-        send(new String[]{"CONNECT", discordName});
+        super.send(new String[]{"CONNECT", discordName});
     }
 
     @Override

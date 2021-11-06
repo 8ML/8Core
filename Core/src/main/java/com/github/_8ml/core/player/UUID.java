@@ -3,7 +3,7 @@ package com.github._8ml.core.player;
 Created by @8ML (https://github.com/8ML) on 4/23/2021
 */
 
-import org.apache.commons.io.IOUtils;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.IOUtils;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

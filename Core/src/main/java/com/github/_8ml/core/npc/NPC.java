@@ -122,10 +122,10 @@ public class NPC implements Listener {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 
         PacketPlayOutPlayerInfo playerInfoPacket = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, playerEntity);
-        playerInfoPacket.new PlayerInfoData(playerEntity.getProfile(), 1,
-                EnumGamemode.valueOf(playerEntity.playerConnection.getPlayer().getGameMode().toString()),
-                IChatBaseComponent.ChatSerializer.b(playerEntity.getName()));
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(playerInfoPacket);
+        //playerInfoPacket.new PlayerInfoData(playerEntity.getProfile(), 1,
+        //        EnumGamemode.valueOf(playerEntity.playerConnection.getPlayer().getGameMode().toString()),
+        //        IChatBaseComponent.ChatSerializer.b(playerEntity.getName()));
+        //((CraftPlayer) player).getHandle().playerConnection.sendPacket(playerInfoPacket);
     }
 
     public String getName() {

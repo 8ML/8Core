@@ -54,14 +54,14 @@ public class Authentication extends ListenerAdapter {
     private void confirm() {
 
         DiscordCommandPacket packet = new DiscordCommandPacket();
-        packet.send(new String[]{"CONFIRMED", this.userID});
+        packet.send(new String[]{"AUTH", "CONFIRMED", this.userID});
 
     }
 
     private void deny() {
 
         DiscordCommandPacket packet = new DiscordCommandPacket();
-        packet.send(new String[]{"DENY", this.userID});
+        packet.send(new String[]{"AUTH", "DENY", this.userID});
 
     }
 

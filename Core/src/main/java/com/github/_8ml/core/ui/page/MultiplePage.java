@@ -60,7 +60,6 @@ public abstract class MultiplePage extends Page {
                     currentPageBuilderList.put(slot, component);
                     if (componentList.indexOf(component) == componentList.size() - 1)
                         pages.put(pageBuilderIndex, currentPageBuilderList);
-
                     slot = isFrame() && getFrameSlots().contains(slot + 1) ? slot + 2 : slot + 1;
                 }
 

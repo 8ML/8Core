@@ -9,7 +9,10 @@ import com.github._8ml.core.discord.DiscordAccount;
 import com.github._8ml.core.player.MPlayer;
 import com.github._8ml.core.player.hierarchy.Ranks;
 import com.github._8ml.core.utils.ResultAction;
+import com.github._8ml.eightcore.discordcommapi.packet.PacketType;
+import com.github._8ml.eightcore.discordcommapi.packet.listener.PacketListener;
 import com.github._8ml.eightcore.discordcommapi.packet.packets.DiscordCommandPacket;
+import com.github._8ml.eightcore.discordcommapi.packet.packets.Packets;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +23,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Authenticator implements Listener {
+public class Authenticator implements Listener, PacketListener {
 
     private final static Map<MPlayer, Map<String, Boolean>> statusMap = new HashMap<>();
 
@@ -97,5 +100,31 @@ public class Authenticator implements Listener {
 
         ResultAction.call(this.player.getPlayerStr() + "::AWAIT_DISCORD_NAME", new Object[]{e.getMessage()});
 
+    }
+
+    @Override
+    public void event(PacketType type, Object[] data) {
+        if (!type.equals(PacketType.COMMAND)) return;
+        if (data.length < 4) return;
+
+        Packets packet = Packets.valueOf(data[1].toString());
+        if (packet.equals(Packets.DiscordCommandPacket)) {
+
+            if (!data[2].toString().equalsIgnoreCase("AUTH")) return;
+            String response = data[3].toString();
+            DiscordAccount account = new DiscordAccount(data[4].toString());
+            if (!account.getPlayer().getUUID().equals(this.player.getUUID())) return;
+
+            switch (response.toUpperCase()) {
+                case "CONFIRM":
+                    this.verified = true;
+                    break;
+                case "DENY":
+                    //Ban player or kick
+                    this.player.getPlayer().kickPlayer(MessageColor.COLOR_ERROR + "AUTHENTICATION WAS UNSUCCESSFUL!");
+                    break;
+            }
+
+        }
     }
 }

@@ -44,6 +44,31 @@ public class DiscordAccount implements PacketListener {
         this.player = player;
     }
 
+    public DiscordAccount(String discordID) {
+
+        MPlayer player = null;
+
+        try {
+
+            PreparedStatement st = sql.preparedStatement("SELECT * FROM " + TABLE + " WHERE discordID=?");
+            st.setString(1, discordID);
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+
+                player = MPlayer.getMPlayer(rs.getString("uuid"));
+
+            }
+
+            sql.closeConnection(st);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.player = player;
+    }
+
     private void addToDatabase(String discordID) {
         try {
 
